@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:tourstravels/userDashboardvc.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
 //import 'models/user.dart';
-class CarHire_NewUserBooking extends StatefulWidget {
+class BusHire_ExistingBookingScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -17,7 +17,7 @@ class CarHire_NewUserBooking extends StatefulWidget {
   }
 }
 
-class HomeState extends State<CarHire_NewUserBooking> {
+class HomeState extends State<BusHire_ExistingBookingScreen> {
   TextEditingController namecontroller = TextEditingController();
   TextEditingController surnamecontroller = TextEditingController();
   TextEditingController emailcontroller = TextEditingController();
@@ -32,6 +32,7 @@ class HomeState extends State<CarHire_NewUserBooking> {
   //List listUsers= [];
   //Future? listUsers;;
 
+  String bookable_type = '';
   String RetrivedBearertoekn = '';
   bool isLoading = false;
   int Bookable_iD = 0;
@@ -39,12 +40,11 @@ class HomeState extends State<CarHire_NewUserBooking> {
   String result = '';
   String fromDatestr = '';
   String toDatestr = '';
-  String bookable_type = '';
 
 
   int idnum = 0;
   int aptId = 0;
-  int RetrivedId = 0;
+  int carid = 0;
   String Retrivedcityvalue = '';
   String RetrivedAdress = '';
   String RetrivedBathromm = '';
@@ -62,26 +62,20 @@ class HomeState extends State<CarHire_NewUserBooking> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       print(baseDioSingleton.AbisiniyaBaseurl);
-      Retrivedcityvalue = prefs.getString('citykey') ?? "";
-      RetrivedId = prefs.getInt('imgkeyId') ?? 0;
-      RetrivedAdress = prefs.getString('addresskey') ?? "";
-      RetrivedBathromm = prefs.getString('bathroomkey') ?? "";
-      RetrivedBedroom = prefs.getString('bedroomkey') ?? "";
-      RetrivedPrice = prefs.getString('pricekey') ?? "";
-      Bookable_iD = prefs.getInt('imgkeyId') ?? 0;
+      carid = prefs.getInt('caridkey') ?? 0;
+
       bookable_type = prefs.getString('bookable_type') ?? "";
       RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
-
 
     });
   }
 
-  Future<dynamic> carHiregetData() async {
+  Future<dynamic>BusHiregetData() async {
     //String url = 'https://staging.abisiniya.com/api/v1/booking/apartment/mybookingdetail/$bookingID';
     print('id value...');
-    print(RetrivedId);
-    print(bookable_type);
-    String url = 'https://staging.abisiniya.com/api/v1/vehicle/show/$RetrivedId';
+    print(carid);
+    //String url = 'https://staging.abisiniya.com/api/v1/vehicle/show/$RetrivedId';
+    String url = 'https://staging.abisiniya.com/api/v1/bus/detail/$carid';
     var response = await http.get(
       Uri.parse(
           url),
@@ -110,39 +104,42 @@ class HomeState extends State<CarHire_NewUserBooking> {
   Future<void> _postData() async {
     try {
       String apiUrl = '';
-      apiUrl = baseDioSingleton.AbisiniyaBaseurl + 'booking/vehicle/booking/newuser';
-      print('vehicle url.....1');
+      apiUrl = baseDioSingleton.AbisiniyaBaseurl + 'booking/vehicle/booking/authuser';
+      print('url.....1');
       print(apiUrl);
+      print('bearer token vehicle auth...');
+      print(RetrivedBearertoekn);
       print(bookable_type);
+      print(carid);
       final response = await http.post(
         Uri.parse(apiUrl),
         headers: <String, String>{
           // 'Content-Type': 'application/json; charset=UTF-8',
           "Content-Type": "application/json",
           "Accept": "application/json",
-          //"Authorization": "Bearer $RetrivedBearertoekn",
+          "Authorization": "Bearer $RetrivedBearertoekn",
         },
         body: jsonEncode(<String, dynamic>{
-          'name': namecontroller.text,
-          'surname': surnamecontroller.text,
-          'email': emailcontroller.text,
-          'phone': phonecontroller.text,
-          'password': passwordcontroller.text,
-          'password_confirmation': pwd_confirmcontroller.text,
+          // 'name': namecontroller.text,
+          // 'surname': surnamecontroller.text,
+          // 'email': emailcontroller.text,
+          // 'phone': phonecontroller.text,
+          // 'password': passwordcontroller.text,
+          // 'password_confirmation': pwd_confirmcontroller.text,
           'start_date': FromdateInputController.text,
           'end_date': TodateInputController.text,
           'bookable_type': bookable_type,
-          'bookable_id': RetrivedId
+          'bookable_id': carid
           // Add any other data you want to send in the body
         }),
       );
 
-      print('vehicle sts...');
+      print('auth ... sts authenticated...');
       print(response.statusCode);
       if (response.statusCode == 200) {
         // Successful POST request, handle the response here
         final responseData = jsonDecode(response.body);
-        print('Vehicle fresh user data successfully posted');
+        print('Apartment fresh user data successfully posted');
         print(responseData);
         var data = jsonDecode(response.body.toString());
         print(data['message']);
@@ -154,6 +151,7 @@ class HomeState extends State<CarHire_NewUserBooking> {
 
         if (data['message'] == 'Thank you for booking request')
         {
+          print('not calling....');
           final snackBar = SnackBar(
             content: Text(data['message']),
           );
@@ -163,30 +161,27 @@ class HomeState extends State<CarHire_NewUserBooking> {
           //   builder: (_) => newuserDashboard(),
           // ),);
         } else {
+          print('vehicle authenticated calling....');
           Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
             builder: (_) => newuserDashboard(),
           ),);
-          print('vehi calling token....');
           print(RetrivedBearertoekn);
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('tokenkey', RetrivedBearertoekn);
-
         }
+        //}
         setState(() {
           //result = 'ID: ${responseData['id']}\nName: ${responseData['name']}\nEmail: ${responseData['email']}';
         });
-      } else if (response.statusCode == 422) {
-        final responseData = jsonDecode(response.body);
-        print('false.....');
-
-        print(responseData);
+      } else if (response.statusCode == 404){
         var data = jsonDecode(response.body.toString());
         final snackBar = SnackBar(
-          content: Text('The email or phone has already been taken.'),
+          content: Text('You can book your own vehicle.'),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
-        else {
+
+
+      } else {
         // If the server returns an error response, throw an exception
         throw Exception('Failed to post data');
       }
@@ -204,76 +199,16 @@ class HomeState extends State<CarHire_NewUserBooking> {
     _retrieveValues();
     // listUsers = fetchUsers();
     // pics = fetchpics();
-    //_postData();
-    carHiregetData();
+    _postData();
+    BusHiregetData();
   }
   String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
-  // Future<List<Apart>> fetchUsers() async {
-  //   final response = await http.get(Uri.parse(url));
-  //   if (response.statusCode == 200) {
-  //     final data1 = jsonDecode(response.body);
-  //     var getUsersData = data1['data'] as List;
-  //     //print(getUsersData);
-  //     var listUsers = getUsersData.map((i) => Apart.fromJSON(i)).toList();
-  //     // print('list.....');
-  //     // print(listUsers);
-  //     return listUsers;
-  //     //var recordsList = data["records"];
-  //     // for (var record in tagsJson) {
-  //     //   //var apartmentlists = record['name'];
-  //     //   print('name...');
-  //     //   //print(name);
-  //     //   var pictures = record['pictures'];
-  //     //   for(var pics in pictures) {
-  //     //     var picname = pics['imageUrl'];
-  //     //     print('pictures...');
-  //     //     print(picname);
-  //     //   }
-  //     // }
-  //     //List<Apart> list = parseAgents(response.body);
-  //     //return list;
-  //   } else {
-  //     throw Exception('Error');
-  //   }
-  // }
-
-  // Future<List<Picture>> fetchpics() async {
-  //   final response = await http.get(Uri.parse(url));
-  //   if (response.statusCode == 200) {
-  //     final data1 = jsonDecode(response.body);
-  //     var getpicsData = [];
-  //     var picstrr = data1['data'];
-  //     for (var record in picstrr) {
-  //       idnum = record['id'];
-  //       var pictures = record['pictures'];
-  //       for (var picid in pictures) {
-  //         aptId = picid['apartmentId'];
-  //       }
-  //       print(RetrivedId);
-  //       if (aptId == RetrivedId) {
-  //         for (var pics in pictures) {
-  //           print(pics);
-  //           getpicsData.add(pics);
-  //           print(getpicsData);
-  //         }
-  //       }
-  //
-  //     }
-  //     var pics = getpicsData.map((i) => Picture.fromJSON(i)).toList();
-  //     return pics;
-  //
-  //   } else {
-  //     throw Exception('Error');
-  //   }
-  // }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-          //future: pics,
-        future: carHiregetData(),
+        //future: pics,
+          future: BusHiregetData(),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
@@ -560,87 +495,6 @@ class HomeState extends State<CarHire_NewUserBooking> {
 
                                                           SizedBox(
                                                             height: 10,
-                                                          ),
-                                                          Container(
-                                                            height: 45,
-                                                            width: 340,
-                                                            child: TextField(
-
-                                                              decoration: InputDecoration(
-                                                                  border:OutlineInputBorder(),
-                                                                  labelText: 'Firstname',
-                                                                  hintText: 'Firstname'
-                                                              ), controller: namecontroller,),),
-
-                                                          SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          Container(
-                                                            height: 45,
-                                                            width: 340,
-                                                            child: TextField(
-                                                              decoration: InputDecoration(
-                                                                  border:OutlineInputBorder(),
-                                                                  labelText: 'surname',
-                                                                  hintText: 'surname'
-                                                              ),controller: surnamecontroller,),),
-
-                                                          SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          Container(
-                                                            height: 45,
-                                                            width: 340,
-                                                            child: TextField(
-                                                              decoration: InputDecoration(
-                                                                  border:OutlineInputBorder(),
-                                                                  labelText: 'Phone',
-                                                                  hintText: 'Phone'
-                                                              ),
-                                                              keyboardType: TextInputType.number,
-
-                                                              controller: phonecontroller,),),
-                                                          SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          Container(
-                                                            height: 45,
-                                                            width: 340,
-                                                            child: TextField(
-                                                              decoration: InputDecoration(
-                                                                  border:OutlineInputBorder(),
-                                                                  labelText: 'Email',
-                                                                  hintText: 'Email'
-                                                              ),controller: emailcontroller,),),
-                                                          SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          Container(
-                                                            height: 45,
-                                                            width: 340,
-                                                            child: TextField(
-                                                                obscureText: true,
-                                                              decoration: InputDecoration(
-                                                                  border:OutlineInputBorder(),
-                                                                  labelText: 'Password',
-                                                                  hintText: 'Password'
-                                                              ),controller: passwordcontroller,),),
-
-                                                          SizedBox(
-                                                            height: 10,
-                                                          ),
-                                                          Container(
-                                                            height: 45,
-                                                            width: 340,
-                                                            child: TextField(
-                                                            obscureText: true,
-                                                              decoration: InputDecoration(
-                                                                  border:OutlineInputBorder(),
-                                                                  labelText: 'Confirm Password ',
-                                                                  hintText: 'Confirm Password'
-                                                              ),controller: pwd_confirmcontroller,),),
-                                                          SizedBox(
-                                                            height: 20,
                                                           ),
                                                           Container(
                                                             height: 45,

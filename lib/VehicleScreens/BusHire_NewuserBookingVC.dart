@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:tourstravels/userDashboardvc.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
 //import 'models/user.dart';
-class CarHire_NewUserBooking extends StatefulWidget {
+class BusHire_NewUserBooking extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -17,7 +17,7 @@ class CarHire_NewUserBooking extends StatefulWidget {
   }
 }
 
-class HomeState extends State<CarHire_NewUserBooking> {
+class HomeState extends State<BusHire_NewUserBooking> {
   TextEditingController namecontroller = TextEditingController();
   TextEditingController surnamecontroller = TextEditingController();
   TextEditingController emailcontroller = TextEditingController();
@@ -31,6 +31,7 @@ class HomeState extends State<CarHire_NewUserBooking> {
 //   print(baseDioSingleton.Appname);
   //List listUsers= [];
   //Future? listUsers;;
+  int carid = 0;
 
   String RetrivedBearertoekn = '';
   bool isLoading = false;
@@ -63,12 +64,13 @@ class HomeState extends State<CarHire_NewUserBooking> {
     setState(() {
       print(baseDioSingleton.AbisiniyaBaseurl);
       Retrivedcityvalue = prefs.getString('citykey') ?? "";
-      RetrivedId = prefs.getInt('imgkeyId') ?? 0;
+      carid = prefs.getInt('caridkey') ?? 0;
+      print('calling id...');
+      print(carid);
       RetrivedAdress = prefs.getString('addresskey') ?? "";
       RetrivedBathromm = prefs.getString('bathroomkey') ?? "";
       RetrivedBedroom = prefs.getString('bedroomkey') ?? "";
       RetrivedPrice = prefs.getString('pricekey') ?? "";
-      Bookable_iD = prefs.getInt('imgkeyId') ?? 0;
       bookable_type = prefs.getString('bookable_type') ?? "";
       RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
 
@@ -76,12 +78,12 @@ class HomeState extends State<CarHire_NewUserBooking> {
     });
   }
 
-  Future<dynamic> carHiregetData() async {
+  Future<dynamic> BusHiregetData() async {
     //String url = 'https://staging.abisiniya.com/api/v1/booking/apartment/mybookingdetail/$bookingID';
-    print('id value...');
-    print(RetrivedId);
-    print(bookable_type);
-    String url = 'https://staging.abisiniya.com/api/v1/vehicle/show/$RetrivedId';
+    print('hire id value...');
+    print(carid);
+    //String url = 'https://staging.abisiniya.com/api/v1/vehicle/show/$RetrivedId';
+    String url = 'https://staging.abisiniya.com/api/v1/bus/detail/$carid';
     var response = await http.get(
       Uri.parse(
           url),
@@ -92,6 +94,8 @@ class HomeState extends State<CarHire_NewUserBooking> {
 
       },
     );
+    print('sts....');
+    print(response.statusCode);
     if (response.statusCode == 200) {
       final data1 = jsonDecode(response.body);
       var getpicsData = [];
@@ -101,7 +105,8 @@ class HomeState extends State<CarHire_NewUserBooking> {
       //   idnum = record['id'];
       // }
       return json.decode(response.body);
-    } else {
+    }  else
+  {
       // If that call was not successful, throw an error.
       throw Exception('Failed to load post');
     }
@@ -186,7 +191,7 @@ class HomeState extends State<CarHire_NewUserBooking> {
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
-        else {
+      else {
         // If the server returns an error response, throw an exception
         throw Exception('Failed to post data');
       }
@@ -205,7 +210,7 @@ class HomeState extends State<CarHire_NewUserBooking> {
     // listUsers = fetchUsers();
     // pics = fetchpics();
     //_postData();
-    carHiregetData();
+    BusHiregetData();
   }
   String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
   // Future<List<Apart>> fetchUsers() async {
@@ -272,8 +277,8 @@ class HomeState extends State<CarHire_NewUserBooking> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-          //future: pics,
-        future: carHiregetData(),
+        //future: pics,
+          future: BusHiregetData(),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
@@ -619,7 +624,7 @@ class HomeState extends State<CarHire_NewUserBooking> {
                                                             height: 45,
                                                             width: 340,
                                                             child: TextField(
-                                                                obscureText: true,
+                                                              obscureText: true,
                                                               decoration: InputDecoration(
                                                                   border:OutlineInputBorder(),
                                                                   labelText: 'Password',
@@ -633,7 +638,7 @@ class HomeState extends State<CarHire_NewUserBooking> {
                                                             height: 45,
                                                             width: 340,
                                                             child: TextField(
-                                                            obscureText: true,
+                                                              obscureText: true,
                                                               decoration: InputDecoration(
                                                                   border:OutlineInputBorder(),
                                                                   labelText: 'Confirm Password ',

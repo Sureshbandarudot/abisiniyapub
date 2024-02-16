@@ -32,6 +32,7 @@ class HomeState extends State<CarHire_ExistingBookingScreen> {
   //List listUsers= [];
   //Future? listUsers;;
 
+  String bookable_type = '';
   String RetrivedBearertoekn = '';
   bool isLoading = false;
   int Bookable_iD = 0;
@@ -61,15 +62,10 @@ class HomeState extends State<CarHire_ExistingBookingScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       print(baseDioSingleton.AbisiniyaBaseurl);
-      Retrivedcityvalue = prefs.getString('citykey') ?? "";
       RetrivedId = prefs.getInt('imgkeyId') ?? 0;
-      RetrivedAdress = prefs.getString('addresskey') ?? "";
-      RetrivedBathromm = prefs.getString('bathroomkey') ?? "";
-      RetrivedBedroom = prefs.getString('bedroomkey') ?? "";
-      RetrivedPrice = prefs.getString('pricekey') ?? "";
-      Bookable_iD = prefs.getInt('imgkeyId') ?? 0;
-      Bookable_type = prefs.getString('Property_type') ?? "";
+      bookable_type = prefs.getString('bookable_type') ?? "";
       RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
+
     });
   }
 
@@ -106,34 +102,38 @@ class HomeState extends State<CarHire_ExistingBookingScreen> {
   Future<void> _postData() async {
     try {
       String apiUrl = '';
-      apiUrl = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/booking/newuser';
+      apiUrl = baseDioSingleton.AbisiniyaBaseurl + 'booking/vehicle/booking/authuser';
       print('url.....1');
       print(apiUrl);
-      print('bearer token');
+      print('bearer token vehicle auth...');
       print(RetrivedBearertoekn);
+      print(bookable_type);
+      print(RetrivedId);
       final response = await http.post(
         Uri.parse(apiUrl),
         headers: <String, String>{
           // 'Content-Type': 'application/json; charset=UTF-8',
           "Content-Type": "application/json",
           "Accept": "application/json",
-          //"Authorization": "Bearer $RetrivedBearertoekn",
+          "Authorization": "Bearer $RetrivedBearertoekn",
         },
         body: jsonEncode(<String, dynamic>{
-          'name': namecontroller.text,
-          'surname': surnamecontroller.text,
-          'email': emailcontroller.text,
-          'phone': phonecontroller.text,
-          'password': passwordcontroller.text,
-          'password_confirmation': pwd_confirmcontroller.text,
+          // 'name': namecontroller.text,
+          // 'surname': surnamecontroller.text,
+          // 'email': emailcontroller.text,
+          // 'phone': phonecontroller.text,
+          // 'password': passwordcontroller.text,
+          // 'password_confirmation': pwd_confirmcontroller.text,
           'start_date': FromdateInputController.text,
           'end_date': TodateInputController.text,
-          'bookable_type': Bookable_type,
-          'bookable_id': Bookable_iD
+          'bookable_type': bookable_type,
+          'bookable_id': RetrivedId
           // Add any other data you want to send in the body
         }),
       );
 
+      print('auth ... sts authenticated...');
+      print(response.statusCode);
       if (response.statusCode == 200) {
         // Successful POST request, handle the response here
         final responseData = jsonDecode(response.body);
@@ -159,22 +159,26 @@ class HomeState extends State<CarHire_ExistingBookingScreen> {
           //   builder: (_) => newuserDashboard(),
           // ),);
         } else {
-          print('calling....');
+          print('vehicle authenticated calling....');
           Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
             builder: (_) => newuserDashboard(),
           ),);
-          print('calling token....');
           print(RetrivedBearertoekn);
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('tokenkey', RetrivedBearertoekn);
-
         }
-
-
         //}
         setState(() {
           //result = 'ID: ${responseData['id']}\nName: ${responseData['name']}\nEmail: ${responseData['email']}';
         });
+      } else if (response.statusCode == 404){
+        var data = jsonDecode(response.body.toString());
+        final snackBar = SnackBar(
+          content: Text('You can book your own vehicle.'),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+
       } else {
         // If the server returns an error response, throw an exception
         throw Exception('Failed to post data');
@@ -577,7 +581,7 @@ class HomeState extends State<CarHire_ExistingBookingScreen> {
                                                                   textStyle: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600)),
                                                               child: Text('Book Now'),
                                                               onPressed: () async {
-                                                                setState(() => isLoading = true);
+                                                                //setState(() => isLoading = true);
                                                                 _postData();
                                                                 print('new booking calling token1....');
                                                                 print(RetrivedBearertoekn);
