@@ -14,34 +14,53 @@ import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/My_Apartments/My_AprtmetsVC.dart';
 import 'package:tourstravels/My_Apartments/ViewApartmentVC.dart';
 
-import 'ViewBookingsVC.dart';
-
-
+// import 'Apartment_EditVC.dart';
+// import 'CreateApartmentVC.dart';
 //import 'NewUserbooking.dart';
-class MyBookingScreen extends StatefulWidget {
- // const MyApartmentScreen({super.key});
+class MyVehicleScreen extends StatefulWidget {
+  const MyVehicleScreen({super.key});
 
   @override
-  State<MyBookingScreen> createState() => _userDashboardState();
+  State<MyVehicleScreen> createState() => _userDashboardState();
 }
 
-class _userDashboardState extends State<MyBookingScreen> {
-  int bookingID = 0;
+class _userDashboardState extends State<MyVehicleScreen> {
 
+
+  int bookingID = 0;
+  var API = '';
+  String status = '';
+  int _counter = 0;
+  int idnum = 0;
+  String Date = '';
+  int selectedIndex = 0;
+  int imageID = 0;
+  String citystr = '';
+  String RetrivedPwd = '';
+  String RetrivedEmail = '';
   String RetrivedBearertoekn = '';
   String Bookingsts = 'Not booked yet!';
+  String Statusstr = '';
+  String stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+  String stsId = '';
   int ApartmentId = 0;
+  var controller = ScrollController();
+  late Future<List<DashboardApart>> BookingDashboardUsers ;
+  int count = 15;
   _retrieveValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      // RetrivedEmail = prefs.getString('emailkey') ?? "";
-      // RetrivedPwd = prefs.getString('passwordkey') ?? "";
+      RetrivedEmail = prefs.getString('emailkey') ?? "";
+      RetrivedPwd = prefs.getString('passwordkey') ?? "";
       RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
-      // ApartmentId = prefs.getInt('userbookingId') ?? 0;
-      // print('Apartment id---');
-      // print(ApartmentId);
+      ApartmentId = prefs.getInt('userbookingId') ?? 0;
+      print('Apartment id---');
+      print(ApartmentId);
       print('My Apartment token');
       print(RetrivedBearertoekn);
+
+
+
     });
   }
 //@override
@@ -50,12 +69,85 @@ class _userDashboardState extends State<MyBookingScreen> {
     super.initState();
     _retrieveValues();
     getData();
-
+    //  BookingDashboardUsers = DashboardBooking_fetchUsers();
+    //pics = fetchpics();
   }
+  // String url = 'https://staging.abisiniya.com/api/v1/apartment/auth/list';
+  // Future<List<DashboardApart>> DashboardBooking_fetchUsers() async {
+  //   final response = await http.get(Uri.parse(url));
+  //   if (response.statusCode == 200) {
+  //     final data1 = jsonDecode(response.body);
+  //     var getUsersData = data1['data'] as List;
+  //     //print(getUsersData);
+  //     var listUsers = getUsersData.map((i) => DashboardApart.fromJSON(i)).toList();
+  //     return listUsers;
+  //
+  //   } else {
+  //     throw Exception('Error');
+  //   }
+  // }
 
+  // Future deletePost() async {
+  //   print('delete url...');
+  //   var url = '';
+  //   url = (' https://staging.abisiniya.com/api/v1/apartment/delete/$ApartmentId');
+  //   print(url);
+  //
+  //   // Response res = await delete("$postsURL/$id");
+  //   // res.headers.set('content-type', 'application/json');
+  //
+  //   final http.Response response = await http.delete(
+  //     Uri.parse(url),
+  //       headers: {
+  //         // 'Authorization':
+  //         // 'Bearer <--your-token-here-->',
+  //         "Authorization": "Bearer $RetrivedBearertoekn",
+  //
+  //       },
+  //   );
+  //
+  //   if (response.statusCode == 200) {
+  //     print("Deleted");
+  //   } else {
+  //     throw "Sorry! Unable to delete this post.";
+  //   }
+  // }
+
+  Future<void> _deleteData(int ApartmentId) async {
+    try {
+
+      print('delete url...');
+      var url = '';
+      url = ('https://staging.abisiniya.com/api/v1/apartment/delete/$ApartmentId');
+      print(url);
+      final response = await http
+          .delete(Uri.parse(url),
+        headers: {
+          // 'Authorization':
+          // 'Bearer <--your-token-here-->',
+          "Authorization": "Bearer $RetrivedBearertoekn",
+
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('Deleted successfully');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MyApartmentScreen()
+          ),
+        );
+      } else {
+        throw Exception('Failed to delete data');
+      }
+    } catch (error) {
+      print(error);
+    }
+  }
   Future<dynamic> getData() async {
     //String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
-    String url = 'https://staging.abisiniya.com/api/v1/booking/apartment/mybookings';
+    String url = 'https://staging.abisiniya.com/api/v1/vehicle/auth/list';
     var response = await http.get(
       Uri.parse(
           url),
@@ -69,8 +161,7 @@ class _userDashboardState extends State<MyBookingScreen> {
     if (response.statusCode == 200) {
       final data1 = jsonDecode(response.body);
       var getpicsData = [];
-      var jsonData = data1['data'];
-      print(jsonData);
+      var picstrr = data1['data'];
       // for (var record in picstrr) {
       //   idnum = record['id'];
       // }
@@ -80,6 +171,90 @@ class _userDashboardState extends State<MyBookingScreen> {
       throw Exception('Failed to load post');
     }
   }
+
+
+  //Alert Dialog box
+  DeclinedshowAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {},
+    );
+    Widget continueButton = TextButton(
+      child: Text("Ok"),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PivotDashboard()),
+        );
+        //Navigator.push(
+        //context, MaterialPageRoute(builder: (context) => Page1()));
+        //Navigator.pushNamed(context, AppRoutes.helpScreen);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Message"),
+      content: Text(
+          "Do you want Update Decline!"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+//Status Alert
+  UpdatedstatusshowAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text("Cancel"),
+      onPressed: () {},
+    );
+    Widget continueButton = TextButton(
+      child: Text("Continue"),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PivotDashboard()),
+        );
+        //Navigator.push(
+        //context, MaterialPageRoute(builder: (context) => Page1()));
+        //Navigator.pushNamed(context, AppRoutes.helpScreen);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Message"),
+      content: Text(
+          "Do you want Update the status!"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -233,13 +408,7 @@ class _userDashboardState extends State<MyBookingScreen> {
       //             MaterialPageRoute(
       //                 builder: (context) => tabbar()),
       //           );
-      //
-      //
       //         },
-      //
-      //         // onTap: () {
-      //         //   Navigator.pop(context);
-      //         // },
       //       ),
       //     ],
       //   ),
@@ -265,15 +434,43 @@ class _userDashboardState extends State<MyBookingScreen> {
                     style: TextStyle(color: Colors.white),
                   );
                 } else {
-                  //return InkWell(
-
                   return Column(
                     children: <Widget>[
                       //Container(color: Colors.red, height: 50),
                       Container(
-                        height: 5,
+                        height: 50,
                         width: 340,
-                        color: Colors.white,
+                        color: Colors.black54,
+                        child: Column(
+                          children: [
+                            InkWell(
+                              child: Container(
+                                height: 50,
+                                width: 340,
+                                color: Colors.black54,
+                                child: const Align(
+                                  alignment: Alignment.center,
+                                  child: Text('Create',
+                                      style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800
+                                      ),
+                                      textAlign: TextAlign.center),
+                                ),
+
+                              ),
+                              onTap: () async {
+                                print("Tapped on container");
+                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                prefs.setString('logoutkey', ('LogoutDashboard'));
+                                prefs.setString('Property_type', ('Apartment'));
+                                prefs.setString('tokenkey',RetrivedBearertoekn );
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //       builder: (context) => CreateApartment()),
+                                // );
+                              },
+                            )],
+                        ),
                       ),
                       Expanded(
                         child: Container(
@@ -282,29 +479,17 @@ class _userDashboardState extends State<MyBookingScreen> {
                             builder: (context, constraint) {
                               return SingleChildScrollView(
                                 physics: ScrollPhysics(),
-
                                 child: Column(
                                   children: <Widget>[
                                     //Text('Your Apartments'),
-                                    Text('Bookings',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
-
+                                    Text('My Vehicles',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
                                     ListView.separated(
                                         physics: NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,
-                                        //itemCount:50,
                                         itemCount: snapshot.data['data'].length ?? '',
-                                        //itemCount: snapshot.data?['data']['bookings'].length ?? "" ,
-                                        //itemCount: snapshot.data!['data'][0]['bookings'][0].length ?? 0,
-                                        //itemCount: snapshot.data?.length ?? 0,
-
-
-
                                         separatorBuilder: (BuildContext context, int index) => const Divider(),
                                         itemBuilder: (BuildContext context, int index) {
                                           bookingID = snapshot.data['data'][index]['id'];
-
-
-//    itemBuilder: (context,index){
                                           return Container(
                                             height: 225,
                                             width: 100,
@@ -320,21 +505,20 @@ class _userDashboardState extends State<MyBookingScreen> {
                                                     color: Colors.black12,
                                                     child: Column(
                                                       children: [
-
                                                         Row(
                                                           children: [
                                                             Container(
                                                               height: 30,
                                                               width: 140,
                                                               color: Colors.transparent,
-                                                              child: Text('Date:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+                                                              child: Text('Address:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
                                                             ),
                                                             Container(
                                                               height: 30,
                                                               width: 200,
                                                               color: Colors.transparent,
                                                               //child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                                                              child:Text(snapshot.data['data'][index]['date'],textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
+                                                              child:Text(snapshot.data['data'][index]['address'],textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
                                                             )
                                                           ],
                                                         ),
@@ -344,34 +528,31 @@ class _userDashboardState extends State<MyBookingScreen> {
                                                               height: 30,
                                                               width: 140,
                                                               color: Colors.transparent,
-                                                              child: Text('Type:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+                                                              child: Text('Make:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
                                                             ),
                                                             Container(
                                                               height: 30,
                                                               width: 200,
                                                               color: Colors.transparent,
-                                                              child:Text(snapshot.data['data'][index]['type'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
-
+                                                              child:Text(snapshot.data['data'][index]['make'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
                                                               // child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
                                                             )
                                                           ],
-
                                                         ),
-
                                                         Row(
                                                           children: [
                                                             Container(
                                                               height: 30,
                                                               width: 140,
                                                               color: Colors.transparent,
-                                                              child: Text('Check In:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+                                                              child: Text('Model:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
                                                             ),
                                                             Container(
                                                               height: 30,
                                                               width: 200,
                                                               color: Colors.transparent,
                                                               //child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                                                              child:Text(snapshot.data['data'][index]['checkIn'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
+                                                              child:Text(snapshot.data['data'][index]['model'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
                                                             )
                                                           ],
                                                         ),
@@ -382,18 +563,17 @@ class _userDashboardState extends State<MyBookingScreen> {
                                                               height: 30,
                                                               width: 140,
                                                               color: Colors.transparent,
-                                                              child: Text('Check Out:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+                                                              child: Text('Color:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
                                                             ),
                                                             Container(
                                                               height: 30,
                                                               width: 200,
                                                               color: Colors.transparent,
                                                               //child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                                                              child:Text(snapshot.data['data'][index]['checkOut'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
+                                                              child:Text(snapshot.data['data'][index]['color'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
                                                             )
                                                           ],
                                                         ),
-
 
                                                         Row(
                                                           children: [
@@ -401,14 +581,14 @@ class _userDashboardState extends State<MyBookingScreen> {
                                                               height: 30,
                                                               width: 140,
                                                               color: Colors.transparent,
-                                                              child: Text('Reference:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+                                                              child: Text('Price:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
                                                             ),
                                                             Container(
                                                               height: 30,
                                                               width: 200,
                                                               color: Colors.transparent,
                                                               //child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                                                              child:Text(snapshot.data['data'][index]['reference'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
+                                                              child:Text(snapshot.data['data'][index]['price'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
                                                             )
                                                           ],
                                                         ),
@@ -426,103 +606,135 @@ class _userDashboardState extends State<MyBookingScreen> {
                                                               width: 200,
                                                               color: Colors.transparent,
                                                               //child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                                                              child:Text(snapshot.data['data'][index]['paymentStatus'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
+                                                              child:Text(snapshot.data['data'][index]['status'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
                                                             )
                                                           ],
                                                         ),
 
-
-
-                                                        Column(
+                                                        Row(
                                                           children: [
 
-                                                            // Align(
-                                                            //   alignment: Alignment.center,
-                                                            //   child: Container(
-                                                            //     color: Colors.transparent,
-                                                            //     child: Text('Action:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,color: Colors.black),),
-                                                            //   ),
-                                                            // ),
+                                                            Align(
+                                                              alignment: Alignment.center,
+                                                              child: Container(
+                                                                color: Colors.transparent,
+                                                                child: Text('Action:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,color: Colors.black),),
+                                                              ),
+                                                            ),
 
-                                                            // SizedBox(
-                                                            //   width: 30,
-                                                            // ),
+                                                            SizedBox(
+                                                              width: 30,
+                                                            ),
                                                             InkWell(
                                                               child: Container(
-                                                                color: Colors.green,
+                                                                color: Colors.cyan,
                                                                 child: Container(
-                                                                  width: 340,
-                                                                  height: 40,
+                                                                  width: 55,
                                                                   color: Colors.transparent,
-                                                                  //child: Text('View',textAlign: TextAlign.center,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w800,color: Colors.white),),
-                                                                 child: Align(
-                                                                    alignment: Alignment.center,
-                                                                    child: Container(
-                                                                      color: Colors.transparent,
-                                                                      child: Text('View',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,color: Colors.white),),
-                                                                    ),
-                                                                  ),
-
-
+                                                                  child: Text('View',textAlign: TextAlign.center,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w800,color: Colors.white),),
                                                                 ),                                                              ),
                                                               onTap: () async {
-
                                                                 Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-                                                                  builder: (_) => ViewBookingscreen(),
+                                                                  builder: (_) => ViewApartmnt(),
                                                                 ),);
                                                                 SharedPreferences prefs = await SharedPreferences.getInstance();
                                                                 print('booking id...');
                                                                 print(snapshot.data['data'][index]['id']);
-                                                                // prefs.setString('addresskey', snapshot.data['data'][index]['address']);
-                                                                 prefs.setString('referencekey', snapshot.data['data'][index]['reference']);
+                                                                prefs.setString('addresskey', snapshot.data['data'][index]['address']);
+                                                                prefs.setString('citykey', snapshot.data['data'][index]['city']);
                                                                 prefs.setInt('userbookingId', snapshot.data['data'][index]['id']);
                                                                 prefs.setString('tokenkey', RetrivedBearertoekn);
                                                                 print("value of your text");},
                                                             ),
+                                                            SizedBox(
+                                                              width: 15,
+                                                            ),
+                                                            InkWell(
+                                                              child: Container(
+                                                                width: 55,
+                                                                color: Colors.green,
+                                                                child: Text('Edit',textAlign: TextAlign.center,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w800,color: Colors.white),),
+                                                              ),
+                                                              onTap: () async{print("value of your text");
+                                                              // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+                                                              //   builder: (_) => AptmentEdit(),
+                                                              // ),);
+                                                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                              print('Edit booking id...');
+                                                              prefs.setString('namekey', snapshot.data['data'][index]['name']);
+                                                              prefs.setString('addresskey', snapshot.data['data'][index]['address']);
+                                                              prefs.setString('citykey', snapshot.data['data'][index]['city']);
+                                                              prefs.setString('countrykey', snapshot.data['data'][index]['country']);
+                                                              prefs.setInt('guestkey', snapshot.data['data'][index]['guest']);
+                                                              prefs.setInt('bedroomkey', snapshot.data['data'][index]['bedroom']);
+                                                              prefs.setInt('bathroomkey', snapshot.data['data'][index]['bathroom']);
+                                                              prefs.setInt('pricekey', snapshot.data['data'][index]['price']);
+                                                              prefs.setInt('userbookingId', snapshot.data['data'][index]['id']);
+                                                              print('Edit token');
+                                                              print(RetrivedBearertoekn);
+                                                              prefs.setString('tokenkey', RetrivedBearertoekn);
+                                                              },
+                                                            ),
+                                                            SizedBox(
+                                                              width: 20,
+                                                            ),
+                                                            InkWell(
+                                                              child: Container(
+                                                                width: 65,
+                                                                color: Colors.red,
+                                                                child: Text('Delete',textAlign: TextAlign.center,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w800,color: Colors.white),),
+                                                              ),
+                                                              onTap: () async{
+                                                                print("value of your text");
+                                                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                                print('booking id...');
+                                                                print(snapshot.data['data'][index]['id']);
+                                                                prefs.setInt('userbookingId', snapshot.data['data'][index]['id']);
+                                                                prefs.setString('tokenkey', RetrivedBearertoekn);
+                                                                // deletePost();
+                                                                _deleteData(ApartmentId);
+                                                              },
+                                                            ),
                                                           ],
                                                         )
                                                       ],
-
                                                     ),
                                                   ),
                                                 ],
                                               ),
                                               onTap: () async{
-                                                //
-                                                // if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                //     : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Awaiting Approval' || (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                //     : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Approved' || (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                //     : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked In' || (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                //     : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked Out'){
-                                                //
-                                                //
-                                                //   SharedPreferences prefs = await SharedPreferences.getInstance();
-                                                //   print('booking id...');
-                                                //   print(snapshot.data['data'][index]['id']);
-                                                //   prefs.setString('namekey', snapshot.data['data'][index]['name']);
-                                                //
-                                                //   prefs.setString('addresskey', snapshot.data['data'][index]['address']);
-                                                //   prefs.setString('citykey', snapshot.data['data'][index]['city']);
-                                                //   prefs.setString('countrykey', snapshot.data['data'][index]['country']);
-                                                //   prefs.setInt('guestkey', snapshot.data['data'][index]['guest']);
-                                                //   prefs.setInt('bedroomkey', snapshot.data['data'][index]['bedroom']);
-                                                //   prefs.setInt('bathroomkey', snapshot.data['data'][index]['bathroom']);
-                                                //   prefs.setInt('pricekey', snapshot.data['data'][index]['price']);
-                                                //   prefs.setInt('userbookingId', snapshot.data['data'][index]['id']);
-                                                //   prefs.setString('tokenkey', RetrivedBearertoekn);
-                                                //
-                                                //
-                                                //   Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-                                                //     builder: (_) => PivotDashboard(),
-                                                //   ),);
-                                                //
-                                                // } else {
-                                                //   print('failure....');
-                                                //   final snackBar = SnackBar(
-                                                //     content: Text('Not booked yet!'),
-                                                //   );
-                                                //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                                // }
+                                                if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                                    : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Awaiting Approval' || (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                                    : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Approved' || (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                                    : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked In' || (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                                    : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked Out'){
+                                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                  print('booking id...');
+                                                  print(snapshot.data['data'][index]['id']);
+                                                  prefs.setString('namekey', snapshot.data['data'][index]['name']);
+
+                                                  prefs.setString('addresskey', snapshot.data['data'][index]['address']);
+                                                  prefs.setString('citykey', snapshot.data['data'][index]['city']);
+                                                  prefs.setString('countrykey', snapshot.data['data'][index]['country']);
+                                                  prefs.setInt('guestkey', snapshot.data['data'][index]['guest']);
+                                                  prefs.setInt('bedroomkey', snapshot.data['data'][index]['bedroom']);
+                                                  prefs.setInt('bathroomkey', snapshot.data['data'][index]['bathroom']);
+                                                  prefs.setInt('pricekey', snapshot.data['data'][index]['price']);
+                                                  prefs.setInt('userbookingId', snapshot.data['data'][index]['id']);
+                                                  prefs.setString('tokenkey', RetrivedBearertoekn);
+
+
+                                                  Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+                                                    builder: (_) => PivotDashboard(),
+                                                  ),);
+
+                                                } else {
+                                                  print('failure....');
+                                                  final snackBar = SnackBar(
+                                                    content: Text('Not booked yet!'),
+                                                  );
+                                                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                }
 
                                               },
                                             ),
@@ -552,22 +764,11 @@ class _userDashboardState extends State<MyBookingScreen> {
                         ),
                       )
                     ],
-
                   );
-
                 }
             }
           }
       ),
-      // body: Center(
-      //   child: Column(
-      //     children: [
-      //       SizedBox(
-      //         height: 50,
-      //       ),
-      //     ],
-      //   ),
-      // ),
     );
   }
 }

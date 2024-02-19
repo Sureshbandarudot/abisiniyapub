@@ -278,147 +278,147 @@ print(ApartmentId);
         title: Text('ABISINIYA',textAlign: TextAlign.center,
             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
         iconTheme: IconThemeData(color: Colors.green),),
-      endDrawer: Drawer(
-        child: ListView(
-
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-
-              //child: Text('Categories', style: TextStyle(color: Colors.white)),
-              decoration: BoxDecoration(color: Color(0xffffff
-              ),),
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-
-              child: Image.asset(
-                'images/logo2.png',
-                width: 50,height: 50,
-              ),
-            ),
-            ListTile(
-              trailing: Icon(
-                Icons.login,
-                color: Colors.green,
-              ),
-              title: const Text('My Bookings',
-                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
-
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Login()),
-                );
-              },
-            ),
-            ListTile(
-              trailing: Icon(
-                Icons.money,
-                color: Colors.green,
-              ),
-              title: const Text('Booking Commision',
-                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-
-
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              trailing: Icon(
-                Icons.flight,
-                color: Colors.green,
-              ),
-
-              title: const Text('My Flight Requests',
-                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              trailing: Icon(
-                Icons.apartment,
-                color: Colors.green,
-              ),
-
-
-              title: const Text('My Apartments',
-                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              trailing: Icon(
-                Icons.bus_alert,
-                color: Colors.green,
-              ),
-              title: const Text('My Vehicles',
-                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-              //title: const Text('Airport Shuttle',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              trailing: Icon(
-                Icons.bus_alert_sharp,
-                color: Colors.green,
-              ),
-              //title: const Text('List Property and Car',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
-              title: const Text('My Buses',
-                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              trailing: Icon(
-                Icons.airport_shuttle,
-                color: Colors.green,
-              ),
-              //title: const Text('Contact Us',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
-              title: const Text('My Shuttle',
-                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              trailing: Icon(
-                Icons.logout,
-                color: Colors.green,
-              ),
-              //title: const Text('Sign Out',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w900,fontSize: 20)),
-              title: const Text('Logout',
-                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
-              //onTap: () async {
-              onTap: ()async{
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setString('logoutkey', ('LogoutDashboard'));
-                prefs.setString('Property_type', ('Apartment'));
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => tabbar()),
-                );
-
-
-              },
-
-              // onTap: () {
-              //   Navigator.pop(context);
-              // },
-            ),
-          ],
-        ),
-      ),
+      // endDrawer: Drawer(
+      //   child: ListView(
+      //
+      //     // Important: Remove any padding from the ListView.
+      //     padding: EdgeInsets.zero,
+      //     children: [
+      //       DrawerHeader(
+      //
+      //         //child: Text('Categories', style: TextStyle(color: Colors.white)),
+      //         decoration: BoxDecoration(color: Color(0xffffff
+      //         ),),
+      //         padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+      //
+      //         child: Image.asset(
+      //           'images/logo2.png',
+      //           width: 50,height: 50,
+      //         ),
+      //       ),
+      //       ListTile(
+      //         trailing: Icon(
+      //           Icons.login,
+      //           color: Colors.green,
+      //         ),
+      //         title: const Text('My Bookings',
+      //             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+      //
+      //         onTap: () {
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(
+      //                 builder: (context) => Login()),
+      //           );
+      //         },
+      //       ),
+      //       ListTile(
+      //         trailing: Icon(
+      //           Icons.money,
+      //           color: Colors.green,
+      //         ),
+      //         title: const Text('Booking Commision',
+      //             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+      //
+      //
+      //         onTap: () {
+      //           Navigator.pop(context);
+      //         },
+      //       ),
+      //       ListTile(
+      //         trailing: Icon(
+      //           Icons.flight,
+      //           color: Colors.green,
+      //         ),
+      //
+      //         title: const Text('My Flight Requests',
+      //             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+      //
+      //         onTap: () {
+      //           Navigator.pop(context);
+      //         },
+      //       ),
+      //       ListTile(
+      //         trailing: Icon(
+      //           Icons.apartment,
+      //           color: Colors.green,
+      //         ),
+      //
+      //
+      //         title: const Text('My Apartments',
+      //             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+      //
+      //         onTap: () {
+      //           Navigator.pop(context);
+      //         },
+      //       ),
+      //       ListTile(
+      //         trailing: Icon(
+      //           Icons.bus_alert,
+      //           color: Colors.green,
+      //         ),
+      //         title: const Text('My Vehicles',
+      //             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+      //         //title: const Text('Airport Shuttle',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
+      //         onTap: () {
+      //           Navigator.pop(context);
+      //         },
+      //       ),
+      //       ListTile(
+      //         trailing: Icon(
+      //           Icons.bus_alert_sharp,
+      //           color: Colors.green,
+      //         ),
+      //         //title: const Text('List Property and Car',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
+      //         title: const Text('My Buses',
+      //             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+      //
+      //         onTap: () {
+      //           Navigator.pop(context);
+      //         },
+      //       ),
+      //       ListTile(
+      //         trailing: Icon(
+      //           Icons.airport_shuttle,
+      //           color: Colors.green,
+      //         ),
+      //         //title: const Text('Contact Us',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
+      //         title: const Text('My Shuttle',
+      //             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+      //
+      //         onTap: () {
+      //           Navigator.pop(context);
+      //         },
+      //       ),
+      //       ListTile(
+      //         trailing: Icon(
+      //           Icons.logout,
+      //           color: Colors.green,
+      //         ),
+      //         //title: const Text('Sign Out',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w900,fontSize: 20)),
+      //         title: const Text('Logout',
+      //             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+      //         //onTap: () async {
+      //         onTap: ()async{
+      //           SharedPreferences prefs = await SharedPreferences.getInstance();
+      //           prefs.setString('logoutkey', ('LogoutDashboard'));
+      //           prefs.setString('Property_type', ('Apartment'));
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(
+      //                 builder: (context) => tabbar()),
+      //           );
+      //
+      //
+      //         },
+      //
+      //         // onTap: () {
+      //         //   Navigator.pop(context);
+      //         // },
+      //       ),
+      //     ],
+      //   ),
+      // ),
            body: FutureBuilder<dynamic>(
 
         //future: BookingDashboardUsers,
@@ -548,7 +548,7 @@ child: const Align(
                                                               width: 200,
                                                               color: Colors.transparent,
                                                               //child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                                                              child:Text(snapshot.data['data'][index]['address'],textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.green)),),
+                                                              child:Text(snapshot.data['data'][index]['address'],textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
                                                             )
                                                           ],
                                                         ),
@@ -564,7 +564,7 @@ child: const Align(
                                                               height: 30,
                                                               width: 200,
                                                               color: Colors.transparent,
-                                                              child:Text(snapshot.data['data'][index]['guest'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.green)),),
+                                                              child:Text(snapshot.data['data'][index]['guest'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
 
                                                               // child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
                                                             )
@@ -585,7 +585,7 @@ child: const Align(
                                                               width: 200,
                                                               color: Colors.transparent,
                                                               //child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                                                              child:Text(snapshot.data['data'][index]['bedroom'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.green)),),
+                                                              child:Text(snapshot.data['data'][index]['bedroom'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
                                                             )
                                                           ],
                                                         ),
@@ -603,7 +603,7 @@ child: const Align(
                                                               width: 200,
                                                               color: Colors.transparent,
                                                               //child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                                                              child:Text(snapshot.data['data'][index]['bathroom'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.green)),),
+                                                              child:Text(snapshot.data['data'][index]['bathroom'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
                                                             )
                                                           ],
                                                         ),
@@ -621,7 +621,7 @@ child: const Align(
                                                               width: 200,
                                                               color: Colors.transparent,
                                                               //child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                                                              child:Text(snapshot.data['data'][index]['price'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.green)),),
+                                                              child:Text(snapshot.data['data'][index]['price'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
                                                             )
                                                           ],
                                                         ),

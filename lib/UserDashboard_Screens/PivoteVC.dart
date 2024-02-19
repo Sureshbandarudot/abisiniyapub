@@ -44,8 +44,6 @@ class _userDashboardState extends State<PivotDashboard> {
   var pivotsts = '';
   String Retrivedcityvalue = '';
   String RetrivedAdress = '';
-
-
   String Bookingsts = 'Not booked yet!';
   String Statusstr = '';
   String stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
@@ -72,10 +70,6 @@ class _userDashboardState extends State<PivotDashboard> {
       RetrivedAdress = prefs.getString('addresskey') ?? "";
       ApprovedMessagestr = prefs.getString('Approvedkey') ?? "";
       DeclinedMessagestr = prefs.getString('Declinedkey') ?? "";
-
-
-
-
     });
   }
 //@override
@@ -328,9 +322,6 @@ class _userDashboardState extends State<PivotDashboard> {
                                     physics: ScrollPhysics(),
                                     child: Column(
                                       children: <Widget>[
-                                        //Text('Your Apartments'),
-                                        //Text('Your Apartments:',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
-
                                         ListView.separated(
                                             physics: NeverScrollableScrollPhysics(),
                                             shrinkWrap: true,
@@ -436,10 +427,6 @@ class _userDashboardState extends State<PivotDashboard> {
                                                       print('Jumped.........');
                                                      // UpdatedstatusshowAlertDialog(context);
                                                     }
-                                                   // UpdatedstatusshowAlertDialog(context);
-
-
-                                                    //
                                                     if (getbookingData[index] == 'Awaiting Approval'){
                                                       stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
                                                       // stsId = snapshot.data['data'][index]['id'].toString();
@@ -464,10 +451,23 @@ class _userDashboardState extends State<PivotDashboard> {
                                                         print(ApprovedMessagestr);
                                                         SharedPreferences prefs = await SharedPreferences.getInstance();
                                                         prefs.setString('Approvedkey', ApprovedMessagestr);
-                                                        final snackBar = SnackBar(
-                                                          content: Text('Successfully Approved'),
-                                                        );
-                                                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                        // final snackBar = SnackBar(
+                                                        //   content: Text('Successfully Approved'),
+                                                        // );
+                                                        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                        setState(() {
+
+                                                          final snackBar = SnackBar(
+                                                            content: Text('Successfully Approved'),
+                                                          );
+                                                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => PivotDashboard()
+                                                            ),
+                                                          );
+                                                        });
                                                         return json.decode(response.body);
                                                       } else {
                                                         // If that call was not successful, throw an error.
@@ -492,22 +492,31 @@ class _userDashboardState extends State<PivotDashboard> {
                                                         var getpicsData = [];
                                                         var picstrr = data1['data'];
                                                         print('successfully checked In....');
-                                                        final snackBar = SnackBar(
-                                                          content: Text('Successfully Checked In'),
-                                                        );
-                                                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                        // final snackBar = SnackBar(
+                                                        //   content: Text('Successfully Checked In'),
+                                                        // );
+                                                        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                        setState(() {
+
+                                                          final snackBar = SnackBar(
+                                                            content: Text('Successfully Cheched In'),
+                                                          );
+                                                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => PivotDashboard()
+                                                            ),
+                                                          );
+                                                        });
                                                         return json.decode(response.body);
                                                       } else {
                                                         // If that call was not successful, throw an error.
                                                         throw Exception('Failed to load post');
                                                       }
-
                                                     } else if (getbookingData[index] == 'Checked In'){
-
                                                       stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
-
                                                       stsId = booking_idList[index].toString();
-
                                                       String ApproveStr = '/Checked Out';
                                                       String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
                                                       var response = await http.get(
@@ -524,10 +533,23 @@ class _userDashboardState extends State<PivotDashboard> {
                                                         var getpicsData = [];
                                                         var picstrr = data1['data'];
                                                         print('successfully checked out....');
-                                                        final snackBar = SnackBar(
-                                                          content: Text('Successfully Checked Out'),
-                                                        );
-                                                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                        setState(() {
+
+                                                          final snackBar = SnackBar(
+                                                            content: Text('Successfully Checked Out'),
+                                                          );
+                                                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => PivotDashboard()
+                                                            ),
+                                                          );
+                                                        });
+                                                        // final snackBar = SnackBar(
+                                                        //   content: Text('Successfully Checked Out'),
+                                                        // );
+                                                        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                         return json.decode(response.body);
                                                       } else {
                                                         // If that call was not successful, throw an error.
@@ -566,29 +588,7 @@ class _userDashboardState extends State<PivotDashboard> {
                                                               textAlign: TextAlign.right,
                                                               style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.green),
                                                             ),
-
-
-                                                          // if (e["index"] == 3)
-                                                          //   Text(e["text"].toString(),
-                                                          //       textAlign: TextAlign.center,
-                                                          //       style: TextStyle(color: Colors.amber)),
-                                                          // if (e["index"] == 4)
-                                                          //   Text(e["text"].toString(),
-                                                          //       textAlign: TextAlign.center,
-                                                          //       style: TextStyle(color: Colors.orange)),
-                                                          // if (e["index"] == 5)
-                                                          //   Text(e["text"].toString(),
-                                                          //       textAlign: TextAlign.center,
-                                                          //       style: TextStyle(color: Colors.red)),
                                                         ])
-
-                                                      //),
-
-                                                      // child: Text(
-                                                      //   'Approve',
-                                                      //   textAlign: TextAlign.right,
-                                                      //   style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.green),
-                                                      // ),
                                                     ),
                                                   ),
                                                 ),
@@ -597,18 +597,8 @@ class _userDashboardState extends State<PivotDashboard> {
                                                   // onTap: doSomething,
                                                   onTap: () async {
                                                     print('clicked on declined btn...');
-                                                   // showAlertDialog(context);
-
-
-                                                    // if(DeclinedMessagestr == 'successfully Declined'){
-                                                    //   print('Jumped into declined.........');
-                                                    //   DeclinedshowAlertDialog(context);
-                                                    // }
-                                                   // DeclinedshowAlertDialog(context);
                                                     print('booking sts...');
                                                     print(getbookingData[index]);
-
-
                                                     if (getbookingData[index] == 'Awaiting Approval'){
                                                       stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
                                                       // stsId = snapshot.data['data'][index]['id'].toString();
@@ -635,16 +625,29 @@ class _userDashboardState extends State<PivotDashboard> {
                                                         print(DeclinedMessagestr);
                                                         SharedPreferences prefs = await SharedPreferences.getInstance();
                                                         prefs.setString('Declinedkey', DeclinedMessagestr);
-                                                        final snackBar = SnackBar(
-                                                          content: Text('Successfully Approved'),
-                                                        );
-                                                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                        setState(() {
+
+                                                          final snackBar = SnackBar(
+                                                            content: Text('Successfully Declined'),
+                                                          );
+                                                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => PivotDashboard()
+                                                            ),
+                                                          );
+                                                        });
+                                                        // final snackBar = SnackBar(
+                                                        //   content: Text('Successfully Approved'),
+                                                        // );
+                                                        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                                         return json.decode(response.body);
                                                       } else {
                                                         // If that call was not successful, throw an error.
                                                         throw Exception('Failed to load post');
                                                       }
-                                                    } else if (getbookingData[index] == 'Approve'){
+                                                    } else if (getbookingData[index] == 'Approved'){
                                                       stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
                                                       // stsId = snapshot.data['data'][index]['id'].toString();
                                                       stsId = booking_idList[index].toString();
@@ -668,86 +671,29 @@ class _userDashboardState extends State<PivotDashboard> {
                                                         print(DeclinedMessagestr);
                                                         SharedPreferences prefs = await SharedPreferences.getInstance();
                                                         prefs.setString('Declinedkey', DeclinedMessagestr);
-                                                        final snackBar = SnackBar(
-                                                          content: Text('Successfully Approved'),
-                                                        );
-                                                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                        // final snackBar = SnackBar(
+                                                        //   content: Text('Successfully Approved'),
+                                                        // );
+                                                        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                        setState(() {
+
+                                                          final snackBar = SnackBar(
+                                                            content: Text('Successfully Declined'),
+                                                          );
+                                                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => PivotDashboard()
+                                                            ),
+                                                          );
+                                                        });
                                                         return json.decode(response.body);
                                                       } else {
                                                         // If that call was not successful, throw an error.
                                                         throw Exception('Failed to load post');
                                                       }
                                                     }
-
-                                                   //
-                                                   //  if (getbookingData[index] == 'Awaiting Approval'){
-                                                   // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
-                                                   //  stsId = booking_idList[index].toString();
-                                                   //    String ApproveStr = '/Declined';
-                                                   //    String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
-                                                   //    var response = await http.get(
-                                                   //      Uri.parse(
-                                                   //          Apprvoedurl),
-                                                   //      headers: {
-                                                   //        // 'Authorization':
-                                                   //        // 'Bearer <--your-token-here-->',
-                                                   //        "Authorization": "Bearer $RetrivedBearertoekn",
-                                                   //      },
-                                                   //    );
-                                                   //    if (response.statusCode == 200) {
-                                                   //      final data1 = jsonDecode(response.body);
-                                                   //      var getpicsData = [];
-                                                   //      var picstrr = data1['data'];
-                                                   //      print('successfully Declined....1');
-                                                   //      DeclinedMessagestr = 'successfully Declined';
-                                                   //      SharedPreferences prefs = await SharedPreferences.getInstance();
-                                                   //      prefs.setString('Declinedkey', DeclinedMessagestr);
-                                                   //      final snackBar = SnackBar(
-                                                   //        content: Text('Successfully Declined'),
-                                                   //      );
-                                                   //      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                                   //
-                                                   //
-                                                   //      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                                   //      return json.decode(response.body);
-                                                   //    } else {
-                                                   //      // If that call was not successful, throw an error.
-                                                   //      throw Exception('Failed to load post');
-                                                   //    }
-                                                   //  } else if (getbookingData[index] == 'Approved'){
-                                                   //    stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
-                                                   //    stsId = booking_idList[index].toString();
-                                                   //    String ApproveStr = '/Declined';
-                                                   //    String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
-                                                   //    var response = await http.get(
-                                                   //      Uri.parse(
-                                                   //          Apprvoedurl),
-                                                   //      headers: {
-                                                   //        // 'Authorization':
-                                                   //        // 'Bearer <--your-token-here-->',
-                                                   //        "Authorization": "Bearer $RetrivedBearertoekn",
-                                                   //      },
-                                                   //    );
-                                                   //    if (response.statusCode == 200) {
-                                                   //      final data1 = jsonDecode(response.body);
-                                                   //      var getpicsData = [];
-                                                   //      var picstrr = data1['data'];
-                                                   //      print('successfully Declined....');
-                                                   //      DeclinedMessagestr = 'successfully Declined';
-                                                   //      SharedPreferences prefs = await SharedPreferences.getInstance();
-                                                   //      prefs.setString('Declinedkey', DeclinedMessagestr);
-                                                   //      final snackBar = SnackBar(
-                                                   //        content: Text('Successfully Declined'),
-                                                   //      );
-                                                   //      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                                   //
-                                                   //      return json.decode(response.body);
-                                                   //    } else {
-                                                   //      // If that call was not successful, throw an error.
-                                                   //      throw Exception('Failed to load post');
-                                                   //    }
-                                                    //}
-
                                                     print("Approve Container was tapped....."); },
                                                   child: SizedBox(
                                                     height: 35,
@@ -755,7 +701,6 @@ class _userDashboardState extends State<PivotDashboard> {
                                                     child: Container(
                                                         decoration: BoxDecoration(
                                                             border: Border.all(color: Colors.white)),
-
                                                         child: Column(children:[  if ((getbookingData[index] == 'Awaiting Approval'))
                                                           Text(
                                                             'Decline',
@@ -768,367 +713,12 @@ class _userDashboardState extends State<PivotDashboard> {
                                                               textAlign: TextAlign.right,
                                                               style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.red),
                                                             ),
-
-
-                                                          // if (((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                          //     : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked In'))
-                                                          //   Text(
-                                                          //     'Check Out',
-                                                          //     textAlign: TextAlign.right,
-                                                          //     style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.green),
-                                                          //   ),
-
-
-                                                          // if (e["index"] == 3)
-                                                          //   Text(e["text"].toString(),
-                                                          //       textAlign: TextAlign.center,
-                                                          //       style: TextStyle(color: Colors.amber)),
-                                                          // if (e["index"] == 4)
-                                                          //   Text(e["text"].toString(),
-                                                          //       textAlign: TextAlign.center,
-                                                          //       style: TextStyle(color: Colors.orange)),
-                                                          // if (e["index"] == 5)
-                                                          //   Text(e["text"].toString(),
-                                                          //       textAlign: TextAlign.center,
-                                                          //       style: TextStyle(color: Colors.red)),
                                                         ])
-
-                                                      //),
-
-                                                      // child: Text(
-                                                      //   'Approve',
-                                                      //   textAlign: TextAlign.right,
-                                                      //   style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.green),
-                                                      // ),
                                                     ),
                                                   ),
                                                 )
-
-
-
-
                                                     ],
                                               ),
-
-
-
-
-                                                    // Row(
-                                                    //   children: [
-                                                    //     InkWell(
-                                                    //       // onTap: doSomething,
-                                                    //       onTap: () { print("Container was tapped2...."); },
-                                                    //       child: SizedBox(
-                                                    //         height: 35,
-                                                    //         width: 100,
-                                                    //         child: Container(
-                                                    //           decoration: BoxDecoration(
-                                                    //               border: Border.all(color: Colors.white)),
-                                                    //           child: Text(
-                                                    //             'Action',
-                                                    //             textAlign: TextAlign.left,
-                                                    //             style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.black),
-                                                    //           ),
-                                                    //         ),
-                                                    //       ),
-                                                    //     ),
-                                                    //     InkWell(
-                                                    //       // onTap: doSomething,
-                                                    //       onTap: () async {
-                                                    //
-                                                    //         if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                    //             : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Awaiting Approval'){
-                                                    //           stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
-                                                    //           // stsId = snapshot.data['data'][index]['id'].toString();
-                                                    //           stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                    //               : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');
-                                                    //           String ApproveStr = '/Approved';
-                                                    //           String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
-                                                    //           var response = await http.get(
-                                                    //             Uri.parse(
-                                                    //                 Apprvoedurl),
-                                                    //             headers: {
-                                                    //               // 'Authorization':
-                                                    //               // 'Bearer <--your-token-here-->',
-                                                    //               "Authorization": "Bearer $RetrivedBearertoekn",
-                                                    //             },
-                                                    //           );
-                                                    //           if (response.statusCode == 200) {
-                                                    //             final data1 = jsonDecode(response.body);
-                                                    //             var getpicsData = [];
-                                                    //             var picstrr = data1['data'];
-                                                    //             print('successfully Approved....');
-                                                    //             final snackBar = SnackBar(
-                                                    //               content: Text('Successfully Approved'),
-                                                    //             );
-                                                    //             ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                                    //             return json.decode(response.body);
-                                                    //           } else {
-                                                    //             // If that call was not successful, throw an error.
-                                                    //             throw Exception('Failed to load post');
-                                                    //           }
-                                                    //         }  else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                    //             : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Approved'){
-                                                    //
-                                                    //           stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
-                                                    //           // stsId = snapshot.data['data'][index]['id'].toString();
-                                                    //           stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                    //               : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');
-                                                    //           String ApproveStr = '/Checked In';
-                                                    //           String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
-                                                    //           var response = await http.get(
-                                                    //             Uri.parse(
-                                                    //                 Apprvoedurl),
-                                                    //             headers: {
-                                                    //               "Authorization": "Bearer $RetrivedBearertoekn",
-                                                    //             },
-                                                    //           );
-                                                    //           if (response.statusCode == 200) {
-                                                    //             final data1 = jsonDecode(response.body);
-                                                    //             var getpicsData = [];
-                                                    //             var picstrr = data1['data'];
-                                                    //             print('successfully checked In....');
-                                                    //             final snackBar = SnackBar(
-                                                    //               content: Text('Successfully Checked In'),
-                                                    //             );
-                                                    //             ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                                    //             return json.decode(response.body);
-                                                    //           } else {
-                                                    //             // If that call was not successful, throw an error.
-                                                    //             throw Exception('Failed to load post');
-                                                    //           }
-                                                    //
-                                                    //         } else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                    //             : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked In'){
-                                                    //           stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
-                                                    //           // stsId = snapshot.data['data'][index]['id'].toString();
-                                                    //           stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                    //               : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');
-                                                    //           String ApproveStr = '/Checked Out';
-                                                    //           String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
-                                                    //           var response = await http.get(
-                                                    //             Uri.parse(
-                                                    //                 Apprvoedurl),
-                                                    //             headers: {
-                                                    //               // 'Authorization':
-                                                    //               // 'Bearer <--your-token-here-->',
-                                                    //               "Authorization": "Bearer $RetrivedBearertoekn",
-                                                    //             },
-                                                    //           );
-                                                    //           if (response.statusCode == 200) {
-                                                    //             final data1 = jsonDecode(response.body);
-                                                    //             var getpicsData = [];
-                                                    //             var picstrr = data1['data'];
-                                                    //             print('successfully checked out....');
-                                                    //             final snackBar = SnackBar(
-                                                    //               content: Text('Successfully Checked Out'),
-                                                    //             );
-                                                    //             ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                                    //             return json.decode(response.body);
-                                                    //           } else {
-                                                    //             // If that call was not successful, throw an error.
-                                                    //             throw Exception('Failed to load post');
-                                                    //           }
-                                                    //
-                                                    //         } else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                    //             : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked Out'){
-                                                    //
-                                                    //
-                                                    //           print('checked out btn clicked.....');
-                                                    //         }
-                                                    //
-                                                    //
-                                                    //         print("Approve Container was tapped....."); },
-                                                    //       child: SizedBox(
-                                                    //         height: 35,
-                                                    //         width: 100,
-                                                    //         child: Container(
-                                                    //             decoration: BoxDecoration(
-                                                    //                 border: Border.all(color: Colors.white)),
-                                                    //
-                                                    //             child: Column(children:[  if (((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                    //                 : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Awaiting Approval'))
-                                                    //               Text(
-                                                    //                 'Approve',
-                                                    //                 textAlign: TextAlign.right,
-                                                    //                 style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.green),
-                                                    //               ),
-                                                    //               if (((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                    //                   : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Approved'))
-                                                    //                 Text(
-                                                    //                   'Check In',
-                                                    //                   textAlign: TextAlign.right,
-                                                    //                   style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.green),
-                                                    //                 ),
-                                                    //               if (((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                    //                   : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked In'))
-                                                    //                 Text(
-                                                    //                   'Check Out',
-                                                    //                   textAlign: TextAlign.right,
-                                                    //                   style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.green),
-                                                    //                 ),
-                                                    //
-                                                    //
-                                                    //               // if (e["index"] == 3)
-                                                    //               //   Text(e["text"].toString(),
-                                                    //               //       textAlign: TextAlign.center,
-                                                    //               //       style: TextStyle(color: Colors.amber)),
-                                                    //               // if (e["index"] == 4)
-                                                    //               //   Text(e["text"].toString(),
-                                                    //               //       textAlign: TextAlign.center,
-                                                    //               //       style: TextStyle(color: Colors.orange)),
-                                                    //               // if (e["index"] == 5)
-                                                    //               //   Text(e["text"].toString(),
-                                                    //               //       textAlign: TextAlign.center,
-                                                    //               //       style: TextStyle(color: Colors.red)),
-                                                    //             ])
-                                                    //
-                                                    //           //),
-                                                    //
-                                                    //           // child: Text(
-                                                    //           //   'Approve',
-                                                    //           //   textAlign: TextAlign.right,
-                                                    //           //   style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.green),
-                                                    //           // ),
-                                                    //         ),
-                                                    //       ),
-                                                    //     ),
-                                                    //
-                                                    //     InkWell(
-                                                    //       // onTap: doSomething,
-                                                    //       onTap: () async {
-                                                    //         print('clicked on declined btn...');
-                                                    //
-                                                    //         if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                    //             : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Awaiting Approval'){
-                                                    //
-                                                    //           stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
-                                                    //           // stsId = snapshot.data['data'][index]['id'].toString();
-                                                    //           stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                    //               : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');
-                                                    //           String ApproveStr = '/Declined';
-                                                    //           String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
-                                                    //           var response = await http.get(
-                                                    //             Uri.parse(
-                                                    //                 Apprvoedurl),
-                                                    //             headers: {
-                                                    //               // 'Authorization':
-                                                    //               // 'Bearer <--your-token-here-->',
-                                                    //               "Authorization": "Bearer $RetrivedBearertoekn",
-                                                    //             },
-                                                    //           );
-                                                    //           if (response.statusCode == 200) {
-                                                    //             final data1 = jsonDecode(response.body);
-                                                    //             var getpicsData = [];
-                                                    //             var picstrr = data1['data'];
-                                                    //             print('successfully Declined....');
-                                                    //             final snackBar = SnackBar(
-                                                    //               content: Text('Successfully Declined'),
-                                                    //             );
-                                                    //             ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                                    //             return json.decode(response.body);
-                                                    //           } else {
-                                                    //             // If that call was not successful, throw an error.
-                                                    //             throw Exception('Failed to load post');
-                                                    //           }
-                                                    //         } else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                    //             : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Approved'){
-                                                    //
-                                                    //
-                                                    //           print('checked in btn clicked.....');
-                                                    //           stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
-                                                    //           // stsId = snapshot.data['data'][index]['id'].toString();
-                                                    //           stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                    //               : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');
-                                                    //           String ApproveStr = '/Unbook';
-                                                    //           String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
-                                                    //           var response = await http.get(
-                                                    //             Uri.parse(
-                                                    //                 Apprvoedurl),
-                                                    //             headers: {
-                                                    //               // 'Authorization':
-                                                    //               // 'Bearer <--your-token-here-->',
-                                                    //               "Authorization": "Bearer $RetrivedBearertoekn",
-                                                    //             },
-                                                    //           );
-                                                    //           if (response.statusCode == 200) {
-                                                    //             final data1 = jsonDecode(response.body);
-                                                    //             var getpicsData = [];
-                                                    //             var picstrr = data1['data'];
-                                                    //             print('successfully Declined....');
-                                                    //             final snackBar = SnackBar(
-                                                    //               content: Text('Successfully Declined'),
-                                                    //             );
-                                                    //             ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                                    //             return json.decode(response.body);
-                                                    //           } else {
-                                                    //             // If that call was not successful, throw an error.
-                                                    //             throw Exception('Failed to load post');
-                                                    //           }
-                                                    //         }
-                                                    //
-                                                    //         print("Approve Container was tapped....."); },
-                                                    //       child: SizedBox(
-                                                    //         height: 35,
-                                                    //         width: 100,
-                                                    //         child: Container(
-                                                    //             decoration: BoxDecoration(
-                                                    //                 border: Border.all(color: Colors.white)),
-                                                    //
-                                                    //             child: Column(children:[  if (((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                    //                 : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Awaiting Approval'))
-                                                    //               Text(
-                                                    //                 'Decline',
-                                                    //                 textAlign: TextAlign.right,
-                                                    //                 style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.red),
-                                                    //               ),
-                                                    //               if (((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                    //                   : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Approved'))
-                                                    //                 Text(
-                                                    //                   'Unbook',
-                                                    //                   textAlign: TextAlign.right,
-                                                    //                   style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.red),
-                                                    //                 ),
-                                                    //
-                                                    //
-                                                    //               // if (((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-                                                    //               //     : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked In'))
-                                                    //               //   Text(
-                                                    //               //     'Check Out',
-                                                    //               //     textAlign: TextAlign.right,
-                                                    //               //     style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Colors.green),
-                                                    //               //   ),
-                                                    //
-                                                    //
-                                                    //               // if (e["index"] == 3)
-                                                    //               //   Text(e["text"].toString(),
-                                                    //               //       textAlign: TextAlign.center,
-                                                    //               //       style: TextStyle(color: Colors.amber)),
-                                                    //               // if (e["index"] == 4)
-                                                    //               //   Text(e["text"].toString(),
-                                                    //               //       textAlign: TextAlign.center,
-                                                    //               //       style: TextStyle(color: Colors.orange)),
-                                                    //               // if (e["index"] == 5)
-                                                    //               //   Text(e["text"].toString(),
-                                                    //               //       textAlign: TextAlign.center,
-                                                    //               //       style: TextStyle(color: Colors.red)),
-                                                    //             ])
-                                                    //
-                                                    //           //),
-                                                    //
-                                                    //           // child: Text(
-                                                    //           //   'Approve',
-                                                    //           //   textAlign: TextAlign.right,
-                                                    //           //   style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.green),
-                                                    //           // ),
-                                                    //         ),
-                                                    //       ),
-                                                    //     )
-                                                    //   ],
-                                                    // ),
-
-
-
                                                   ],
                                                 ),
                                               );
@@ -1162,117 +752,10 @@ class _userDashboardState extends State<PivotDashboard> {
                         print('View more Tapped button.....');
                       }
                   );
-
-
-
-                  //return Column(
-                  // return Column(
-                  //   children: <Widget>[
-                  //     Expanded(
-                  //       child: Container(
-                  //         color: Colors.white,
-                  //         child: LayoutBuilder(
-                  //           builder: (context, constraint) {
-                  //             return SingleChildScrollView(
-                  //               child: Container(
-                  //                 constraints:
-                  //                 BoxConstraints(minHeight: constraint.maxHeight),
-                  //                 child: IntrinsicHeight(
-                  //                   child: Column(
-                  //                     children: [
-                  //                       // SizedBox(
-                  //                       //   height: 10,
-                  //                       // ),
-                  //                       Column(
-                  //                           children: [
-                  //                             Column(
-                  //                                 children: [
-                  //                                   Padding(
-                  //                                     padding: const EdgeInsets.all(8.0),
-                  //                                     child: Container(
-                  //                                       height: 250,
-                  //
-                  //                                       child:ListView.separated(
-                  //                                         itemCount: (snapshot.data as List<DashboardApart>).length,
-                  //                                         separatorBuilder: (BuildContext context, int index) => const Divider(),
-                  //                                         itemBuilder: (BuildContext context, int index) {
-                  //                                           var abisiniyapic = (snapshot.data as List<DashboardApart>)[index];
-                  //                                           //var listData = (snapshot.data as List<DashboardApart>)[index];
-                  //
-                  //
-                  //                                           return Container(
-                  //                                             height: 220,
-                  //                                             width: 300,
-                  //                                             color: Colors.yellow,
-                  //                                             child: InkWell(
-                  //                                               child: Column(
-                  //                                                 children: [
-                  //                                                   Container(
-                  //                                                     height: 200,
-                  //                                                     child: Text(abisiniyapic.address),
-                  //                                                     // decoration: BoxDecoration(
-                  //                                                     //     image: DecorationImage(image: NetworkImage(abisiniyapic.address),
-                  //                                                     //         fit: BoxFit.cover)
-                  //                                                     // ),
-                  //                                                   ),
-                  //                                                 ],
-                  //                                               ),
-                  //                                               onTap: ()
-                  //                                               {
-                  //                                                 print('calling.......');
-                  //                                                 print([index]);
-                  //                                               },
-                  //                                             ),
-                  //                                           );
-                  //                                         },
-                  //                                       ),
-                  //
-                  //                                     ),
-                  //                                   ),
-                  //                                   Container(
-                  //                                     height: 40,
-                  //                                     width: 340,
-                  //                                     alignment: Alignment.topLeft,
-                  //                                     color: Colors.white,
-                  //                                     child: Text('Information',style: (TextStyle(fontSize: 22,fontWeight: FontWeight.w900,color: Colors.black)),),
-                  //                                   )
-                  //                                   // Container(
-                  //                                   //   height: 50,
-                  //                                   //   width: 280,
-                  //                                   //   color: Colors.orange,
-                  //                                   //   // child:Text(snapshot.data['data'][10]['address'],textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w900,fontSize: 22,color: Colors.green)),),
-                  //                                   // ),
-                  //                                 ]
-                  //                             ),
-                  //                           ]
-                  //                       ),
-                  //                       // middle widget goes here
-                  //
-                  //
-                  //                     ],
-                  //                   ),
-                  //                 ),
-                  //               ),
-                  //             );
-                  //           },
-                  //         ),
-                  //       ),
-                  //     )
-                  //   ],
-                  // );
                 }
             }
           }
       ),
-      // body: Center(
-      //   child: Column(
-      //     children: [
-      //       SizedBox(
-      //         height: 50,
-      //       ),
-      //     ],
-      //   ),
-      // ),
     );
   }
 }

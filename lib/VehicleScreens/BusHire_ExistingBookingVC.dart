@@ -146,9 +146,6 @@ class HomeState extends State<BusHire_ExistingBookingScreen> {
         RetrivedBearertoekn = data['data']['token'];
         print('token generated...');
         print(RetrivedBearertoekn);
-
-
-
         if (data['message'] == 'Thank you for booking request')
         {
           print('not calling....');
