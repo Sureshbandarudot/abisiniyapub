@@ -420,10 +420,8 @@ print(ApartmentId);
       //   ),
       // ),
            body: FutureBuilder<dynamic>(
-
         //future: BookingDashboardUsers,
           future: getData(),
-
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
@@ -710,18 +708,41 @@ child: const Align(
                                                               onTap: () async{
                                                                 print("value of your text");
                                                               SharedPreferences prefs = await SharedPreferences.getInstance();
-                                                              print('booking id...');
+                                                              print('booking id........');
                                                               print(snapshot.data['data'][index]['id']);
                                                               prefs.setInt('userbookingId', snapshot.data['data'][index]['id']);
                                                               prefs.setString('tokenkey', RetrivedBearertoekn);
+                                                              ApartmentId = snapshot.data['data'][index]['id'];
+                                                                try{
+                                                                  print('delete url...');
+                                                                  print(ApartmentId);
+                                                                  var url = '';
+    url = ('https://staging.abisiniya.com/api/v1/apartment/delete/$ApartmentId');
+    print(url);
+    final response = await http
+        .delete(Uri.parse(url),
+    headers: {
+    // 'Authorization':
+    // 'Bearer <--your-token-here-->',
+    "Authorization": "Bearer $RetrivedBearertoekn",
 
+    },
+    );
 
-                                                               // deletePost();
-                                                                _deleteData(ApartmentId);
-
-
-
-
+    if (response.statusCode == 200) {
+    print('Apartment Deleted successfully');
+    Navigator.push(
+    context,
+    MaterialPageRoute(
+    builder: (context) => MyApartmentScreen()
+    ),
+    );
+    } else {
+    throw Exception('Failed to delete data');
+    }
+    } catch (error) {
+    print(error);
+    }
                                                                 },
                                                             ),
 

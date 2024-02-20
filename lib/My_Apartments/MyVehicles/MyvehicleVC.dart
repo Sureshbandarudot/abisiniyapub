@@ -14,6 +14,9 @@ import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/My_Apartments/My_AprtmetsVC.dart';
 import 'package:tourstravels/My_Apartments/ViewApartmentVC.dart';
 
+import 'CreateVehicleVC.dart';
+import 'VehicleViewVC.dart';
+
 // import 'Apartment_EditVC.dart';
 // import 'CreateApartmentVC.dart';
 //import 'NewUserbooking.dart';
@@ -43,7 +46,7 @@ class _userDashboardState extends State<MyVehicleScreen> {
   String Statusstr = '';
   String stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
   String stsId = '';
-  int ApartmentId = 0;
+  int VehicleId = 0;
   var controller = ScrollController();
   late Future<List<DashboardApart>> BookingDashboardUsers ;
   int count = 15;
@@ -53,9 +56,9 @@ class _userDashboardState extends State<MyVehicleScreen> {
       RetrivedEmail = prefs.getString('emailkey') ?? "";
       RetrivedPwd = prefs.getString('passwordkey') ?? "";
       RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
-      ApartmentId = prefs.getInt('userbookingId') ?? 0;
-      print('Apartment id---');
-      print(ApartmentId);
+      VehicleId = prefs.getInt('userbookingId') ?? 0;
+      print('Vehicle id---');
+      print(VehicleId);
       print('My Apartment token');
       print(RetrivedBearertoekn);
 
@@ -118,7 +121,7 @@ class _userDashboardState extends State<MyVehicleScreen> {
 
       print('delete url...');
       var url = '';
-      url = ('https://staging.abisiniya.com/api/v1/apartment/delete/$ApartmentId');
+      url = ('https://staging.abisiniya.com/api/v1/vehicle/delete/$VehicleId');
       print(url);
       final response = await http
           .delete(Uri.parse(url),
@@ -131,11 +134,11 @@ class _userDashboardState extends State<MyVehicleScreen> {
       );
 
       if (response.statusCode == 200) {
-        print('Deleted successfully');
+        print('vehicle Deleted successfully');
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => MyApartmentScreen()
+              builder: (context) => MyVehicleScreen()
           ),
         );
       } else {
@@ -463,11 +466,11 @@ class _userDashboardState extends State<MyVehicleScreen> {
                                 prefs.setString('logoutkey', ('LogoutDashboard'));
                                 prefs.setString('Property_type', ('Apartment'));
                                 prefs.setString('tokenkey',RetrivedBearertoekn );
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) => CreateApartment()),
-                                // );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CreateVehice()),
+                                );
                               },
                             )],
                         ),
@@ -635,7 +638,7 @@ class _userDashboardState extends State<MyVehicleScreen> {
                                                                 ),                                                              ),
                                                               onTap: () async {
                                                                 Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-                                                                  builder: (_) => ViewApartmnt(),
+                                                                  builder: (_) => ViewVehicle(),
                                                                 ),);
                                                                 SharedPreferences prefs = await SharedPreferences.getInstance();
                                                                 print('booking id...');
@@ -692,7 +695,38 @@ class _userDashboardState extends State<MyVehicleScreen> {
                                                                 prefs.setInt('userbookingId', snapshot.data['data'][index]['id']);
                                                                 prefs.setString('tokenkey', RetrivedBearertoekn);
                                                                 // deletePost();
-                                                                _deleteData(ApartmentId);
+                                                                //_deleteData(VehicleId);
+                                                                VehicleId = (snapshot.data['data'][index]['id']);
+                                                                try {
+
+                                                                  print('delete url...');
+                                                                  var url = '';
+                                                                  url = ('https://staging.abisiniya.com/api/v1/vehicle/delete/$VehicleId');
+                                                                  print(url);
+                                                                  final response = await http
+                                                                      .delete(Uri.parse(url),
+                                                                    headers: {
+                                                                      // 'Authorization':
+                                                                      // 'Bearer <--your-token-here-->',
+                                                                      "Authorization": "Bearer $RetrivedBearertoekn",
+
+                                                                    },
+                                                                  );
+
+                                                                  if (response.statusCode == 200) {
+                                                                    print('vehicle Deleted successfully');
+                                                                    Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder: (context) => MyVehicleScreen()
+                                                                      ),
+                                                                    );
+                                                                  } else {
+                                                                    throw Exception('Failed to delete data');
+                                                                  }
+                                                                } catch (error) {
+                                                                  print(error);
+                                                                }
                                                               },
                                                             ),
                                                           ],
