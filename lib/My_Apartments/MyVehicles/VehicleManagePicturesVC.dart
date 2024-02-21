@@ -16,6 +16,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
 import 'MyvehicleVC.dart';
+import 'VehicleAddimgVC.dart';
 
 // import 'My_AprtmetsVC.dart';
 // import 'ViewAddPicVC.dart';
@@ -72,11 +73,15 @@ class _userDashboardState extends State<VehicleViewManagePictures> {
     try {
 
       print('delete url...');
+      print('ids...');
+      print(VehicleId);
+      print(Picture_Id);
       var url = '';
       // url = ('https://staging.abisiniya.com/api/v1/apartment/delete/$ApartmentId');
       //https://staging.abisiniya.com/api/v1/apartment/pictures/39/63
       //url = ('https://staging.abisiniya.com/api/v1/apartment/pictures/$ApartmentId/$Picture_Id');
-       url = 'https://staging.abisiniya.com/api/v1/vehicle/delete/' + VehicleId.toString();
+      // url = 'https://staging.abisiniya.com/api/v1/vehicle/delete/' + VehicleId.toString();
+       url = 'https://staging.abisiniya.com/api/v1/vehicle/pictures/$VehicleId/$Picture_Id';
 
 
       print(url);
@@ -566,9 +571,9 @@ class _userDashboardState extends State<VehicleViewManagePictures> {
                                               ),
                                             ),                                                              ),
                                           onTap: () async{
-                                            // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-                                            //   builder: (_) => AddpicScreen(),
-                                            // ),);
+                                            Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+                                              builder: (_) => VehicleAddpicScreen(),
+                                            ),);
                                             SharedPreferences prefs = await SharedPreferences.getInstance();
                                             prefs.setInt('userbookingId', VehicleId);
                                             prefs.setString('tokenkey', RetrivedBearertoekn);

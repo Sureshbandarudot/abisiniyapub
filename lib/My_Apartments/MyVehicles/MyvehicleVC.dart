@@ -16,6 +16,7 @@ import 'package:tourstravels/My_Apartments/ViewApartmentVC.dart';
 
 import 'CreateVehicleVC.dart';
 import 'VehicleViewVC.dart';
+import 'Vehicle_EditVC.dart';
 
 // import 'Apartment_EditVC.dart';
 // import 'CreateApartmentVC.dart';
@@ -659,18 +660,27 @@ class _userDashboardState extends State<MyVehicleScreen> {
                                                                 child: Text('Edit',textAlign: TextAlign.center,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w800,color: Colors.white),),
                                                               ),
                                                               onTap: () async{print("value of your text");
-                                                              // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-                                                              //   builder: (_) => AptmentEdit(),
-                                                              // ),);
+                                                              Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+                                                                builder: (_) => VehicleEdit(),
+                                                              ),);
                                                               SharedPreferences prefs = await SharedPreferences.getInstance();
                                                               print('Edit booking id...');
                                                               prefs.setString('namekey', snapshot.data['data'][index]['name']);
                                                               prefs.setString('addresskey', snapshot.data['data'][index]['address']);
                                                               prefs.setString('citykey', snapshot.data['data'][index]['city']);
                                                               prefs.setString('countrykey', snapshot.data['data'][index]['country']);
-                                                              prefs.setInt('guestkey', snapshot.data['data'][index]['guest']);
-                                                              prefs.setInt('bedroomkey', snapshot.data['data'][index]['bedroom']);
-                                                              prefs.setInt('bathroomkey', snapshot.data['data'][index]['bathroom']);
+
+                                                              prefs.setString('makekey', snapshot.data['data'][index]['make']);
+
+                                                              print('model...');
+                                                              print(snapshot.data['data'][index]['model']);
+                                                              prefs.setString('modelkey', snapshot.data['data'][index]['model']);
+                                                              prefs.setInt('yearkey', snapshot.data['data'][index]['year']);
+                                                              prefs.setString('engine_sizekey', snapshot.data['data'][index]['engine_size']);
+                                                              prefs.setString('fuel_typekey', snapshot.data['data'][index]['fuel_type']);
+                                                              prefs.setString('weightkey', snapshot.data['data'][index]['weight']);
+                                                              prefs.setString('colorkey', snapshot.data['data'][index]['color']);
+                                                              prefs.setString('transmissionkey', snapshot.data['data'][index]['transmission']);
                                                               prefs.setInt('pricekey', snapshot.data['data'][index]['price']);
                                                               prefs.setInt('userbookingId', snapshot.data['data'][index]['id']);
                                                               print('Edit token');
@@ -745,19 +755,24 @@ class _userDashboardState extends State<MyVehicleScreen> {
                                                   SharedPreferences prefs = await SharedPreferences.getInstance();
                                                   print('booking id...');
                                                   print(snapshot.data['data'][index]['id']);
-                                                  prefs.setString('namekey', snapshot.data['data'][index]['name']);
 
+                                                  prefs.setString('namekey', snapshot.data['data'][index]['name']);
                                                   prefs.setString('addresskey', snapshot.data['data'][index]['address']);
                                                   prefs.setString('citykey', snapshot.data['data'][index]['city']);
                                                   prefs.setString('countrykey', snapshot.data['data'][index]['country']);
-                                                  prefs.setInt('guestkey', snapshot.data['data'][index]['guest']);
-                                                  prefs.setInt('bedroomkey', snapshot.data['data'][index]['bedroom']);
-                                                  prefs.setInt('bathroomkey', snapshot.data['data'][index]['bathroom']);
+
+                                                  prefs.setString('makekey', snapshot.data['data'][index]['make']);
+
+                                                  prefs.setString('modelkey', snapshot.data['data'][index]['model']);
+                                                  prefs.setString('yearkey', snapshot.data['data'][index]['year']);
+                                                  prefs.setString('engine_sizekey', snapshot.data['data'][index]['engine_size']);
+                                                  prefs.setString('fuel_typekey', snapshot.data['data'][index]['fuel_type']);
+                                                  prefs.setString('weightkey', snapshot.data['data'][index]['weight']);
+                                                  prefs.setString('colorkey', snapshot.data['data'][index]['color']);
+                                                  prefs.setString('transmissionkey', snapshot.data['data'][index]['transmission']);
                                                   prefs.setInt('pricekey', snapshot.data['data'][index]['price']);
                                                   prefs.setInt('userbookingId', snapshot.data['data'][index]['id']);
                                                   prefs.setString('tokenkey', RetrivedBearertoekn);
-
-
                                                   Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
                                                     builder: (_) => PivotDashboard(),
                                                   ),);
