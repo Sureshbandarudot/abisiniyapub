@@ -51,6 +51,7 @@ dev_dependencies:
   flutter_native_splash: ^2.3.8
   flutter_launcher_icons: "^0.13.1"
   image_picker: ^1.0.2
+  flutter_rating_bar: ^4.0.1
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
