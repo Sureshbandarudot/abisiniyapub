@@ -8,6 +8,9 @@ import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'package:intl/intl.dart';
 import 'package:tourstravels/userDashboardvc.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
+
+
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 //import 'models/user.dart';
 class CarHire_ExistingBookingScreen extends StatefulWidget {
   @override
@@ -18,6 +21,8 @@ class CarHire_ExistingBookingScreen extends StatefulWidget {
 }
 
 class HomeState extends State<CarHire_ExistingBookingScreen> {
+
+  final baseDioSingleton = BaseSingleton();
   TextEditingController namecontroller = TextEditingController();
   TextEditingController surnamecontroller = TextEditingController();
   TextEditingController emailcontroller = TextEditingController();
@@ -27,7 +32,7 @@ class HomeState extends State<CarHire_ExistingBookingScreen> {
   TextEditingController FromdateInputController = TextEditingController();
   TextEditingController TodateInputController = TextEditingController();
 
-  final baseDioSingleton = BaseSingleton();
+  //final baseDioSingleton = BaseSingleton();
 //   print(baseDioSingleton.Appname);
   //List listUsers= [];
   //Future? listUsers;;
@@ -73,7 +78,7 @@ class HomeState extends State<CarHire_ExistingBookingScreen> {
     //String url = 'https://staging.abisiniya.com/api/v1/booking/apartment/mybookingdetail/$bookingID';
     print('id value...');
     print(RetrivedId);
-    String url = 'https://staging.abisiniya.com/api/v1/vehicle/show/$RetrivedId';
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'vehicle/show/$RetrivedId';
     var response = await http.get(
       Uri.parse(
           url),

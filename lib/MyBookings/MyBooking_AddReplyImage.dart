@@ -10,11 +10,12 @@ import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'MybookingVC.dart';
 class AddReplyscreen extends StatefulWidget {
 
@@ -23,6 +24,8 @@ class AddReplyscreen extends StatefulWidget {
 }
 
 class _LoginState extends State<AddReplyscreen> {
+
+  final baseDioSingleton = BaseSingleton();
   String RetrivedBearertoekn = '';
   int bookingID = 0;
 
@@ -39,7 +42,7 @@ class _LoginState extends State<AddReplyscreen> {
     });
   }
 
-  final baseDioSingleton = BaseSingleton();
+  // final baseDioSingleton = BaseSingleton();
   bool isLoading = false;
   final globalKey = GlobalKey<ScaffoldState>();
   String tokenvalue = '';
@@ -59,11 +62,9 @@ class _LoginState extends State<AddReplyscreen> {
     var header = {
       "Authorization":"Bearer $RetrivedBearertoekn"
     };
-    //https://staging.abisiniya.com/api/v1/apartment/pictures/{apartment_id}
-    //String picurl = 'https://staging.abisiniya.com/api/v1/apartment/pictures/$ApartmentId';
     final request = await http.MultipartRequest(
       'POST',
-      Uri.parse('https://staging.abisiniya.com/api/v1/booking/apartment/sendreply'),
+      Uri.parse(baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/sendreply'),
     );
     request.headers.addAll(header);
     request.fields['reply'] = ReplyController.text;

@@ -12,7 +12,7 @@ import 'package:tourstravels/UserDashboard_Screens/Apartbooking_Model.dart';
 import 'package:tourstravels/UserDashboard_Screens/PivoteVC.dart';
 import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/My_Apartments/My_AprtmetsVC.dart';
-
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import '../MyBookings/MybookingVC.dart';
 import '../My_Apartments/MyVehicles/MyvehicleVC.dart';
 import 'Vehicle_PivoteVC.dart';
@@ -25,8 +25,7 @@ class newuserDashboard extends StatefulWidget {
 }
 
 class _userDashboardState extends State<newuserDashboard> {
-
-
+  final baseDioSingleton = BaseSingleton();
   int bookingID = 0;
   var API = '';
   String status = '';
@@ -74,8 +73,12 @@ class _userDashboardState extends State<newuserDashboard> {
     BookingDashboardUsers = DashboardBooking_fetchUsers();
     //pics = fetchpics();
   }
-  String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
+  // String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
+  // String url = baseDioSingleton.AbisiniyaBaseurl+ 'apartment/list';
+
   Future<List<DashboardApart>> DashboardBooking_fetchUsers() async {
+    String url = baseDioSingleton.AbisiniyaBaseurl+ 'apartment/list';
+
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final data1 = jsonDecode(response.body);
@@ -90,9 +93,10 @@ class _userDashboardState extends State<newuserDashboard> {
   }
 
     Future<dynamic> getData() async {
-    //String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
-    String url = 'https://staging.abisiniya.com/api/v1/booking/apartment/withbooking';
-    var response = await http.get(
+    // String url = 'https://staging.abisiniya.com/api/v1/booking/apartment/withbooking';
+      String url = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/withbooking';
+
+      var response = await http.get(
       Uri.parse(
           url),
       headers: {
@@ -116,8 +120,9 @@ class _userDashboardState extends State<newuserDashboard> {
 
 
   Future<dynamic> VehiclegetData() async {
-    //String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
-    String url = 'https://staging.abisiniya.com/api/v1/booking/vehicle/withbooking';
+    // String url = 'https://staging.abisiniya.com/api/v1/booking/vehicle/withbooking';
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'booking/vehicle/withbooking';
+
     var response = await http.get(
       Uri.parse(
           url),
@@ -602,8 +607,10 @@ class _userDashboardState extends State<newuserDashboard> {
                             //  UpdatedstatusshowAlertDialog(context);
                               if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                   : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Awaiting Approval'){
-                                stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
-                               // stsId = snapshot.data['data'][index]['id'].toString();
+                                // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/';
+
+                                // stsId = snapshot.data['data'][index]['id'].toString();
                                 stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                     : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');
                                 String ApproveStr = '/Approved';
@@ -634,7 +641,9 @@ class _userDashboardState extends State<newuserDashboard> {
                               }  else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                   : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Approved'){
 
-                                stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/';
+
                                 // stsId = snapshot.data['data'][index]['id'].toString();
                                 stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                     : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');
@@ -664,7 +673,9 @@ class _userDashboardState extends State<newuserDashboard> {
 
                               } else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                   : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked In'){
-                                stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/';
+
                                 // stsId = snapshot.data['data'][index]['id'].toString();
                                 stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                     : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');
@@ -737,7 +748,9 @@ class _userDashboardState extends State<newuserDashboard> {
                              // DeclinedshowAlertDialog(context);
                               if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                   : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Awaiting Approval'){
-                                stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/';
+
                                 // stsId = snapshot.data['data'][index]['id'].toString();
                                 stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                     : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');
@@ -780,7 +793,9 @@ class _userDashboardState extends State<newuserDashboard> {
                                 }
                               } else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                   : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Approved'){
-                                stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/';
+
                                 // stsId = snapshot.data['data'][index]['id'].toString();
                                 stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                     : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');
@@ -1122,7 +1137,9 @@ class _userDashboardState extends State<newuserDashboard> {
                                             //  UpdatedstatusshowAlertDialog(context);
                                             if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                                 : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Awaiting Approval'){
-                                              stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                              // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                              stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/';
+
                                               // stsId = snapshot.data['data'][index]['id'].toString();
                                               stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                                   : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');
@@ -1154,7 +1171,9 @@ class _userDashboardState extends State<newuserDashboard> {
                                             }  else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                                 : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Approved'){
 
-                                              stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                              // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                              stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/';
+
                                               // stsId = snapshot.data['data'][index]['id'].toString();
                                               stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                                   : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');
@@ -1184,7 +1203,9 @@ class _userDashboardState extends State<newuserDashboard> {
 
                                             } else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                                 : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked In'){
-                                              stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                              // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                              stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/';
+
                                               // stsId = snapshot.data['data'][index]['id'].toString();
                                               stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                                   : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');
@@ -1257,7 +1278,9 @@ class _userDashboardState extends State<newuserDashboard> {
                                             // DeclinedshowAlertDialog(context);
                                             if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                                 : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Awaiting Approval'){
-                                              stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                             // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                              stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/';
+
                                               // stsId = snapshot.data['data'][index]['id'].toString();
                                               stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                                   : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');
@@ -1300,7 +1323,9 @@ class _userDashboardState extends State<newuserDashboard> {
                                               }
                                             } else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                                 : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Approved'){
-                                              stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                              // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                              stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/';
+
                                               // stsId = snapshot.data['data'][index]['id'].toString();
                                               stsId = (snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
                                                   : snapshot.data?["data"][index]['bookings'][0]['pivot']['booking_id'].toString() ?? 'empty');

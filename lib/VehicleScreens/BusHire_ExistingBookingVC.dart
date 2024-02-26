@@ -9,6 +9,8 @@ import 'package:intl/intl.dart';
 import 'package:tourstravels/userDashboardvc.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
 //import 'models/user.dart';
+
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 class BusHire_ExistingBookingScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -18,6 +20,7 @@ class BusHire_ExistingBookingScreen extends StatefulWidget {
 }
 
 class HomeState extends State<BusHire_ExistingBookingScreen> {
+  final baseDioSingleton = BaseSingleton();
   TextEditingController namecontroller = TextEditingController();
   TextEditingController surnamecontroller = TextEditingController();
   TextEditingController emailcontroller = TextEditingController();
@@ -27,7 +30,7 @@ class HomeState extends State<BusHire_ExistingBookingScreen> {
   TextEditingController FromdateInputController = TextEditingController();
   TextEditingController TodateInputController = TextEditingController();
 
-  final baseDioSingleton = BaseSingleton();
+  //final baseDioSingleton = BaseSingleton();
 //   print(baseDioSingleton.Appname);
   //List listUsers= [];
   //Future? listUsers;;
@@ -71,11 +74,11 @@ class HomeState extends State<BusHire_ExistingBookingScreen> {
   }
 
   Future<dynamic>BusHiregetData() async {
-    //String url = 'https://staging.abisiniya.com/api/v1/booking/apartment/mybookingdetail/$bookingID';
     print('id value...');
     print(carid);
-    //String url = 'https://staging.abisiniya.com/api/v1/vehicle/show/$RetrivedId';
-    String url = 'https://staging.abisiniya.com/api/v1/bus/detail/$carid';
+    // String url = 'https://staging.abisiniya.com/api/v1/bus/detail/$carid';
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'bus/detail/$carid';
+
     var response = await http.get(
       Uri.parse(
           url),
@@ -199,7 +202,9 @@ class HomeState extends State<BusHire_ExistingBookingScreen> {
     _postData();
     BusHiregetData();
   }
-  String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
+   //String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
+  //String url = baseDioSingleton.AbisiniyaBaseurl + 'apartment/list';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -11,6 +11,8 @@ import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
 
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
+
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -85,7 +87,9 @@ class _LoginState extends State<CreateVehice> {
     };
     final request = await http.MultipartRequest(
       'POST',
-      Uri.parse('https://staging.abisiniya.com/api/v1/vehicle/add'),
+      // Uri.parse('https://staging.abisiniya.com/api/v1/vehicle/add'),
+      Uri.parse(baseDioSingleton.AbisiniyaBaseurl + 'vehicle/add'),
+
     );
     request.headers.addAll(header);
     request.fields['name'] = nameController.text;

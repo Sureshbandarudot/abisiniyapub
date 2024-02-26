@@ -82,8 +82,13 @@ class _LoginState extends State<Login> {
       // isLoading = true;
       // var response = await http.get(url);
       // isLoading = false;
+      print('login url...');
+      print(baseDioSingleton.AbisiniyaBaseurl +'login');
       Response response = await post(
-          Uri.parse('https://staging.abisiniya.com/api/v1/login'),
+          //Uri.parse('https://staging.abisiniya.com/api/v1/login'),
+          Uri.parse(baseDioSingleton.AbisiniyaBaseurl +'login'),
+
+
 
           body: {
             'email' : emailController.text.toString(),

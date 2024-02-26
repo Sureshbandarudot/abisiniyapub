@@ -86,8 +86,11 @@ class HomeState extends State<AddApartment> {
     listUsers = fetchUsers();
     pics = fetchpics();
   }
-  String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
+  //String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
+
+//String url = baseDioSingleton.AbisiniyaBaseurl;
   Future<List<Apart>> fetchUsers() async {
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'apartment/list';
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final data1 = jsonDecode(response.body);
@@ -117,6 +120,8 @@ class HomeState extends State<AddApartment> {
   }
 
   Future<List<Picture>> fetchpics() async {
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'apartment/list';
+
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final data1 = jsonDecode(response.body);

@@ -17,6 +17,7 @@ import 'ApartmentRatingscreen.dart';
 import 'ViewManagePicturesVC.dart';
 //import 'NewUserbooking.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
 class ViewApartmnt extends StatefulWidget {
   const ViewApartmnt({super.key});
@@ -26,6 +27,8 @@ class ViewApartmnt extends StatefulWidget {
 }
 
 class _userDashboardState extends State<ViewApartmnt> {
+
+  final baseDioSingleton = BaseSingleton();
   int Rating_review = 0;
 
   String RetrivedPwd = '';
@@ -52,11 +55,11 @@ class _userDashboardState extends State<ViewApartmnt> {
 //@override
 
   Future<dynamic> Review() async {
-    //String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
     print('Apartment.....');
     print(ApartmentId);
-    //String url = 'https://staging.abisiniya.com/api/v1/vehicle/auth/show/' + VehicleId.toString();
-    String url = 'https://staging.abisiniya.com/api/v1/rating/list/$ApartmentId';
+    // String url = 'https://staging.abisiniya.com/api/v1/rating/list/$ApartmentId';
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'rating/list/$ApartmentId';
+
     print('url...');
     print(url);
     var response = await http.get(
@@ -99,11 +102,10 @@ class _userDashboardState extends State<ViewApartmnt> {
   }
 
   Future<dynamic> getData() async {
-    //String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
     print('Apartmentid.....');
     print(ApartmentId);
-    String url = 'https://staging.abisiniya.com/api/v1/apartment/auth/show/' + ApartmentId.toString();
-    print('url...');
+    // String url = 'https://staging.abisiniya.com/api/v1/apartment/auth/show/' + ApartmentId.toString();
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'apartment/auth/show/' + ApartmentId.toString();
     print(url);
     var response = await http.get(
       Uri.parse(

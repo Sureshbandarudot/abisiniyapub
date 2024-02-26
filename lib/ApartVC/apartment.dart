@@ -7,6 +7,7 @@ import 'package:tourstravels/Auth/Login.dart';
 import 'dart:convert';
 import 'package:tourstravels/ApartVC/Addaprtment.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
 import 'NewUserbooking.dart';
 //void main() => runApp(Apartmentscreen());
@@ -29,6 +30,7 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 class _MyHomePageState extends State<MyHomePage> {
+  final baseDioSingleton = BaseSingleton();
   int _counter = 0;
   int selectedIndex = 0;
   int imageID = 0;
@@ -58,7 +60,9 @@ print(propertytype);
     try{
 
       Response response = await post(
-          Uri.parse('https://staging.abisiniya.com/api/v1/login'),
+          //Uri.parse('https://staging.abisiniya.com/api/v1/login'),
+          Uri.parse(baseDioSingleton.AbisiniyaBaseurl + 'login'),
+
           body: {
             'email' : RetrivedEmail,
             'password' : RetrivedPwd
@@ -103,7 +107,9 @@ void initState() {
 
 }
   Future<dynamic> getData() async {
-    String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
+    //String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'apartment/list';
+
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       print('success.....');

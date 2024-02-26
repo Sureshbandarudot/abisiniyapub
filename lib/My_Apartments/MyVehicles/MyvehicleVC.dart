@@ -18,6 +18,8 @@ import 'CreateVehicleVC.dart';
 import 'VehicleViewVC.dart';
 import 'Vehicle_EditVC.dart';
 
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
+
 // import 'Apartment_EditVC.dart';
 // import 'CreateApartmentVC.dart';
 //import 'NewUserbooking.dart';
@@ -29,7 +31,7 @@ class MyVehicleScreen extends StatefulWidget {
 }
 
 class _userDashboardState extends State<MyVehicleScreen> {
-
+  final baseDioSingleton = BaseSingleton();
 
   int bookingID = 0;
   var API = '';
@@ -122,7 +124,9 @@ class _userDashboardState extends State<MyVehicleScreen> {
 
       print('delete url...');
       var url = '';
-      url = ('https://staging.abisiniya.com/api/v1/vehicle/delete/$VehicleId');
+      // url = ('https://staging.abisiniya.com/api/v1/vehicle/delete/$VehicleId');
+      url = (baseDioSingleton.AbisiniyaBaseurl + 'vehicle/delete/$VehicleId');
+
       print(url);
       final response = await http
           .delete(Uri.parse(url),
@@ -150,8 +154,9 @@ class _userDashboardState extends State<MyVehicleScreen> {
     }
   }
   Future<dynamic> getData() async {
-    //String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
-    String url = 'https://staging.abisiniya.com/api/v1/vehicle/auth/list';
+    // String url = 'https://staging.abisiniya.com/api/v1/vehicle/auth/list';
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'vehicle/auth/list';
+
     var response = await http.get(
       Uri.parse(
           url),
@@ -711,7 +716,9 @@ class _userDashboardState extends State<MyVehicleScreen> {
 
                                                                   print('delete url...');
                                                                   var url = '';
-                                                                  url = ('https://staging.abisiniya.com/api/v1/vehicle/delete/$VehicleId');
+                                                                  // url = ('https://staging.abisiniya.com/api/v1/vehicle/delete/$VehicleId');
+                                                                  url = (baseDioSingleton.AbisiniyaBaseurl + 'vehicle/delete/$VehicleId');
+
                                                                   print(url);
                                                                   final response = await http
                                                                       .delete(Uri.parse(url),

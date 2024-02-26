@@ -11,6 +11,8 @@ import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
 
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
+
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -29,6 +31,9 @@ class VehicleViewManagePictures extends StatefulWidget {
 }
 
 class _userDashboardState extends State<VehicleViewManagePictures> {
+
+
+  final baseDioSingleton = BaseSingleton();
 
   String RetrivedPwd = '';
   String RetrivedEmail = '';
@@ -77,13 +82,8 @@ class _userDashboardState extends State<VehicleViewManagePictures> {
       print(VehicleId);
       print(Picture_Id);
       var url = '';
-      // url = ('https://staging.abisiniya.com/api/v1/apartment/delete/$ApartmentId');
-      //https://staging.abisiniya.com/api/v1/apartment/pictures/39/63
-      //url = ('https://staging.abisiniya.com/api/v1/apartment/pictures/$ApartmentId/$Picture_Id');
-      // url = 'https://staging.abisiniya.com/api/v1/vehicle/delete/' + VehicleId.toString();
-       url = 'https://staging.abisiniya.com/api/v1/vehicle/pictures/$VehicleId/$Picture_Id';
-
-
+       url = baseDioSingleton.AbisiniyaBaseurl + 'vehicle/pictures/$VehicleId/$Picture_Id';
+      //url = 'https://staging.abisiniya.com/api/v1/vehicle/pictures/$VehicleId/$Picture_Id';
       print(url);
       final response = await http
           .delete(Uri.parse(url),
@@ -116,7 +116,9 @@ class _userDashboardState extends State<VehicleViewManagePictures> {
     //String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
     print('manage VehicleId.....');
     print(VehicleId);
-    String url = 'https://staging.abisiniya.com/api/v1/vehicle/auth/show/' + VehicleId.toString();
+    // String url = 'https://staging.abisiniya.com/api/v1/vehicle/auth/show/' + VehicleId.toString();
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'vehicle/auth/show/' + VehicleId.toString();
+
     print('url...');
     print(url);
     var response = await http.get(

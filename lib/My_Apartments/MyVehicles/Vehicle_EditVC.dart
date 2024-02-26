@@ -10,6 +10,7 @@ import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -117,14 +118,11 @@ class _LoginState extends State<VehicleEdit> {
   @override
   //Update API Request
   Future<String> Update() async {
-    // url = ('https://staging.abisiniya.com/api/v1/apartment/delete/$ApartmentId');
-    //https://staging.abisiniya.com/api/v1/apartment/update/45
-
-    String url = 'https://staging.abisiniya.com/api/v1/vehicle/update/$VehicleID';
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'vehicle/update/$VehicleID';
     print('url...');
     print(url);
     final response = await http.put(
-      Uri.parse('https://staging.abisiniya.com/api/v1/vehicle/update/$VehicleID'),
+      Uri.parse(baseDioSingleton.AbisiniyaBaseurl + 'vehicle/update/$VehicleID'),
       // NB: you don't need to fill headers field
       // headers: {
       //   'Content-Type': 'application/json' // 'application/x-www-form-urlencoded' or whatever you need

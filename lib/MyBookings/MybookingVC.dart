@@ -13,8 +13,9 @@ import 'package:tourstravels/UserDashboard_Screens/PivoteVC.dart';
 import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/My_Apartments/My_AprtmetsVC.dart';
 import 'package:tourstravels/My_Apartments/ViewApartmentVC.dart';
-
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'ViewBookingsVC.dart';
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
 
 //import 'NewUserbooking.dart';
@@ -26,6 +27,7 @@ class MyBookingScreen extends StatefulWidget {
 }
 
 class _userDashboardState extends State<MyBookingScreen> {
+  final baseDioSingleton = BaseSingleton();
   int bookingID = 0;
 
   String RetrivedBearertoekn = '';
@@ -54,8 +56,9 @@ class _userDashboardState extends State<MyBookingScreen> {
   }
 
   Future<dynamic> getData() async {
-    //String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
-    String url = 'https://staging.abisiniya.com/api/v1/booking/apartment/mybookings';
+    // String url = 'https://staging.abisiniya.com/api/v1/booking/apartment/mybookings';
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/mybookings';
+
     var response = await http.get(
       Uri.parse(
           url),

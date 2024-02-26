@@ -6,6 +6,10 @@ import 'package:tourstravels/Auth/Login.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
+
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
+
 import 'ViewApartmentVC.dart';
 
 //import 'VehicleViewVC.dart';
@@ -19,6 +23,7 @@ class ApartmentRatingScreen extends StatefulWidget {
 }
 
 class _MyAppState extends State<ApartmentRatingScreen> {
+  final baseDioSingleton = BaseSingleton();
   String RetrivedBearertoekn = '';
   int ApartmentId = 0;
   int Picture_Id = 0;
@@ -54,7 +59,9 @@ class _MyAppState extends State<ApartmentRatingScreen> {
     try {
       String apiUrl = '';
       //apiUrl = baseDioSingleton.AbisiniyaBaseurl + 'booking/vehicle/booking/newuser';
-      apiUrl = 'https://staging.abisiniya.com/api/v1/rating/add';
+      // apiUrl = 'https://staging.abisiniya.com/api/v1/rating/add';
+      apiUrl = baseDioSingleton.AbisiniyaBaseurl + 'rating/add';
+
       print('vehicle url.....1');
       print(apiUrl);
       print(ApartmentId);

@@ -14,6 +14,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/UserDashboard_Screens/ApartDshbrdModel.dart';
 import 'package:tourstravels/UserDashboard_Screens/Apartbooking_Model.dart';
 //import 'NewUserbooking.dart';
+
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
+
 class PivotDashboard extends StatefulWidget {
   const PivotDashboard({super.key});
 
@@ -22,7 +25,7 @@ class PivotDashboard extends StatefulWidget {
 }
 
 class _userDashboardState extends State<PivotDashboard> {
-
+  final baseDioSingleton = BaseSingleton();
   String bookings = '';
   int Bookable_iD = 0;
   String status = '';
@@ -46,7 +49,9 @@ class _userDashboardState extends State<PivotDashboard> {
   String RetrivedAdress = '';
   String Bookingsts = 'Not booked yet!';
   String Statusstr = '';
-  String stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+   String stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+  //String stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/';
+
   String stsId = '';
   int booking_id = 0;
   String ApprovedMessagestr = '';
@@ -81,8 +86,7 @@ class _userDashboardState extends State<PivotDashboard> {
 
   }
   Future<dynamic> getData() async {
-    //String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
-    String url = 'https://staging.abisiniya.com/api/v1/booking/apartment/withbooking';
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/withbooking';
     //var token = '296|JeKFHy6w6YIIvbeDmRIZ3zLFXOF3WRWptD3FddoD';
     print('sts token..');
     print(RetrivedBearertoekn);
@@ -428,7 +432,9 @@ class _userDashboardState extends State<PivotDashboard> {
                                                      // UpdatedstatusshowAlertDialog(context);
                                                     }
                                                     if (getbookingData[index] == 'Awaiting Approval'){
-                                                      stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                                      // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                                      stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/';
+
                                                       // stsId = snapshot.data['data'][index]['id'].toString();
                                                       stsId = booking_idList[index].toString();
                                                       String ApproveStr = '/Approved';
@@ -475,7 +481,9 @@ class _userDashboardState extends State<PivotDashboard> {
                                                       }
                                                     } else if (getbookingData[index] == 'Approved'){
 
-                                                      stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                                      // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                                      stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/';
+
                                                       stsId = booking_idList[index].toString();
                                                       // stsId = snapshot.data['data'][index]['id'].toString();
                                                       String ApproveStr = '/Checked In';
@@ -515,7 +523,9 @@ class _userDashboardState extends State<PivotDashboard> {
                                                         throw Exception('Failed to load post');
                                                       }
                                                     } else if (getbookingData[index] == 'Checked In'){
-                                                      stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                                      // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                                      stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/';
+
                                                       stsId = booking_idList[index].toString();
                                                       String ApproveStr = '/Checked Out';
                                                       String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
@@ -600,7 +610,9 @@ class _userDashboardState extends State<PivotDashboard> {
                                                     print('booking sts...');
                                                     print(getbookingData[index]);
                                                     if (getbookingData[index] == 'Awaiting Approval'){
-                                                      stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                                      // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                                      stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/';
+
                                                       // stsId = snapshot.data['data'][index]['id'].toString();
                                                       stsId = booking_idList[index].toString();
                                                       String ApproveStr = '/Declined';
@@ -648,7 +660,9 @@ class _userDashboardState extends State<PivotDashboard> {
                                                         throw Exception('Failed to load post');
                                                       }
                                                     } else if (getbookingData[index] == 'Approved'){
-                                                      stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                                      // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+                                                      stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/';
+
                                                       // stsId = snapshot.data['data'][index]['id'].toString();
                                                       stsId = booking_idList[index].toString();
                                                       String ApproveStr = '/Declined';

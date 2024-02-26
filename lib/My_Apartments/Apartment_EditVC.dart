@@ -11,6 +11,8 @@ import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
 
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
+
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -29,6 +31,7 @@ class AptmentEdit extends StatefulWidget {
 }
 
 class _LoginState extends State<AptmentEdit> {
+
   String RetrivedBearertoekn = '';
   String RetrivedName = '';
   String RetrivedAddress = '';
@@ -104,11 +107,10 @@ class _LoginState extends State<AptmentEdit> {
   @override
   //Update API Request
   Future<String> Update() async {
-   // url = ('https://staging.abisiniya.com/api/v1/apartment/delete/$ApartmentId');
-    //https://staging.abisiniya.com/api/v1/apartment/update/45
-
     final response = await http.put(
-      Uri.parse('https://staging.abisiniya.com/api/v1/apartment/update/$ApartmentID'),
+      // Uri.parse('https://staging.abisiniya.com/api/v1/apartment/update/$ApartmentID'),
+      Uri.parse(baseDioSingleton.AbisiniyaBaseurl + 'apartment/update/$ApartmentID'),
+
       // NB: you don't need to fill headers field
       // headers: {
       //   'Content-Type': 'application/json' // 'application/x-www-form-urlencoded' or whatever you need

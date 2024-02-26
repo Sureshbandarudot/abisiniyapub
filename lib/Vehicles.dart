@@ -174,9 +174,16 @@ class _MyStatefulWidgetState extends State<carHire> {
                                       Container(
                                         height: 200,
                                         //color: Colors.green,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(image: NetworkImage(snapshot.data["data"][index]['pictures'][0
-                                            ]['imageUrl']),
+
+              // } else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+              //     : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked Out'){
+
+
+              decoration: BoxDecoration(
+                                            // image: DecorationImage(image: NetworkImage(snapshot.data["data"][index]['pictures'][0
+                                            // ]['imageUrl']),
+                  image: DecorationImage(image: NetworkImage(snapshot.data?['data'][index]['pictures'].isEmpty ? 'Empty image'
+                      : snapshot.data?["data"][index]['pictures'][0]['imageUrl'].toString() ?? 'empty'),
                                                 fit: BoxFit.cover)
                                         ),
                                       ),

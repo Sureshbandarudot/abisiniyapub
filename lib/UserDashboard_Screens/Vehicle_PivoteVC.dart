@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/UserDashboard_Screens/ApartDshbrdModel.dart';
 import 'package:tourstravels/UserDashboard_Screens/Apartbooking_Model.dart';
 //import 'NewUserbooking.dart';
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 class Vehicle_PivoteDashboard extends StatefulWidget {
   const Vehicle_PivoteDashboard({super.key});
 
@@ -23,6 +24,8 @@ class Vehicle_PivoteDashboard extends StatefulWidget {
 
 class _userDashboardState extends State<Vehicle_PivoteDashboard> {
 
+
+  final baseDioSingleton = BaseSingleton();
   String makestr = '';
   String modelstr = '';
   String bookings = '';
@@ -86,8 +89,7 @@ class _userDashboardState extends State<Vehicle_PivoteDashboard> {
 
   }
   Future<dynamic> getData() async {
-    //String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
-    String url = 'https://staging.abisiniya.com/api/v1/booking/vehicle/withbooking';
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'booking/vehicle/withbooking';
     //var token = '296|JeKFHy6w6YIIvbeDmRIZ3zLFXOF3WRWptD3FddoD';
     print('sts token..');
     print(RetrivedBearertoekn);
@@ -545,7 +547,9 @@ class _userDashboardState extends State<Vehicle_PivoteDashboard> {
                                                               // UpdatedstatusshowAlertDialog(context);
                                                             }
                                                             if (getbookingData[index] == 'Awaiting Approval'){
-                                                              stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/vehicle/';
+                                                              // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/vehicle/';
+                                                              stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/vehicle/';
+
                                                               // stsId = snapshot.data['data'][index]['id'].toString();
                                                               stsId = booking_idList[index].toString();
                                                               String ApproveStr = '/Approved';
@@ -589,7 +593,9 @@ class _userDashboardState extends State<Vehicle_PivoteDashboard> {
                                                               }
                                                             } else if (getbookingData[index] == 'Approved'){
 
-                                                              stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/vehicle/';
+                                                              // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/vehicle/';
+                                                              stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/vehicle/';
+
                                                               stsId = booking_idList[index].toString();
                                                               // stsId = snapshot.data['data'][index]['id'].toString();
                                                               String ApproveStr = '/Checked In';
@@ -629,7 +635,9 @@ class _userDashboardState extends State<Vehicle_PivoteDashboard> {
                                                                 throw Exception('Failed to load post');
                                                               }
                                                             } else if (getbookingData[index] == 'Checked In'){
-                                                              stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/vehicle/';
+                                                              // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/vehicle/';
+                                                              stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/vehicle/';
+
                                                               stsId = booking_idList[index].toString();
                                                               String ApproveStr = '/Checked Out';
                                                               String Apprvoedurl = '$stsbaseurl$stsId$ApproveStr';
@@ -714,7 +722,9 @@ class _userDashboardState extends State<Vehicle_PivoteDashboard> {
                                                             print('decline sts...');
                                                             print(getbookingData[index]);
                                                             if (getbookingData[index] == 'Awaiting Approval'){
-                                                              stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/vehicle/';
+                                                              // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/vehicle/';
+                                                              stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/vehicle/';
+
                                                               // stsId = snapshot.data['data'][index]['id'].toString();
                                                               stsId = booking_idList[index].toString();
                                                               String ApproveStr = '/Declined';
@@ -763,7 +773,9 @@ class _userDashboardState extends State<Vehicle_PivoteDashboard> {
                                                               }
                                                             } else if (getbookingData[index] == 'Approved'){
                                                               print('unbook.....');
-                                                              stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/vehicle/';
+                                                              // stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/vehicle/';
+                                                              stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/vehicle/';
+
                                                               // stsId = snapshot.data['data'][index]['id'].toString();
                                                               stsId = booking_idList[index].toString();
                                                               String ApproveStr = '/Decline';

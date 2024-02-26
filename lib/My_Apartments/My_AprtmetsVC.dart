@@ -13,6 +13,7 @@ import 'package:tourstravels/UserDashboard_Screens/PivoteVC.dart';
 import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/My_Apartments/My_AprtmetsVC.dart';
 import 'package:tourstravels/My_Apartments/ViewApartmentVC.dart';
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
 import 'Apartment_EditVC.dart';
 import 'CreateApartmentVC.dart';
@@ -26,6 +27,7 @@ class MyApartmentScreen extends StatefulWidget {
 
 class _userDashboardState extends State<MyApartmentScreen> {
 
+  final baseDioSingleton = BaseSingleton();
 
   int bookingID = 0;
   var API = '';
@@ -41,7 +43,9 @@ class _userDashboardState extends State<MyApartmentScreen> {
   String RetrivedBearertoekn = '';
   String Bookingsts = 'Not booked yet!';
   String Statusstr = '';
-  String stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+  // String stsbaseurl = 'https://staging.abisiniya.com/api/v1/booking/apartment/';
+   //String stsbaseurl = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/';
+
   String stsId = '';
   int ApartmentId = 0;
   var controller = ScrollController();
@@ -118,8 +122,10 @@ print(ApartmentId);
 
       print('delete url...');
         var url = '';
-        url = ('https://staging.abisiniya.com/api/v1/apartment/delete/$ApartmentId');
-        print(url);
+        // url = ('https://staging.abisiniya.com/api/v1/apartment/delete/$ApartmentId');
+      url = (baseDioSingleton.AbisiniyaBaseurl + 'apartment/delete/$ApartmentId');
+
+      print(url);
       final response = await http
           .delete(Uri.parse(url),
           headers: {
@@ -146,8 +152,9 @@ print(ApartmentId);
     }
   }
   Future<dynamic> getData() async {
-    //String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
-    String url = 'https://staging.abisiniya.com/api/v1/apartment/auth/list';
+    // String url = 'https://staging.abisiniya.com/api/v1/apartment/auth/
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'apartment/auth/list';
+
     var response = await http.get(
       Uri.parse(
           url),
@@ -717,8 +724,10 @@ child: const Align(
                                                                   print('delete url...');
                                                                   print(ApartmentId);
                                                                   var url = '';
-    url = ('https://staging.abisiniya.com/api/v1/apartment/delete/$ApartmentId');
-    print(url);
+    // url = ('https://staging.abisiniya.com/api/v1/apartment/delete/$ApartmentId'
+                                                                  url = (baseDioSingleton.AbisiniyaBaseurl + 'apartment/delete/$ApartmentId');
+
+                                                                  print(url);
     final response = await http
         .delete(Uri.parse(url),
     headers: {

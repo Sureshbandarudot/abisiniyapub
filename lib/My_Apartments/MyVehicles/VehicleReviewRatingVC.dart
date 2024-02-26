@@ -6,6 +6,8 @@ import 'package:tourstravels/Auth/Login.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
+
 import 'VehicleViewVC.dart';
 
 
@@ -17,6 +19,7 @@ class RatingScreen extends StatefulWidget {
 }
 
 class _MyAppState extends State<RatingScreen> {
+  final baseDioSingleton = BaseSingleton();
   String RetrivedBearertoekn = '';
   int VehicleId = 0;
   int Picture_Id = 0;
@@ -51,8 +54,9 @@ class _MyAppState extends State<RatingScreen> {
   Future<void> _postReviewData() async {
     try {
       String apiUrl = '';
-      //apiUrl = baseDioSingleton.AbisiniyaBaseurl + 'booking/vehicle/booking/newuser';
-      apiUrl = 'https://staging.abisiniya.com/api/v1/rating/add';
+      // apiUrl = 'https://staging.abisiniya.com/api/v1/rating/add';
+      apiUrl = baseDioSingleton.AbisiniyaBaseurl + 'rating/add';
+
       print('vehicle url.....1');
       print(apiUrl);
       print(VehicleId);
@@ -69,7 +73,7 @@ class _MyAppState extends State<RatingScreen> {
           "Authorization": "Bearer $RetrivedBearertoekn",
         },
         body: jsonEncode(<String, dynamic>{
-          'rating_type': 'App/Models/Vehicles',
+          'rating_type': 'App/Models/Apartments',
           'rating_id': VehicleId,
           'score': _rating.toInt(),
           'comment': _ratingController.text,

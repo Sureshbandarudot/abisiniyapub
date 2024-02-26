@@ -10,6 +10,7 @@ import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -27,6 +28,7 @@ class ViewManagePictures extends StatefulWidget {
 
 class _userDashboardState extends State<ViewManagePictures> {
 
+  final baseDioSingleton = BaseSingleton();
   String RetrivedPwd = '';
   String RetrivedEmail = '';
   String RetrivedBearertoekn = '';
@@ -71,9 +73,7 @@ class _userDashboardState extends State<ViewManagePictures> {
 
       print('delete url...');
       var url = '';
-      // url = ('https://staging.abisiniya.com/api/v1/apartment/delete/$ApartmentId');
-      //https://staging.abisiniya.com/api/v1/apartment/pictures/39/63
-      url = ('https://staging.abisiniya.com/api/v1/apartment/pictures/$ApartmentId/$Picture_Id');
+      url = (baseDioSingleton.AbisiniyaBaseurl + 'apartment/pictures/$ApartmentId/$Picture_Id');
 
       print(url);
       final response = await http
@@ -104,10 +104,11 @@ class _userDashboardState extends State<ViewManagePictures> {
 
 
   Future<dynamic> getData() async {
-    //String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
     print('Apartmentid.....');
     print(ApartmentId);
-    String url = 'https://staging.abisiniya.com/api/v1/apartment/auth/show/' + ApartmentId.toString();
+    // String url = 'https://staging.abisiniya.com/api/v1/apartment/auth/show/' + ApartmentId.toString();
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'apartment/auth/show/' + ApartmentId.toString();
+
     print('url...');
     print(url);
     var response = await http.get(
