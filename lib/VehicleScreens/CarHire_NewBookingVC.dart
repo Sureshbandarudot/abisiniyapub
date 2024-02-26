@@ -332,6 +332,7 @@ class HomeState extends State<CarHire_NewUserBooking> {
                                                   //       color: Colors.black,fontSize: 16,fontWeight: FontWeight.w600),
                                                   // ),
                                                   // new code added
+                                                  //made by suresh
 
                                                   decoration: BoxDecoration(
                                                       image: DecorationImage(image: NetworkImage((snapshot.data?['data']['pictures'].isEmpty ? 'Empty name'
