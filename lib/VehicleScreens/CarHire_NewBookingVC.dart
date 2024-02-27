@@ -8,6 +8,7 @@ import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'package:intl/intl.dart';
 import 'package:tourstravels/userDashboardvc.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 //import 'models/user.dart';
 class CarHire_NewUserBooking extends StatefulWidget {
   @override
@@ -81,7 +82,9 @@ class HomeState extends State<CarHire_NewUserBooking> {
     print('id value...');
     print(RetrivedId);
     print(bookable_type);
-    String url = 'https://staging.abisiniya.com/api/v1/vehicle/show/$RetrivedId';
+    // String url = 'https://staging.abisiniya.com/api/v1/vehicle/show/$RetrivedId';
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'vehicle/show/$RetrivedId';
+
     var response = await http.get(
       Uri.parse(
           url),
@@ -331,9 +334,6 @@ class HomeState extends State<CarHire_NewUserBooking> {
                                                   //   style: TextStyle(
                                                   //       color: Colors.black,fontSize: 16,fontWeight: FontWeight.w600),
                                                   // ),
-                                                  // new code added
-                                                  //made by suresh
-
                                                   decoration: BoxDecoration(
                                                       image: DecorationImage(image: NetworkImage((snapshot.data?['data']['pictures'].isEmpty ? 'Empty name'
                                                           : snapshot.data?["data"]['pictures'][index]['imageUrl'].toString()

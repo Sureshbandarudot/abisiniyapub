@@ -12,7 +12,7 @@ import 'VehicleScreens/BusHire_ExistingBookingVC.dart';
 import 'VehicleScreens/BusHire_NewuserBookingVC.dart';
 import 'VehicleScreens/CarHire_ExistingBookingVC.dart';
 import 'VehicleScreens/CarHire_NewBookingVC.dart';
-
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
 void main() {
   runApp(const Vehiclescreen());
@@ -67,6 +67,8 @@ class carHire extends StatefulWidget {
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _MyStatefulWidgetState extends State<carHire> {
+
+  final baseDioSingleton = BaseSingleton();
   String RetrivedBearertoekn = '';
   String Logoutstr = '';
   _retrieveValues() async {
@@ -88,7 +90,7 @@ class _MyStatefulWidgetState extends State<carHire> {
   }
 
   Future<dynamic> getData() async {
-    String url = 'https://staging.abisiniya.com/api/v1/vehicle/list';
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'vehicle/list';
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       print('success.....');
@@ -424,6 +426,8 @@ class BusHire extends StatefulWidget {
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _BusHireWidgetState extends State<BusHire> {
+
+  final baseDioSingleton = BaseSingleton();
   String RetrivedBearertoekn = '';
   String Logoutstr = '';
   _retrieveValues() async {
@@ -446,7 +450,7 @@ class _BusHireWidgetState extends State<BusHire> {
   }
 
   Future<dynamic> busgetData() async {
-    String url = 'https://staging.abisiniya.com/api/v1/bus/list';
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'bus/list';
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       print('success.....');
