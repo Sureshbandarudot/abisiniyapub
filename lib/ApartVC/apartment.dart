@@ -9,6 +9,7 @@ import 'package:tourstravels/ApartVC/Addaprtment.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
+import '../ServiceDasboardVC.dart';
 import 'NewUserbooking.dart';
 //void main() => runApp(Apartmentscreen());
 class Apartmentscreen extends StatelessWidget {
@@ -131,6 +132,29 @@ void initState() {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          leading: BackButton(
+            onPressed: () async{
+              print("back Pressed");
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setString('logoutkey', ('LogoutDashboard'));
+              prefs.setString('Property_type', ('Apartment'));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ServiceDashboardScreen()),
+              );
+            },
+
+          ),
+          // iconTheme: IconThemeData(
+          //     color: Colors.red
+          // ),
+          title: Text('APARTMENT',textAlign: TextAlign.center,
+              style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+
+        ),
         body: FutureBuilder<dynamic>(
             future: getData(),
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -149,6 +173,16 @@ void initState() {
                     );
                   } else {
                     return ListView.separated(
+                    // child: ListView.separated(
+                    // separatorBuilder: (context,
+                    // index) {
+                    // SizedBox(
+                    // width: 20,
+                    // );
+                   // },
+                      scrollDirection: Axis.horizontal,
+
+
                       //itemCount: snapshot.data.length ,
                       itemCount: snapshot.data['data'].length ,
               //itemCount: (snapshot.data['data'] as List).length,
@@ -192,6 +226,8 @@ void initState() {
     return Container(
       height: 525,
       width: 300,
+      margin: EdgeInsets.all(35),// add margin
+      //padding: EdgeInsets.all(20),
       color: Colors.white,
       child: InkWell(
         child: Column(

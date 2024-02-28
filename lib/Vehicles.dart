@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:tourstravels/ApartVC/Addaprtment.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'ServiceDasboardVC.dart';
 import 'VehicleScreens/BusHire_ExistingBookingVC.dart';
 import 'VehicleScreens/BusHire_NewuserBookingVC.dart';
 import 'VehicleScreens/CarHire_ExistingBookingVC.dart';
@@ -30,6 +31,20 @@ class Vehiclescreen extends StatelessWidget {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
+            leading: BackButton(
+              onPressed: () async{
+                print("back Pressed");
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setString('logoutkey', ('LogoutDashboard'));
+                prefs.setString('Property_type', ('Apartment'));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ServiceDashboardScreen()),
+                );
+              },
+
+            ),
             bottom: const TabBar(
               tabs: [
                 Tab(icon: Icon(Icons.directions_car)),
@@ -137,20 +152,26 @@ class _MyStatefulWidgetState extends State<carHire> {
                     );
                   } else {
                     return ListView.separated(
+                      scrollDirection: Axis.horizontal,
+
                       itemCount: snapshot.data['data'].length ,
                       separatorBuilder: (BuildContext context, int index) => const Divider(),
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
-                          height: 475,
-                          width: 300,
+
+                          margin: EdgeInsets.all(35),// add margin
+
+                          // height: 475,
+                          // width: 300,
                           color: Colors.white,
                           child: InkWell(
                             child: Column(
                               children: [
-                                //Text(snapshot.data["data"][index]['pictures'][index]['imageUrl']),
-                                //Image.network(snapshot.data["data"][index]['pictures'][index]['imageUrl']),
-
+                                SizedBox(
+                                  height: 25,
+                                ),
                                 Container(
+
                                   height: 475,
                                   width: 300,
                                   decoration: const BoxDecoration(
