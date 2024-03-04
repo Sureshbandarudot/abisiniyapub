@@ -9,13 +9,7 @@ import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'package:tourstravels/userDashboardvc.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-
-
-
-
 //import 'models/user.dart';
-
 class AddApartment extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -27,8 +21,6 @@ class AddApartment extends StatefulWidget {
 class HomeState extends State<AddApartment> {
   final baseDioSingleton = BaseSingleton();
   String result = ''; // To store the result from the API call
-
-
   TextEditingController FromdateInputController = TextEditingController();
   TextEditingController TodateInputController = TextEditingController();
   //List listUsers= [];
@@ -37,7 +29,6 @@ class HomeState extends State<AddApartment> {
   int aptId = 0;
   int Bookable_iD = 0;
   String Bookable_type = '';
-
   String Retrivedcityvalue = '';
   String RetrivedAdress = '';
   String RetrivedBathromm = '';
@@ -45,12 +36,9 @@ class HomeState extends State<AddApartment> {
   String RetrivedPrice = '';
   String RetrivedBearertoekn = '';
   bool isLoading = false;
-
-
   //Date Strings
   String fromDate = '';
   String toDatestr = '';
-
   //Future<List<User>> listUsers;
   late Future<List<Apart>> listUsers ;
   late Future<List<Picture>> pics ;
@@ -61,7 +49,6 @@ class HomeState extends State<AddApartment> {
   _retrieveValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      print('url...');
       print(baseDioSingleton.AbisiniyaBaseurl);
       Retrivedcityvalue = prefs.getString('citykey') ?? "";
       Bookable_iD = prefs.getInt('imgkeyId') ?? 0;
@@ -121,7 +108,6 @@ class HomeState extends State<AddApartment> {
 
   Future<List<Picture>> fetchpics() async {
     String url = baseDioSingleton.AbisiniyaBaseurl + 'apartment/list';
-
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final data1 = jsonDecode(response.body);
@@ -326,50 +312,6 @@ class HomeState extends State<AddApartment> {
                                                       children: [
                                                         Column(
                                                             children: [
-                                                              // Padding(
-                                                              //   padding: const EdgeInsets.all(8.0),
-                                                              //   child: Container(
-                                                              //     height: 250,
-                                                              //
-                                                              //     //  child:ListView.separated(
-                                                              //     //      // scrollDirection:Axis.horizontal,
-                                                              //     //    itemCount: (snapshot.data as List<Picture>).length,
-                                                              //     //                   separatorBuilder: (BuildContext context, int index) => const Divider(),
-                                                              //     //                   itemBuilder: (BuildContext context, int index) {
-                                                              //     //                      var abisiniyapic = (snapshot.data as List<Picture>)[index];
-                                                              //     //     return Container(
-                                                              //     //       height: 220,
-                                                              //     //       width: 300,
-                                                              //     //       color: Colors.white,
-                                                              //     //       child: InkWell(
-                                                              //     //         child: Column(
-                                                              //     //           children: [
-                                                              //     //             Container(
-                                                              //     //                       height: 200,
-                                                              //     //                       // decoration: BoxDecoration(
-                                                              //     //                       //     image: DecorationImage(image: NetworkImage(abisiniyapic.imageUrl),
-                                                              //     //                       //         fit: BoxFit.cover)
-                                                              //     //                       // ),
-                                                              //     //
-                                                              //     //               decoration: BoxDecoration(
-                                                              //     //                   image: DecorationImage(image: NetworkImage(abisiniyapic.imageUrl),
-                                                              //     //                       fit: BoxFit.cover)
-                                                              //     //               ),
-                                                              //     //                     ),
-                                                              //     //           ],
-                                                              //     //         ),
-                                                              //     //         onTap: ()
-                                                              //     //         {
-                                                              //     //           print('calling.......');
-                                                              //     //           print([index]);
-                                                              //     //         },
-                                                              //     //       ),
-                                                              //     //     );
-                                                              //     //   },
-                                                              //     // ),
-                                                              //
-                                                              //   ),
-                                                              // ),
                                                               Container(
                                                                 height: 40,
                                                                 width: 340,
@@ -377,12 +319,6 @@ class HomeState extends State<AddApartment> {
                                                                 color: Colors.white,
                                                                 child: Text('Information',style: (TextStyle(fontSize: 22,fontWeight: FontWeight.w900,color: Colors.black)),),
                                                               )
-                                                              // Container(
-                                                              //   height: 50,
-                                                              //   width: 280,
-                                                              //   color: Colors.orange,
-                                                              //   // child:Text(snapshot.data['data'][10]['address'],textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w900,fontSize: 22,color: Colors.green)),),
-                                                              // ),
                                                             ]
                                                         ),
                                                       ]
@@ -394,16 +330,6 @@ class HomeState extends State<AddApartment> {
                                                     child: Column(
                                                       mainAxisAlignment: MainAxisAlignment.start,
                                                       children: <Widget>[
-                                                        // SizedBox(
-                                                        //   height: 5,
-                                                        // ),
-                                                        // Container(
-                                                        //   height: 400,
-                                                        //   width: 340,
-                                                        //   alignment: Alignment.topLeft,
-                                                        //   color: Colors.red,
-                                                        //   child: Text('Information',style: (TextStyle(fontSize: 22,fontWeight: FontWeight.w900,color: Colors.black)),),
-                                                        // ),
                                                         Row(
                                                           children: [
                                                             SizedBox(
@@ -613,31 +539,8 @@ class HomeState extends State<AddApartment> {
                                                                 },
                                                               ),
                                                             ),
-
-                                                            // child: TextButton(
-                                                            //   style: TextButton.styleFrom(
-                                                            //       fixedSize: const Size(340, 50),
-                                                            //       foregroundColor: Colors.white,
-                                                            //       backgroundColor: Colors.blue,
-                                                            //       shape: RoundedRectangleBorder(
-                                                            //         borderRadius: BorderRadius.circular(00),
-                                                            //       ),
-                                                            //       textStyle: const TextStyle(fontSize: 20,fontWeight: FontWeight.w600)),
-                                                            //   onPressed: () {
-                                                            //     _postData();
-                                                            //     // Navigator.push(
-                                                            //     //   context,
-                                                            //     //   MaterialPageRoute(
-                                                            //     //       builder: (context) => ForgotpwdOTPVerified()
-                                                            //     //   ),
-                                                            //     // );
-                                                            //   },
-                                                            //   child: const Text('Book Now'),
-                                                            // )
                                                           ],
                                                         ),
-
-
                                                       ],
                                                     ),
                                                   ),
@@ -647,12 +550,8 @@ class HomeState extends State<AddApartment> {
                                           ),
                                         ],
                                       )
-
                                       ]
                                 ),
-
-
-
                               );
                             },
                           ),

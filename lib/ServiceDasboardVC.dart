@@ -9,6 +9,8 @@ void main() {
 }
 
 class ServiceDashboardScreen extends StatelessWidget {
+  final borderRadius = BorderRadius.circular(20); // Image border
+
 
   // This widget is the root of your application
   @override
@@ -19,6 +21,14 @@ class ServiceDashboardScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.green,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[Colors.white, Colors.green]),
+            ),
+          ),
           title: Center(
             child: Text(
               'Abisiniya',
@@ -30,352 +40,239 @@ class ServiceDashboardScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: GridView.count(
-          crossAxisCount: 2,
-          mainAxisSpacing: 20,
-          crossAxisSpacing: 20,
-          childAspectRatio: 1.0,
+        body: Container(
+          // play with the floating number to get the desired height
+          //height: MediaQuery.of(context).size.height * 0.90,
+          margin: EdgeInsets.only(top: 20),
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[Colors.white, Colors.green]),
+            ),
+          child: GridView.count(
+            // physics: BouncingScrollPhysics(),
+            // shrinkWrap: true,
+            // crossAxisCount: 3,
 
-          children: [
+            //GridView.count(
 
-
-            Ink(
-              color: Colors.white,
-              child: InkWell(
-                  child: Container(
-                    margin: EdgeInsets.only(top: 20,left: 20),
-                    width: 100,
-                    height: 100,
-                    alignment: Alignment.center,
-                    decoration: new BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: new BorderRadius.all(new Radius.circular(10)),
-                      border: new Border.all(
-                        color: Colors.green,
-                        width: 4.0,
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Image.asset(
-                          "images/house_icon2.png",
-                          fit: BoxFit.cover,
-                          height: 45,
-                          width: 45,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Align(
-                          alignment: Alignment.bottomCenter, // Align however you like (i.e .centerRight, centerLeft)
-                          child:Text(
-                            'Apartment',
-                            //textAlign: Alignment.bottomCenter,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green,
-                              fontSize: 16,
+              crossAxisCount: 2,
+              mainAxisSpacing: 0,
+              crossAxisSpacing: 0,
+              childAspectRatio: 1.0,
+              children: [
+                Ink(
+                  color: Colors.white,
+                  child: InkWell(
+                      child:Container(
+                        margin: EdgeInsets.only(left: 20),
+                      child: Column(
+                          children: [
+                            Container(
+                              height: 140,
+                              width: 140,
+                              //margin: EdgeInsets.only(top: 20,left: 20),
+                              decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius),
+                              child: ClipRRect(
+                                borderRadius: borderRadius,
+                                child: SizedBox.fromSize(
+                                  size: Size.fromRadius(48), // Image radius
+                                  //child: Image.network('imageUrl', fit: BoxFit.cover),
+                                  child: Image.asset('images/apts.jpg', fit: BoxFit.cover),
+                                ),
+                              ),
                             ),
-                          ),),
-                      ],
-                    ),
-                  ),
-
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Apartmentscreen()),
-                  );
-                },
-              ),
-            ),
-
-            Ink(
-              color: Colors.white,
-              child: InkWell(
-                child: Container(
-                  margin: EdgeInsets.only(top: 20,right: 20),
-                  width: 100,
-                  height: 100,
-                  alignment: Alignment.center,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 20,
+                            Text('Apartments',style: (TextStyle(fontSize: 18,fontWeight: FontWeight.w600)),)
+                          ],
+                        ),
                       ),
-                      Image.asset(
-                        "images/airplane_icon.png",
-                        fit: BoxFit.cover,
-                        height: 45,
-                        width: 45,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Align(
-                        alignment: Alignment.bottomCenter, // Align however you like (i.e .centerRight, centerLeft)
-                        child:Text(
-                          'Flights',
-                          //textAlign: Alignment.bottomCenter,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
-                            fontSize: 16,
-                          ),
-                        ),),
-                    ],
-                  ),
-                  decoration: new BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: new BorderRadius.all(new Radius.circular(10)),
-                    border: new Border.all(
-                      color: Colors.green,
-                      width: 4.0,
-                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Apartmentscreen()),
+                      );
+                    },
                   ),
                 ),
 
-                onTap: () {},
-              ),
-            ),
-            Ink(
-              color: Colors.white,
-              child: InkWell(
-                child: Container(
-                  margin: EdgeInsets.only(top: 20,left: 20),
-                  width: 100,
-                  height: 100,
-                  alignment: Alignment.center,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Image.asset(
-                        "images/car_icon2.png",
-                        fit: BoxFit.cover,
-                        height: 45,
-                        width: 45,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Align(
-                        alignment: Alignment.bottomCenter, // Align however you like (i.e .centerRight, centerLeft)
-                        child:Text(
-                          'Vehicles',
-                          //textAlign: Alignment.bottomCenter,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
-                            fontSize: 16,
+                Ink(
+                  color: Colors.white,
+                  child: InkWell(
+                    child:Container(
+                      margin: EdgeInsets.only(right: 20),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 140,
+                            width: 140,
+                            //margin: EdgeInsets.only(top: 20,left: 20),
+                            decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius),
+                            child: ClipRRect(
+                              borderRadius: borderRadius,
+                              child: SizedBox.fromSize(
+                                size: Size.fromRadius(48), // Image radius
+                                //child: Image.network('imageUrl', fit: BoxFit.cover),
+                                child: Image.asset('images/Flightimg.jpg', fit: BoxFit.cover),
+                              ),
+                            ),
                           ),
-                        ),),
-                    ],
-                  ),
-                  decoration: new BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: new BorderRadius.all(new Radius.circular(10)),
-                    border: new Border.all(
-                      color: Colors.green,
-                      width: 4.0,
+                          Text('Flights',style: (TextStyle(fontSize: 18,fontWeight: FontWeight.w600)),)
+                        ],
+                      ),
                     ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Apartmentscreen()),
+                      );
+                    },
+                  ),
+                ),
+                Ink(
+                  color: Colors.white,
+                  child: InkWell(
+                    child:Container(
+                      margin: EdgeInsets.only(left: 20),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 140,
+                            width: 140,
+                            //margin: EdgeInsets.only(top: 20,left: 20),
+                            decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius),
+                            child: ClipRRect(
+                              borderRadius: borderRadius,
+                              child: SizedBox.fromSize(
+                                size: Size.fromRadius(48), // Image radius
+                                //child: Image.network('imageUrl', fit: BoxFit.cover),
+                                child: Image.asset('images/carimgs.jpg', fit: BoxFit.cover),
+                              ),
+                            ),
+                          ),
+                          Text('Vehicles',style: (TextStyle(fontSize: 18,fontWeight: FontWeight.w600)),)
+                        ],
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Vehiclescreen()),
+                      );
+                    },
+                  ),
+                ),
+                Ink(
+                  color: Colors.white,
+                  child: InkWell(
+                    child:Container(
+                      margin: EdgeInsets.only(right: 20),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 140,
+                            width: 140,
+                            //margin: EdgeInsets.only(top: 20,left: 20),
+                            decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius),
+                            child: ClipRRect(
+                              borderRadius: borderRadius,
+                              child: SizedBox.fromSize(
+                                size: Size.fromRadius(48), // Image radius
+                                //child: Image.network('imageUrl', fit: BoxFit.cover),
+                                child: Image.asset('images/profileimg.jpg', fit: BoxFit.cover),
+                              ),
+                            ),
+                          ),
+                          Text('Profile',style: (TextStyle(fontSize: 18,fontWeight: FontWeight.w600)),)
+                        ],
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Login()),
+                      );
+                    },
                   ),
                 ),
 
-                onTap: () {
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Vehiclescreen()),
-                  );
-
-                },
-              ),
-            ),
-            Ink(
-              color: Colors.white,
-              child: InkWell(
-                child: Container(
-                  margin: EdgeInsets.only(top: 20,right: 20),
-                  width: 100,
-                  height: 100,
-                  alignment: Alignment.center,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Image.asset(
-                        "images/profile_icon.png",
-                        fit: BoxFit.cover,
-                        height: 45,
-                        width: 45,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Align(
-                        alignment: Alignment.bottomCenter, // Align however you like (i.e .centerRight, centerLeft)
-                        child:Text(
-                          'Profile',
-                          //textAlign: Alignment.bottomCenter,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
-                            fontSize: 16,
+                Ink(
+                  color: Colors.white,
+                  child: InkWell(
+                    child:Container(
+                      margin: EdgeInsets.only(left: 20),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 140,
+                            width: 140,
+                            //margin: EdgeInsets.only(top: 20,left: 20),
+                            decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius),
+                            child: ClipRRect(
+                              borderRadius: borderRadius,
+                              child: SizedBox.fromSize(
+                                size: Size.fromRadius(48), // Image radius
+                                //child: Image.network('imageUrl', fit: BoxFit.cover),
+                                child: Image.asset('images/Settingsimg.jpg', fit: BoxFit.cover),
+                              ),
+                            ),
                           ),
-                        ),),
-                    ],
-                  ),
-                  decoration: new BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: new BorderRadius.all(new Radius.circular(10)),
-                    border: new Border.all(
-                      color: Colors.green,
-                      width: 4.0,
+                          Text('Settings',style: (TextStyle(fontSize: 18,fontWeight: FontWeight.w600)),)
+                        ],
+                      ),
                     ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Vehiclescreen()),
+                      );
+                    },
                   ),
                 ),
-
-                onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Login()),
-                    );
-                },
-              ),
-            ),
-            Ink(
-              color: Colors.white,
-              child: InkWell(
-                child: Container(
-                  margin: EdgeInsets.only(top: 20,left: 20),
-                  width: 100,
-                  height: 100,
-                  alignment: Alignment.center,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Image.asset(
-                        "images/support_icon.png",
-                        fit: BoxFit.cover,
-                        height: 45,
-                        width: 45,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Align(
-                        alignment: Alignment.bottomCenter, // Align however you like (i.e .centerRight, centerLeft)
-                        child:Text(
-                          'Support',
-                          //textAlign: Alignment.bottomCenter,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
-                            fontSize: 16,
+                Ink(
+                  color: Colors.white,
+                  child: InkWell(
+                    child:Container(
+                      margin: EdgeInsets.only(right: 20),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 140,
+                            width: 140,
+                            //margin: EdgeInsets.only(top: 20,left: 20),
+                            decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius),
+                            child: ClipRRect(
+                              borderRadius: borderRadius,
+                              child: SizedBox.fromSize(
+                                size: Size.fromRadius(48), // Image radius
+                                //child: Image.network('imageUrl', fit: BoxFit.cover),
+                                child: Image.asset('images/support.jpg', fit: BoxFit.cover),
+                              ),
+                            ),
                           ),
-                        ),),
-                    ],
-                  ),
-                  decoration: new BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: new BorderRadius.all(new Radius.circular(10)),
-                    border: new Border.all(
-                      color: Colors.green,
-                      width: 4.0,
+                          Text('Support',style: (TextStyle(fontSize: 18,fontWeight: FontWeight.w600)),)
+                        ],
+                      ),
                     ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Login()),
+                      );
+                    },
                   ),
                 ),
-
-                onTap: () {},
-              ),
+              ],
             ),
-            Ink(
-              color: Colors.white,
-              child: InkWell(
-                child: Container(
-                  margin: EdgeInsets.only(top: 20,right: 20),
-                  width: 100,
-                  height: 100,
-                  alignment: Alignment.center,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Image.asset(
-                        "images/setting_iconblue.png",
-                        fit: BoxFit.cover,
-                        height: 45,
-                        width: 45,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Align(
-                        alignment: Alignment.bottomCenter, // Align however you like (i.e .centerRight, centerLeft)
-                        child:Text(
-                          'Settings',
-                          //textAlign: Alignment.bottomCenter,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
-                            fontSize: 16,
-                          ),
-                        ),),
-                    ],
-                  ),
-                  decoration: new BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: new BorderRadius.all(new Radius.circular(10)),
-                    border: new Border.all(
-                      color: Colors.green,
-                      width: 4.0,
-                    ),
-                  ),
-                ),
-
-                onTap: () {},
-              ),
-            )
-
-
-
-          ],
-        ),
-
-        // body: GridView.count(
-        //   crossAxisCount: 2,
-        //   crossAxisSpacing: 10.0,
-        //   mainAxisSpacing: 10.0,
-        //   shrinkWrap: true,
-        //   children: List.generate(20, (index) {
-        //     return Padding(
-        //       padding: const EdgeInsets.all(10.0),
-        //       child: Container(
-        //         decoration: BoxDecoration(
-        //           image: DecorationImage(
-        //             image: NetworkImage('img.png'),
-        //             fit: BoxFit.cover,
-        //           ),
-        //           borderRadius:
-        //           BorderRadius.all(Radius.circular(20.0),),
-        //         ),
-        //       ),
-        //     );
-        //   },),
-        // ),
-      ),
-    );
+          ),
+        )
+        );
   }
 }
