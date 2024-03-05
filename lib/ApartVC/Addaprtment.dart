@@ -9,6 +9,8 @@ import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'package:tourstravels/userDashboardvc.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'Authenticated_Userbookingscreen.dart';
 //import 'models/user.dart';
 class AddApartment extends StatefulWidget {
   @override
@@ -25,6 +27,8 @@ class HomeState extends State<AddApartment> {
   TextEditingController TodateInputController = TextEditingController();
   //List listUsers= [];
   //Future? listUsers;;
+  int RetrivedId = 0;
+
   int idnum = 0;
   int aptId = 0;
   int Bookable_iD = 0;
@@ -77,8 +81,19 @@ class HomeState extends State<AddApartment> {
 
 //String url = baseDioSingleton.AbisiniyaBaseurl;
   Future<List<Apart>> fetchUsers() async {
-    String url = baseDioSingleton.AbisiniyaBaseurl + 'apartment/list';
-    final response = await http.get(Uri.parse(url));
+    //String url = baseDioSingleton.AbisiniyaBaseurl + 'apartment/list';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    RetrivedId = prefs.getInt('imgkeyId') ?? 0;
+    RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
+    String url = (baseDioSingleton.AbisiniyaBaseurl + 'apartment/auth/show/$RetrivedId');
+    //final response = await http.get(Uri.parse(url));
+    var response = await http.get(
+      Uri.parse(
+          url),
+      headers: {
+        "Authorization": "Bearer $RetrivedBearertoekn",
+      },
+    );
     if (response.statusCode == 200) {
       final data1 = jsonDecode(response.body);
       var getUsersData = data1['data'] as List;
@@ -107,8 +122,21 @@ class HomeState extends State<AddApartment> {
   }
 
   Future<List<Picture>> fetchpics() async {
-    String url = baseDioSingleton.AbisiniyaBaseurl + 'apartment/list';
-    final response = await http.get(Uri.parse(url));
+    // String url = baseDioSingleton.AbisiniyaBaseurl + 'apartment/list';
+    //String url = baseDioSingleton.AbisiniyaBaseurl + 'apartment/auth/list';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    RetrivedId = prefs.getInt('imgkeyId') ?? 0;
+    RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
+    String url = (baseDioSingleton.AbisiniyaBaseurl + 'apartment/auth/show/$RetrivedId');
+   // apartment/auth/list
+    //final response = await http.get(Uri.parse(url));
+    var response = await http.get(
+      Uri.parse(
+          url),
+      headers: {
+        "Authorization": "Bearer $RetrivedBearertoekn",
+      },
+    );
     if (response.statusCode == 200) {
       final data1 = jsonDecode(response.body);
       var getpicsData = [];
@@ -228,6 +256,34 @@ class HomeState extends State<AddApartment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.lightGreen,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[Colors.white, Colors.green]),
+          ),
+        ),
+        centerTitle: true,
+        leading: BackButton(
+          onPressed: () async{
+            print("back Pressed");
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setString('logoutkey', ('LogoutDashboard'));
+            prefs.setString('Property_type', ('Apartment'));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AuthenticatedUserScreen()),
+
+            );
+          },
+        ),
+        title: Text('APARTMENT',textAlign: TextAlign.center,
+            style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+      ),
       body: FutureBuilder(
           future: pics,
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {

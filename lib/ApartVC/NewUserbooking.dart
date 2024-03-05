@@ -9,6 +9,8 @@ import 'package:intl/intl.dart';
 import 'package:tourstravels/userDashboardvc.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
 
+import 'Apartment.dart';
+
 
 
 
@@ -176,9 +178,28 @@ class HomeState extends State<UserBooking> {
   // String url = baseDioSingleton.AbisiniyaBaseurl+ 'apartment/list';
 
   Future<List<Apart>> fetchUsers() async {
-    String url = baseDioSingleton.AbisiniyaBaseurl+ 'apartment/list';
 
-    final response = await http.get(Uri.parse(url));
+    //String url = baseDioSingleton.AbisiniyaBaseurl+ 'apartment/show/57';
+    //String url = 'https://staging.abisiniya.com/api/v1/apartment/show/57';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    RetrivedId = prefs.getInt('imgkeyId') ?? 0;
+    RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
+    String url = (baseDioSingleton.AbisiniyaBaseurl + 'apartment/show/$RetrivedId');
+    print('api url...');
+    print(url);
+
+
+    print('tokenva.....1');
+    print(RetrivedBearertoekn);
+
+    //final response = await http.get(Uri.parse(url));
+    var response = await http.get(
+      Uri.parse(
+          url),
+      headers: {
+        "Authorization": "Bearer $RetrivedBearertoekn",
+      },
+    );
     if (response.statusCode == 200) {
       final data1 = jsonDecode(response.body);
       var getUsersData = data1['data'] as List;
@@ -207,9 +228,28 @@ class HomeState extends State<UserBooking> {
   }
 
   Future<List<Picture>> fetchpics() async {
-    String url = baseDioSingleton.AbisiniyaBaseurl+ 'apartment/list';
+    //String url = baseDioSingleton.AbisiniyaBaseurl+ 'apartment/show/57';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    RetrivedId = prefs.getInt('imgkeyId') ?? 0;
+    RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
+    String url = (baseDioSingleton.AbisiniyaBaseurl + 'apartment/show/$RetrivedId');
+    print('api url...1');
+    print(url);
 
-    final response = await http.get(Uri.parse(url));
+
+    //String url = 'https://staging.abisiniya.com/api/v1/apartment/show/57';
+
+    print('tokenva..');
+    print(RetrivedBearertoekn);
+
+    //final response = await http.get(Uri.parse(url));
+    var response = await http.get(
+      Uri.parse(
+          url),
+      headers: {
+        "Authorization": "Bearer $RetrivedBearertoekn",
+      },
+    );
     if (response.statusCode == 200) {
       final data1 = jsonDecode(response.body);
       var getpicsData = [];
@@ -242,6 +282,33 @@ class HomeState extends State<UserBooking> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.lightGreen,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[Colors.white, Colors.green]),
+          ),
+        ),
+        centerTitle: true,
+        leading: BackButton(
+          onPressed: () async{
+            print("back Pressed");
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setString('logoutkey', ('LogoutDashboard'));
+            prefs.setString('Property_type', ('Apartment'));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Apartmentscreen()),
+            );
+          },
+        ),
+        title: Text('APARTMENT',textAlign: TextAlign.center,
+            style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+      ),
       body: FutureBuilder(
           future: pics,
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -324,7 +391,6 @@ class HomeState extends State<UserBooking> {
                                                   children: [
                                                     Column(
                                                         children: [
-
                                                           Container(
                                                             height: 40,
                                                             width: 340,

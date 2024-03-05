@@ -16,12 +16,12 @@ import 'VehicleScreens/CarHire_NewBookingVC.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
 void main() {
-  runApp(const Vehiclescreen());
+  runApp(const AuthenticatedVehiclescreen());
 
 }
 
-class Vehiclescreen extends StatelessWidget {
-  const Vehiclescreen({Key? key}) : super(key: key);
+class AuthenticatedVehiclescreen extends StatelessWidget {
+  const AuthenticatedVehiclescreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +30,7 @@ class Vehiclescreen extends StatelessWidget {
       home: DefaultTabController(
         length: 2,
         child: Scaffold(
+
           appBar: AppBar(
             leading: BackButton(
               onPressed: () async{
@@ -105,8 +106,25 @@ class _MyStatefulWidgetState extends State<carHire> {
   }
 
   Future<dynamic> getData() async {
-    String url = baseDioSingleton.AbisiniyaBaseurl + 'vehicle/list';
-    final response = await http.get(Uri.parse(url));
+    //String url = baseDioSingleton.AbisiniyaBaseurl + 'vehicle/auth/list';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //RetrivedId = prefs.getInt('imgkeyId') ?? 0;
+    RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
+    //String url = (baseDioSingleton.AbisiniyaBaseurl + 'apartment/show/$RetrivedId');
+    print('token value for authenticated user....');
+    print(RetrivedBearertoekn);
+
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'vehicle/auth/list';
+    //final response = await http.get(Uri.parse(url));
+
+    var response = await http.get(
+        Uri.parse(
+            url),
+        headers: {
+          "Authorization": "Bearer $RetrivedBearertoekn",
+        },
+    );
+    //final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       print('success.....');
       final data1 = jsonDecode(response.body);
@@ -131,8 +149,8 @@ class _MyStatefulWidgetState extends State<carHire> {
   @override
   Widget build(BuildContext context) {
     return DefaultTextStyle(
-      style: Theme.of(context).textTheme.headline2!,
-      textAlign: TextAlign.center,
+        style: Theme.of(context).textTheme.headline2!,
+        textAlign: TextAlign.center,
 
         child: FutureBuilder<dynamic>(
             future: getData(),
@@ -198,23 +216,23 @@ class _MyStatefulWidgetState extends State<carHire> {
                                         height: 200,
                                         //color: Colors.green,
 
-              // } else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
-              //     : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked Out'){
+                                        // } else if ((snapshot.data?['data'][index]['bookings'].isEmpty ? Bookingsts
+                                        //     : snapshot.data?["data"][index]['bookings'][0]['pivot']['status'].toString() ?? 'empty') == 'Checked Out'){
 
 
-              decoration: BoxDecoration(
-                                            // image: DecorationImage(image: NetworkImage(snapshot.data["data"][index]['pictures'][0
-                                            // ]['imageUrl']),
-                  image: DecorationImage(image: NetworkImage(snapshot.data?['data'][index]['pictures'].isEmpty ? 'Empty image'
-                      : snapshot.data?["data"][index]['pictures'][0]['imageUrl'].toString() ?? 'empty'),
+                                        decoration: BoxDecoration(
+                                          // image: DecorationImage(image: NetworkImage(snapshot.data["data"][index]['pictures'][0
+                                          // ]['imageUrl']),
+                                            image: DecorationImage(image: NetworkImage(snapshot.data?['data'][index]['pictures'].isEmpty ? 'Empty image'
+                                                : snapshot.data?["data"][index]['pictures'][0]['imageUrl'].toString() ?? 'empty'),
                                                 fit: BoxFit.cover)
                                         ),
                                       ),
 
                                       Container(
                                         height: 70,
-                                          width: 300,
-                                          color: Colors.white,
+                                        width: 300,
+                                        color: Colors.white,
                                         child: Row(
                                           children: [
                                             Column(
@@ -289,7 +307,7 @@ class _MyStatefulWidgetState extends State<carHire> {
                                                             Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                  builder: (context) => CarHire_NewUserBooking()
+                                                                  builder: (context) => CarHire_ExistingBookingScreen()
                                                               ),
                                                             );
                                                             SharedPreferences prefs = await SharedPreferences.getInstance();

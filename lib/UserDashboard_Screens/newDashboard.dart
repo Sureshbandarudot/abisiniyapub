@@ -15,6 +15,7 @@ import 'package:tourstravels/My_Apartments/My_AprtmetsVC.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import '../MyBookings/MybookingVC.dart';
 import '../My_Apartments/MyVehicles/MyvehicleVC.dart';
+import '../ServiceDasboardVC.dart';
 import 'Vehicle_PivoteVC.dart';
 //import 'NewUserbooking.dart';
 class newuserDashboard extends StatefulWidget {
@@ -237,7 +238,7 @@ class _userDashboardState extends State<newuserDashboard> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => tabbar()),
+                  builder: (context) => ServiceDashboardScreen()),
             );
     },
 

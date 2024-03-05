@@ -9,6 +9,8 @@ import 'package:intl/intl.dart';
 import 'package:tourstravels/userDashboardvc.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
+
+import '../Vehicles.dart';
 //import 'models/user.dart';
 class CarHire_NewUserBooking extends StatefulWidget {
   @override
@@ -274,6 +276,34 @@ class HomeState extends State<CarHire_NewUserBooking> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.lightGreen,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[Colors.white, Colors.green]),
+            ),
+          ),
+          centerTitle: true,
+          leading: BackButton(
+            onPressed: () async{
+              print("back Pressed");
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setString('logoutkey', ('LogoutDashboard'));
+              prefs.setString('Property_type', ('Apartment'));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Vehiclescreen()),
+              );
+            },
+          ),
+          title: Text('VEHICLES',textAlign: TextAlign.center,
+              style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+        ),
+
       body: FutureBuilder(
           //future: pics,
         future: carHiregetData(),

@@ -11,6 +11,8 @@ import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
 
 
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
+
+import '../Authenticated_Vehiclescreen.dart';
 //import 'models/user.dart';
 class CarHire_ExistingBookingScreen extends StatefulWidget {
   @override
@@ -78,14 +80,14 @@ class HomeState extends State<CarHire_ExistingBookingScreen> {
     //String url = 'https://staging.abisiniya.com/api/v1/booking/apartment/mybookingdetail/$bookingID';
     print('id value...');
     print(RetrivedId);
-    String url = baseDioSingleton.AbisiniyaBaseurl + 'vehicle/show/$RetrivedId';
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'vehicle/auth/show/$RetrivedId';
     var response = await http.get(
       Uri.parse(
           url),
       headers: {
         // 'Authorization':
         // 'Bearer <--your-token-here-->',
-        //"Authorization": "Bearer $RetrivedBearertoekn",
+        "Authorization": "Bearer $RetrivedBearertoekn",
 
       },
     );
@@ -179,7 +181,7 @@ class HomeState extends State<CarHire_ExistingBookingScreen> {
       } else if (response.statusCode == 404){
         var data = jsonDecode(response.body.toString());
         final snackBar = SnackBar(
-          content: Text('You can book your own vehicle.'),
+          content: Text('You cant book your own vehicle.'),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
@@ -209,6 +211,33 @@ class HomeState extends State<CarHire_ExistingBookingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.lightGreen,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[Colors.white, Colors.green]),
+            ),
+          ),
+          centerTitle: true,
+          leading: BackButton(
+            onPressed: () async{
+              print("back Pressed");
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setString('logoutkey', ('LogoutDashboard'));
+              prefs.setString('Property_type', ('Apartment'));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AuthenticatedVehiclescreen()),
+              );
+            },
+          ),
+          title: Text('logged in VEHICLES',textAlign: TextAlign.center,
+              style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+        ),
       body: FutureBuilder(
         //future: pics,
           future: carHiregetData(),

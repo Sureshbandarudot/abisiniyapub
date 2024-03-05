@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'ApartVC/Apartment.dart';
+import 'ApartVC/Authenticated_Userbookingscreen.dart';
 import 'Auth/Login.dart';
+import 'Authenticated_Vehiclescreen.dart';
 import 'Vehicles.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
+
 
 void main() {
   runApp(ServiceDashboardScreen());
@@ -10,6 +15,7 @@ void main() {
 
 class ServiceDashboardScreen extends StatelessWidget {
   final borderRadius = BorderRadius.circular(20); // Image border
+  String Logoutstr = '';
 
 
   // This widget is the root of your application
@@ -85,12 +91,24 @@ class ServiceDashboardScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Apartmentscreen()),
-                      );
+                    onTap: () async{
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      Logoutstr = prefs.getString('logoutkey') ?? "";
+                      print('dashboard sts...');
+                      print(Logoutstr);
+                      if(Logoutstr == 'LogoutDashboard'){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AuthenticatedUserScreen()),
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Apartmentscreen()),
+                        );                      }
+
                     },
                   ),
                 ),
@@ -154,12 +172,25 @@ class ServiceDashboardScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Vehiclescreen()),
-                      );
+                    onTap: () async{
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      Logoutstr = prefs.getString('logoutkey') ?? "";
+                      print('dashboard sts...');
+                      print(Logoutstr);
+                      if(Logoutstr == 'LogoutDashboard'){
+                        print('loged in user....');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AuthenticatedVehiclescreen()),
+                        );
+                      } else {
+                        print('fresh vehicle use...');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Vehiclescreen()),
+                        );                      }
                     },
                   ),
                 ),

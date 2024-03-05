@@ -12,7 +12,7 @@ import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import '../ServiceDasboardVC.dart';
 import 'NewUserbooking.dart';
 //void main() => runApp(Apartmentscreen());
-class Apartmentscreen extends StatelessWidget {
+class AuthenticatedUserScreen extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -40,6 +40,8 @@ class _MyHomePageState extends State<MyHomePage> {
   String RetrivedPwd = '';
   String RetrivedEmail = '';
   String Logoutstr = '';
+  String RetrivedBearertoekn = '';
+
   _retrieveValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -47,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
       RetrivedPwd = prefs.getString('passwordkey') ?? "";
       Logoutstr = prefs.getString('logoutkey') ?? "";
       var propertytype = prefs.getString('Property_type') ?? "";
-print(propertytype);
+      print(propertytype);
       print('logout....');
       print(Logoutstr);
     });
@@ -56,7 +58,7 @@ print(propertytype);
   void login(String email , password) async {
     try{
       Response response = await post(
-          //Uri.parse('https://staging.abisiniya.com/api/v1/login'),
+        //Uri.parse('https://staging.abisiniya.com/api/v1/login'),
           Uri.parse(baseDioSingleton.AbisiniyaBaseurl + 'login'),
           body: {
             'email' : RetrivedEmail,
@@ -89,17 +91,32 @@ print(propertytype);
       print(e.toString());
     }
   }
-@override
-void initState() {
-  // TODO: implement initState
-  super.initState();
-  _retrieveValues();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _retrieveValues();
 
-}
+  }
   Future<dynamic> getData() async {
     //String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
-    String url = baseDioSingleton.AbisiniyaBaseurl + 'apartment/list';
-    final response = await http.get(Uri.parse(url));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //RetrivedId = prefs.getInt('imgkeyId') ?? 0;
+    RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
+    //String url = (baseDioSingleton.AbisiniyaBaseurl + 'apartment/show/$RetrivedId');
+    print('token value for authenticated user....');
+    print(RetrivedBearertoekn);
+
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'apartment/auth/list';
+    //final response = await http.get(Uri.parse(url));
+
+    var response = await http.get(
+      Uri.parse(
+          url),
+      headers: {
+        "Authorization": "Bearer $RetrivedBearertoekn",
+      },
+    );
     if (response.statusCode == 200) {
       print('success.....');
       final data1 = jsonDecode(response.body);
@@ -138,7 +155,7 @@ void initState() {
               );
             },
           ),
-          title: Text('APARTMENT',textAlign: TextAlign.center,
+          title: Text('logged in APARTMENT',textAlign: TextAlign.center,
               style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
         ),
         body: Container(
@@ -339,7 +356,7 @@ void initState() {
                                                                                     Navigator.push(
                                                                                       context,
                                                                                       MaterialPageRoute(
-                                                                                          builder: (context) => UserBooking()
+                                                                                          builder: (context) => AddApartment()
                                                                                       ),
                                                                                     );
 
@@ -415,22 +432,22 @@ void initState() {
                                                         ),
                                                         //onTap: ()
                                                         onTap: ()async{
-                                                          // SharedPreferences prefs = await SharedPreferences.getInstance();
-                                                          // prefs.setString('citykey', snapshot.data['data'][index]['city']);
-                                                          // prefs.setInt('imgkeyId', snapshot.data['data'][index]['id']);
-                                                          // prefs.setString('addresskey', snapshot.data['data'][index]['address']);
-                                                          // prefs.setString('bathroomkey', (snapshot.data['data'][index]['bathroom'].toString()));
-                                                          // prefs.setString('bedroomkey', (snapshot.data['data'][index]['bedroom'].toString()));
-                                                          // prefs.setString('pricekey', (snapshot.data['data'][index]['price'].toString()));
-                                                          // prefs.setString('Property_type', ('Apartment'));
-                                                          // prefs.setString('emailkey', (RetrivedEmail));
-                                                          // prefs.setString('passwordkey', (RetrivedPwd));
-                                                          // print('email....');
-                                                          // print(RetrivedEmail);
-                                                          // print('pwd...');
-                                                          // print(RetrivedPwd);
-                                                          // print('logout......');
-                                                          // print(Logoutstr);
+                                                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                          prefs.setString('citykey', snapshot.data['data'][index]['city']);
+                                                          prefs.setInt('imgkeyId', snapshot.data['data'][index]['id']);
+                                                          prefs.setString('addresskey', snapshot.data['data'][index]['address']);
+                                                          prefs.setString('bathroomkey', (snapshot.data['data'][index]['bathroom'].toString()));
+                                                          prefs.setString('bedroomkey', (snapshot.data['data'][index]['bedroom'].toString()));
+                                                          prefs.setString('pricekey', (snapshot.data['data'][index]['price'].toString()));
+                                                          prefs.setString('Property_type', ('Apartment'));
+                                                          prefs.setString('emailkey', (RetrivedEmail));
+                                                          prefs.setString('passwordkey', (RetrivedPwd));
+                                                          print('email....');
+                                                          print(RetrivedEmail);
+                                                          print('pwd...');
+                                                          print(RetrivedPwd);
+                                                          print('logout......');
+                                                          print(Logoutstr);
                                                           // if(Logoutstr == 'LogoutDashboard') {
                                                           //   print('fail dash...');
                                                           //   Navigator.push(
