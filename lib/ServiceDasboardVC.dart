@@ -41,8 +41,6 @@ class ServiceDashboardScreen extends StatelessWidget {
           ),
         ),
         body: Container(
-          // play with the floating number to get the desired height
-          //height: MediaQuery.of(context).size.height * 0.90,
           margin: EdgeInsets.only(top: 20),
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -269,6 +267,75 @@ class ServiceDashboardScreen extends StatelessWidget {
                     },
                   ),
                 ),
+
+                // Ink(
+                //   color: Colors.white,
+                //   child: InkWell(
+                //     child:Container(
+                //       margin: EdgeInsets.only(left: 20),
+                //       child: Column(
+                //         children: [
+                //           Container(
+                //             height: 140,
+                //             width: 140,
+                //             //margin: EdgeInsets.only(top: 20,left: 20),
+                //             decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius),
+                //             child: ClipRRect(
+                //               borderRadius: borderRadius,
+                //               child: SizedBox.fromSize(
+                //                 size: Size.fromRadius(48), // Image radius
+                //                 //child: Image.network('imageUrl', fit: BoxFit.cover),
+                //                 child: Image.asset('images/Settingsimg.jpg', fit: BoxFit.cover),
+                //               ),
+                //             ),
+                //           ),
+                //           Text('Settings',style: (TextStyle(fontSize: 18,fontWeight: FontWeight.w600)),)
+                //         ],
+                //       ),
+                //     ),
+                //     onTap: () {
+                //       Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => Vehiclescreen()),
+                //       );
+                //     },
+                //   ),
+                // ),
+                // Ink(
+                //   color: Colors.white,
+                //   child: InkWell(
+                //     child:Container(
+                //       margin: EdgeInsets.only(right: 20),
+                //       child: Column(
+                //         children: [
+                //           Container(
+                //             height: 140,
+                //             width: 140,
+                //             //margin: EdgeInsets.only(top: 20,left: 20),
+                //             decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius),
+                //             child: ClipRRect(
+                //               borderRadius: borderRadius,
+                //               child: SizedBox.fromSize(
+                //                 size: Size.fromRadius(48), // Image radius
+                //                 //child: Image.network('imageUrl', fit: BoxFit.cover),
+                //                 child: Image.asset('images/support.jpg', fit: BoxFit.cover),
+                //               ),
+                //             ),
+                //           ),
+                //           Text('Support',style: (TextStyle(fontSize: 18,fontWeight: FontWeight.w600)),)
+                //         ],
+                //       ),
+                //     ),
+                //     onTap: () {
+                //       Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => Login()),
+                //       );
+                //     },
+                //   ),
+                // ),
               ],
             ),
           ),
