@@ -7,7 +7,7 @@ class FlightScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Center(
       child: Text(
-        'Flights Screen',
+        'Coming soon...',
         style: TextStyle(fontSize: 30),
       ),
     );

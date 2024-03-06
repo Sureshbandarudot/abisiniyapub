@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
 import '../ServiceDasboardVC.dart';
+import 'FilterApartmentVC.dart';
 import 'NewUserbooking.dart';
 //void main() => runApp(Apartmentscreen());
 class Apartmentscreen extends StatelessWidget {
@@ -31,6 +32,10 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 class _MyHomePageState extends State<MyHomePage> {
+  TextEditingController searchController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
+
   final baseDioSingleton = BaseSingleton();
   final borderRadius = BorderRadius.circular(20); // Image border
   int _counter = 0;
@@ -127,10 +132,10 @@ void initState() {
           centerTitle: true,
           leading: BackButton(
             onPressed: () async{
-              print("back Pressed");
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              prefs.setString('logoutkey', ('LogoutDashboard'));
-              prefs.setString('Property_type', ('Apartment'));
+              // print("back Pressed");
+              // SharedPreferences prefs = await SharedPreferences.getInstance();
+              // prefs.setString('logoutkey', ('LogoutDashboard'));
+              // prefs.setString('Property_type', ('Apartment'));
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -171,14 +176,80 @@ void initState() {
 
                                 child: LayoutBuilder(
                                     builder: (context, constraint) {
-
-
                                       return SingleChildScrollView(
                                         child: Column(
                                           // mainAxisSize: MainAxisSize.min,
                                           // crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
-                                            Text('Search box'),
+
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            Container(
+                                              height: 50,
+                                              width: 330,
+                                              //color: Colors.lightGreen,
+                                              decoration: const BoxDecoration(
+                                                gradient: LinearGradient(
+                                                    begin: Alignment.topCenter,
+                                                    end: Alignment.bottomCenter,
+                                                    colors: <Color>[Colors.blueGrey, Colors.green]),
+                                                  borderRadius: BorderRadius.all(Radius.circular(30))
+
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                      margin: const EdgeInsets.only(left: 20.0),
+
+                                                      child: SizedBox(
+                                                      width: 220.0,
+                                                      height: 50,
+                                                      child: TextField(
+                                                        decoration: InputDecoration(
+                                                          //border: OutlineInputBorder(),
+                                                          border: InputBorder.none,
+                                                          hintText: 'Search',
+                                                        ),
+                                                        controller: searchController,
+                                                        style: TextStyle(fontSize: 18.0, height: 0.0, color: Colors.black),
+                                                      ),
+                                                    )
+                                                  ),
+                                                  Container(
+                                                      margin: const EdgeInsets.only(left: 20.0),                                         child: IconButton(
+                                                        onPressed: () async{
+                                                          if (searchController.text == ''){
+                                                            print('empty....');
+
+                                                            final snackBar = SnackBar(
+    content: Text('Please search with keyword'),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } else {
+                                                            print('search btn clicked...');
+                                                            Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (context) => ApartmentSearchResultscreen()
+                                                              ),
+                                                            );
+                                                            final prefs = await SharedPreferences.getInstance();
+                                                            await prefs.setString('locationkey', searchController.text);
+
+                                                          }
+                                                        },
+                                                        icon: const Icon(Icons.search),
+                                                      )
+                                                  )
+                                                ],
+
+                                              ),
+
+                                            ),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
                                             SizedBox(
                                                 height: 510, // <-- you should put some value here
                                                 child: ListView.separated(
@@ -342,24 +413,6 @@ void initState() {
                                                                                           builder: (context) => UserBooking()
                                                                                       ),
                                                                                     );
-
-                                                                                    // if(Logoutstr == 'LogoutDashboard') {
-                                                                                    //   print('fail dash...');
-                                                                                    //   Navigator.push(
-                                                                                    //     context,
-                                                                                    //     MaterialPageRoute(
-                                                                                    //         builder: (context) => AddApartment()
-                                                                                    //     ),
-                                                                                    //   );
-                                                                                    // } else{
-                                                                                    //   Navigator.push(
-                                                                                    //     context,
-                                                                                    //     MaterialPageRoute(
-                                                                                    //         builder: (context) => UserBooking()
-                                                                                    //     ),
-                                                                                    //   );
-                                                                                    //   // login(RetrivedEmail, RetrivedPwd);
-                                                                                    // }
                                                                                   },
                                                                                   child: const Text('BookNow'),
                                                                                 ),
@@ -415,45 +468,11 @@ void initState() {
                                                         ),
                                                         //onTap: ()
                                                         onTap: ()async{
-                                                          // SharedPreferences prefs = await SharedPreferences.getInstance();
-                                                          // prefs.setString('citykey', snapshot.data['data'][index]['city']);
-                                                          // prefs.setInt('imgkeyId', snapshot.data['data'][index]['id']);
-                                                          // prefs.setString('addresskey', snapshot.data['data'][index]['address']);
-                                                          // prefs.setString('bathroomkey', (snapshot.data['data'][index]['bathroom'].toString()));
-                                                          // prefs.setString('bedroomkey', (snapshot.data['data'][index]['bedroom'].toString()));
-                                                          // prefs.setString('pricekey', (snapshot.data['data'][index]['price'].toString()));
-                                                          // prefs.setString('Property_type', ('Apartment'));
-                                                          // prefs.setString('emailkey', (RetrivedEmail));
-                                                          // prefs.setString('passwordkey', (RetrivedPwd));
-                                                          // print('email....');
-                                                          // print(RetrivedEmail);
-                                                          // print('pwd...');
-                                                          // print(RetrivedPwd);
-                                                          // print('logout......');
-                                                          // print(Logoutstr);
-                                                          // if(Logoutstr == 'LogoutDashboard') {
-                                                          //   print('fail dash...');
-                                                          //   Navigator.push(
-                                                          //     context,
-                                                          //     MaterialPageRoute(
-                                                          //         builder: (context) => AddApartment()
-                                                          //     ),
-                                                          //   );
-                                                          // } else{
-                                                          //   Navigator.push(
-                                                          //     context,
-                                                          //     MaterialPageRoute(
-                                                          //         builder: (context) => UserBooking()
-                                                          //     ),
-                                                          //   );
-                                                          //   // login(RetrivedEmail, RetrivedPwd);
-                                                          // }
                                                           print([index]);
                                                         },
                                                       ),
                                                     );},
                                                 )
-
                                             ),
                                             Column(
                                               children: [
@@ -471,9 +490,7 @@ void initState() {
                   }
                 }
             )
-
         )
-
     );
   }
 }

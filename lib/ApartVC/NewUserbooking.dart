@@ -295,10 +295,10 @@ class HomeState extends State<UserBooking> {
         centerTitle: true,
         leading: BackButton(
           onPressed: () async{
-            print("back Pressed");
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setString('logoutkey', ('LogoutDashboard'));
-            prefs.setString('Property_type', ('Apartment'));
+            // print("back Pressed");
+            // SharedPreferences prefs = await SharedPreferences.getInstance();
+            // prefs.setString('logoutkey', ('LogoutDashboard'));
+            // prefs.setString('Property_type', ('Apartment'));
             Navigator.push(
               context,
               MaterialPageRoute(

@@ -10,11 +10,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
 import '../ServiceDasboardVC.dart';
-import 'Authenticated_filterAptmentVC.dart';
 import 'FilterApartmentVC.dart';
 import 'NewUserbooking.dart';
 //void main() => runApp(Apartmentscreen());
-class AuthenticatedUserScreen extends StatelessWidget {
+class AuthenticateFilterdUserScreen extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -34,6 +33,8 @@ class MyHomePage extends StatefulWidget {
 }
 class _MyHomePageState extends State<MyHomePage> {
   TextEditingController searchController = TextEditingController();
+  String RetrivedCitylocation = '';
+
 
   final baseDioSingleton = BaseSingleton();
   final borderRadius = BorderRadius.circular(20); // Image border
@@ -49,6 +50,9 @@ class _MyHomePageState extends State<MyHomePage> {
   _retrieveValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
+      RetrivedCitylocation = prefs.getString('locationkey') ?? "";
+      print('auth Retrived city loc....');
+      print(RetrivedCitylocation);
       RetrivedEmail = prefs.getString('emailkey') ?? "";
       RetrivedPwd = prefs.getString('passwordkey') ?? "";
       Logoutstr = prefs.getString('logoutkey') ?? "";
@@ -57,6 +61,50 @@ class _MyHomePageState extends State<MyHomePage> {
       print('logout....');
       print(Logoutstr);
     });
+  }
+  Future<dynamic> SendRequesertSearch() async {
+    try{
+      print('auth search url...');
+      print(RetrivedCitylocation);
+      print(baseDioSingleton.AbisiniyaBaseurl +'common/search');
+      Response response = await post(
+        //Uri.parse('https://staging.abisiniya.com/api/v1/login'),
+          Uri.parse(baseDioSingleton.AbisiniyaBaseurl +'common/search'),
+          body: {
+            'type' : 'apartment',
+            'keyword' : RetrivedCitylocation
+          }
+
+      );
+      //isLoading = true;
+      if(response.statusCode == 200){
+        //isLoading = false;
+        print('success search api response');
+        // var data = jsonDecode(response.body.toString());
+        // var data1 = jsonDecode(response.body.toString());
+        // print(data1['data']);
+        print('success.....');
+        final data = jsonDecode(response.body);
+        print(data);
+        return json.decode(response.body);
+        // print(data1['data']['token']);
+        // tokenvalue = (data1['data']['token']);
+        // String namestr = (data1['data']['name']);
+        // print('token value....');
+        // print(tokenvalue);
+        // SharedPreferences prefs = await SharedPreferences.getInstance();
+        // prefs.setString('tokenkey', tokenvalue);
+
+      }else {
+        print('failed');
+        //final snackBar = SnackBar(
+        //   content: Text('Hi, Invalid login credentials'),
+        // );
+        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    }catch(e){
+      print(e.toString());
+    }
   }
   //Login Authentication for Fresh or Existing user:
   void login(String email , password) async {
@@ -85,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => UserBooking()
+              builder: (context) => AddApartment()
           ),
         );
         print('User Login not Authentication  successfully');
@@ -100,6 +148,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: implement initState
     super.initState();
     _retrieveValues();
+    SendRequesertSearch();
 
   }
   Future<dynamic> getData() async {
@@ -170,7 +219,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   colors: <Color>[Colors.white, Colors.green]),
             ),
             child: FutureBuilder(
-                future: getData(),
+                future: SendRequesertSearch(),
                 builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.none:
@@ -237,24 +286,17 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   Container(
                                                       margin: const EdgeInsets.only(left: 20.0),                                         child: IconButton(
                                                     onPressed: () async{
-    if (searchController.text == ''){
-    print('empty....');
+                                                      print('search btn clicked...');
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) => ApartmentSearchResultscreen()
+                                                        ),
+                                                      );
+                                                      final prefs = await SharedPreferences.getInstance();
+                                                      await prefs.setString('locationkey', searchController.text);
 
-    final snackBar = SnackBar(
-    content: Text('Please search with keyword'),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    } else {
-      print('search btn clicked...');
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => AuthenticateFilterdUserScreen()
-        ),
-      );
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('locationkey', searchController.text);
-    }
+
                                                     },
                                                     icon: const Icon(Icons.search),
                                                   )

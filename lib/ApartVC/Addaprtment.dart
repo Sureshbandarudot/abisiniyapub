@@ -10,6 +10,7 @@ import 'package:tourstravels/userDashboardvc.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../ServiceDasboardVC.dart';
 import 'Authenticated_Userbookingscreen.dart';
 //import 'models/user.dart';
 class AddApartment extends StatefulWidget {
@@ -276,7 +277,7 @@ class HomeState extends State<AddApartment> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => AuthenticatedUserScreen()),
+                  builder: (context) => ServiceDashboardScreen()),
 
             );
           },

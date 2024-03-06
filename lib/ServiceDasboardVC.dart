@@ -4,6 +4,7 @@ import 'ApartVC/Apartment.dart';
 import 'ApartVC/Authenticated_Userbookingscreen.dart';
 import 'Auth/Login.dart';
 import 'Authenticated_Vehiclescreen.dart';
+import 'Flights.dart';
 import 'Vehicles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
@@ -142,7 +143,7 @@ class ServiceDashboardScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Apartmentscreen()),
+                            builder: (context) => FlightScreen()),
                       );
                     },
                   ),
@@ -259,7 +260,7 @@ class ServiceDashboardScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Vehiclescreen()),
+                            builder: (context) => FlightScreen()),
                       );
                     },
                   ),
@@ -293,7 +294,7 @@ class ServiceDashboardScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Login()),
+                            builder: (context) => FlightScreen()),
                       );
                     },
                   ),

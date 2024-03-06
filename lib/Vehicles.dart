@@ -33,10 +33,10 @@ class Vehiclescreen extends StatelessWidget {
           appBar: AppBar(
             leading: BackButton(
               onPressed: () async{
-                print("back Pressed");
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setString('logoutkey', ('LogoutDashboard'));
-                prefs.setString('Property_type', ('Apartment'));
+                // print("back Pressed");
+                // SharedPreferences prefs = await SharedPreferences.getInstance();
+                // prefs.setString('logoutkey', ('LogoutDashboard'));
+                // prefs.setString('Property_type', ('Apartment'));
                 Navigator.push(
                   context,
                   MaterialPageRoute(
