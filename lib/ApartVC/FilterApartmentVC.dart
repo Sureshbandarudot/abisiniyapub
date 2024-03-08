@@ -298,7 +298,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 child: ListView.separated(
                                                   // physics: NeverScrollableScrollPhysics(),
                                                   // shrinkWrap: true,
-                                                  scrollDirection: Axis.horizontal,
+                                                  scrollDirection: Axis.vertical,
                                                   itemCount: snapshot.data['data'].length ,
                                                   separatorBuilder: (BuildContext context, int index) => const Divider(),
                                                   itemBuilder: (BuildContext context, int index) {

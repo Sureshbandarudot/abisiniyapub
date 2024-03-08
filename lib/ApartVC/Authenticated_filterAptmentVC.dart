@@ -251,61 +251,61 @@ class _MyHomePageState extends State<MyHomePage> {
                                             SizedBox(
                                               height: 20,
                                             ),
-                                            Container(
-                                              height: 50,
-                                              width: 330,
-                                              //color: Colors.lightGreen,
-                                              decoration: const BoxDecoration(
-                                                  gradient: LinearGradient(
-                                                      begin: Alignment.topCenter,
-                                                      end: Alignment.bottomCenter,
-                                                      colors: <Color>[Colors.blueGrey, Colors.green]),
-                                                  borderRadius: BorderRadius.all(Radius.circular(30))
-
-                                              ),
-
-                                              child: Row(
-                                                children: [
-                                                  Container(
-                                                      margin: const EdgeInsets.only(left: 20.0),
-
-                                                      child: SizedBox(
-                                                        width: 220.0,
-                                                        height: 50,
-                                                        child: TextField(
-                                                          decoration: InputDecoration(
-                                                            //border: OutlineInputBorder(),
-                                                            border: InputBorder.none,
-                                                            hintText: 'Search',
-                                                          ),
-                                                          controller: searchController,
-                                                          style: TextStyle(fontSize: 18.0, height: 0.0, color: Colors.black),
-                                                        ),
-                                                      )
-                                                  ),
-                                                  Container(
-                                                      margin: const EdgeInsets.only(left: 20.0),                                         child: IconButton(
-                                                    onPressed: () async{
-                                                      print('search btn clicked...');
-                                                      Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) => ApartmentSearchResultscreen()
-                                                        ),
-                                                      );
-                                                      final prefs = await SharedPreferences.getInstance();
-                                                      await prefs.setString('locationkey', searchController.text);
-
-
-                                                    },
-                                                    icon: const Icon(Icons.search),
-                                                  )
-                                                  )
-                                                ],
-
-                                              ),
-
-                                            ),
+                                            // Container(
+                                            //   height: 50,
+                                            //   width: 330,
+                                            //   //color: Colors.lightGreen,
+                                            //   decoration: const BoxDecoration(
+                                            //       gradient: LinearGradient(
+                                            //           begin: Alignment.topCenter,
+                                            //           end: Alignment.bottomCenter,
+                                            //           colors: <Color>[Colors.blueGrey, Colors.green]),
+                                            //       borderRadius: BorderRadius.all(Radius.circular(30))
+                                            //
+                                            //   ),
+                                            //
+                                            //   child: Row(
+                                            //     children: [
+                                            //       Container(
+                                            //           margin: const EdgeInsets.only(left: 20.0),
+                                            //
+                                            //           child: SizedBox(
+                                            //             width: 220.0,
+                                            //             height: 50,
+                                            //             child: TextField(
+                                            //               decoration: InputDecoration(
+                                            //                 //border: OutlineInputBorder(),
+                                            //                 border: InputBorder.none,
+                                            //                 hintText: 'Search',
+                                            //               ),
+                                            //               controller: searchController,
+                                            //               style: TextStyle(fontSize: 18.0, height: 0.0, color: Colors.black),
+                                            //             ),
+                                            //           )
+                                            //       ),
+                                            //       Container(
+                                            //           margin: const EdgeInsets.only(left: 20.0),                                         child: IconButton(
+                                            //         onPressed: () async{
+                                            //           print('search btn clicked...');
+                                            //           Navigator.push(
+                                            //             context,
+                                            //             MaterialPageRoute(
+                                            //                 builder: (context) => ApartmentSearchResultscreen()
+                                            //             ),
+                                            //           );
+                                            //           final prefs = await SharedPreferences.getInstance();
+                                            //           await prefs.setString('locationkey', searchController.text);
+                                            //
+                                            //
+                                            //         },
+                                            //         icon: const Icon(Icons.search),
+                                            //       )
+                                            //       )
+                                            //     ],
+                                            //
+                                            //   ),
+                                            //
+                                            // ),
                                             SizedBox(height: 20,),
 
                                             SizedBox(
@@ -313,7 +313,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 child: ListView.separated(
                                                   // physics: NeverScrollableScrollPhysics(),
                                                   // shrinkWrap: true,
-                                                  scrollDirection: Axis.horizontal,
+                                                  scrollDirection: Axis.vertical,
                                                   itemCount: snapshot.data['data'].length ,
                                                   separatorBuilder: (BuildContext context, int index) => const Divider(),
                                                   itemBuilder: (BuildContext context, int index) {

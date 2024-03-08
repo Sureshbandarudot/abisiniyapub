@@ -142,23 +142,22 @@ class HomeState extends State<CarHire_NewUserBooking> {
         }),
       );
 
-      print('vehicle sts...');
+      print('status code...');
       print(response.statusCode);
       if (response.statusCode == 200) {
         // Successful POST request, handle the response here
         final responseData = jsonDecode(response.body);
-        print('Vehicle fresh user data successfully posted');
+        print('Apartment fresh user data successfully posted');
         print(responseData);
         var data = jsonDecode(response.body.toString());
+        print('message...');
         print(data['message']);
         RetrivedBearertoekn = data['data']['token'];
         print('token generated...');
         print(RetrivedBearertoekn);
-
-
-
         if (data['message'] == 'Thank you for booking request')
         {
+          print('not calling....');
           final snackBar = SnackBar(
             content: Text(data['message']),
           );
@@ -167,31 +166,56 @@ class HomeState extends State<CarHire_NewUserBooking> {
           // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
           //   builder: (_) => newuserDashboard(),
           // ),);
-        } else {
+        } else if (data['message'] != 'Start date should be greater or equal to booking day') {
+          final snackBar = SnackBar(
+            content: Text('Start date should be greater or equal to booking day'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+        }
+        else {
+          print('calling....');
           Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
             builder: (_) => newuserDashboard(),
           ),);
-          print('vehi calling token....');
+          print('calling token....');
           print(RetrivedBearertoekn);
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('tokenkey', RetrivedBearertoekn);
 
         }
-        setState(() {
-          //result = 'ID: ${responseData['id']}\nName: ${responseData['name']}\nEmail: ${responseData['email']}';
-        });
-      } else if (response.statusCode == 422) {
-        final responseData = jsonDecode(response.body);
-        print('false.....');
+      }       else if (response.statusCode == 422) {
+        print('already entered existing data1...');
+        var data = jsonDecode(response.body);
+        print('email...');
+        print(data['message']['email'].toString());
+        //String emailstr = (data['message']['email']);
+        //print(emailstr);
+        //print(data['message']['phone'].toString());
 
-        print(responseData);
-        var data = jsonDecode(response.body.toString());
-        final snackBar = SnackBar(
-          content: Text('The email or phone has already been taken.'),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
-        else {
+        if ((data['message']['email']) == '[The email has already been taken.]' && (data['message']['phone']) == '[The phone has already been taken.]'){
+          final snackBar = SnackBar(
+            content: Text('The email and phone has already been taken.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+        }  else if ((data['message']['email']) != '[The email has already been taken.]') {
+          final snackBar = SnackBar(
+            content: Text('The email  has already been taken.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if ((data['message']['phone']) != '[The phone has already been taken.]'){
+          final snackBar = SnackBar(
+            content: Text('The  phone has already been taken.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if ((data['message']['end_date']) != '[The end date must be a date after start date.]') {
+          final snackBar = SnackBar(
+            content: Text('The end date must be a date after start date.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+      } else {
         // If the server returns an error response, throw an exception
         throw Exception('Failed to post data');
       }
@@ -201,6 +225,65 @@ class HomeState extends State<CarHire_NewUserBooking> {
       });
     }
   }
+  //     print('vehicle sts...');
+  //     print(response.statusCode);
+  //     if (response.statusCode == 200) {
+  //       // Successful POST request, handle the response here
+  //       final responseData = jsonDecode(response.body);
+  //       print('Vehicle fresh user data successfully posted');
+  //       print(responseData);
+  //       var data = jsonDecode(response.body.toString());
+  //       print(data['message']);
+  //       RetrivedBearertoekn = data['data']['token'];
+  //       print('token generated...');
+  //       print(RetrivedBearertoekn);
+  //
+  //
+  //
+  //       if (data['message'] == 'Thank you for booking request')
+  //       {
+  //         final snackBar = SnackBar(
+  //           content: Text(data['message']),
+  //         );
+  //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  //         // print('calling....');
+  //         // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+  //         //   builder: (_) => newuserDashboard(),
+  //         // ),);
+  //       } else {
+  //         Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+  //           builder: (_) => newuserDashboard(),
+  //         ),);
+  //         print('vehi calling token....');
+  //         print(RetrivedBearertoekn);
+  //         SharedPreferences prefs = await SharedPreferences.getInstance();
+  //         prefs.setString('tokenkey', RetrivedBearertoekn);
+  //
+  //       }
+  //       setState(() {
+  //         //result = 'ID: ${responseData['id']}\nName: ${responseData['name']}\nEmail: ${responseData['email']}';
+  //       });
+  //     } else if (response.statusCode == 422) {
+  //       final responseData = jsonDecode(response.body);
+  //       print('false.....');
+  //
+  //       print(responseData);
+  //       var data = jsonDecode(response.body.toString());
+  //       final snackBar = SnackBar(
+  //         content: Text('The email or phone has already been taken.'),
+  //       );
+  //       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  //     }
+  //       else {
+  //       // If the server returns an error response, throw an exception
+  //       throw Exception('Failed to post data');
+  //     }
+  //   } catch (e) {
+  //     setState(() {
+  //       result = 'Error: $e';
+  //     });
+  //   }
+  // }
 
   //@override
   void initState() {

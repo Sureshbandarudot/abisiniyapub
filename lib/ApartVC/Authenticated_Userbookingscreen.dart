@@ -100,6 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: implement initState
     super.initState();
     _retrieveValues();
+    getData();
 
   }
   Future<dynamic> getData() async {
@@ -150,7 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () async{
               print("back Pressed");
               SharedPreferences prefs = await SharedPreferences.getInstance();
-              prefs.setString('logoutkey', ('LogoutDashboard'));
+              //.setString('logoutkey', ('LogoutDashboard'));
               prefs.setString('Property_type', ('Apartment'));
               Navigator.push(
                 context,
@@ -254,6 +255,11 @@ class _MyHomePageState extends State<MyHomePage> {
       );
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('locationkey', searchController.text);
+      RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
+      //String url = (baseDioSingleton.AbisiniyaBaseurl + 'apartment/show/$RetrivedId');
+      print('search token value for authenticated user....');
+      print(RetrivedBearertoekn);
+
     }
                                                     },
                                                     icon: const Icon(Icons.search),
@@ -271,7 +277,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 child: ListView.separated(
                                                   // physics: NeverScrollableScrollPhysics(),
                                                   // shrinkWrap: true,
-                                                  scrollDirection: Axis.horizontal,
+                                                  scrollDirection: Axis.vertical,
                                                   itemCount: snapshot.data['data'].length ,
                                                   separatorBuilder: (BuildContext context, int index) => const Divider(),
                                                   itemBuilder: (BuildContext context, int index) {

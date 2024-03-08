@@ -99,6 +99,7 @@ void initState() {
   // TODO: implement initState
   super.initState();
   _retrieveValues();
+  getData();
 
 }
   Future<dynamic> getData() async {
@@ -255,7 +256,7 @@ void initState() {
                                                 child: ListView.separated(
                                                   // physics: NeverScrollableScrollPhysics(),
                                                   // shrinkWrap: true,
-                                                  scrollDirection: Axis.horizontal,
+                                                  scrollDirection: Axis.vertical,
                                                   itemCount: snapshot.data['data'].length ,
                                                   separatorBuilder: (BuildContext context, int index) => const Divider(),
                                                   itemBuilder: (BuildContext context, int index) {
@@ -282,7 +283,7 @@ void initState() {
                                                       width: 300,
                                                       //margin: EdgeInsets.all(Top:20),// add margin
                                                       //padding: EdgeInsets.all(20),
-                                                      margin: EdgeInsets.only(top: 0, left: 20),
+                                                      margin: EdgeInsets.only(top: 0, left: 0),
 
                                                       decoration: BoxDecoration(
                                                         border: Border.all(
@@ -290,7 +291,7 @@ void initState() {
                                                             width: 0.0,
                                                             style: BorderStyle.solid
                                                         ),
-                                                        borderRadius: BorderRadius.circular(20),
+                                                        borderRadius: BorderRadius.circular(5),
                                                         //color: Colors.yellowAccent,
                                                         color: Colors.white,
                                                       ),

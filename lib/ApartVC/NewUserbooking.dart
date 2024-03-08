@@ -40,6 +40,7 @@ class HomeState extends State<UserBooking> {
   //Future? listUsers;;
 
   String RetrivedBearertoekn = '';
+  String newBookingUser = '';
   bool isLoading = false;
   int Bookable_iD = 0;
   String Bookable_type = '';
@@ -76,7 +77,11 @@ class HomeState extends State<UserBooking> {
       RetrivedBedroom = prefs.getString('bedroomkey') ?? "";
       RetrivedPrice = prefs.getString('pricekey') ?? "";
       Bookable_iD = prefs.getInt('imgkeyId') ?? 0;
+      print('book...');
+      print(Bookable_iD);
       Bookable_type = prefs.getString('Property_type') ?? "";
+      print(Bookable_type);
+
       RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
 
 
@@ -90,6 +95,10 @@ class HomeState extends State<UserBooking> {
       print(apiUrl);
       print('bearer token');
       print(RetrivedBearertoekn);
+      print('book...');
+      print(Bookable_iD);
+     // Bookable_type = prefs.getString('Property_type') ?? "";
+      print(Bookable_type);
       final response = await http.post(
         Uri.parse(apiUrl),
         headers: <String, String>{
@@ -113,18 +122,23 @@ class HomeState extends State<UserBooking> {
         }),
       );
 
+      print('status code...');
+      print(response.statusCode);
       if (response.statusCode == 200) {
         // Successful POST request, handle the response here
         final responseData = jsonDecode(response.body);
         print('Apartment fresh user data successfully posted');
         print(responseData);
         var data = jsonDecode(response.body.toString());
+        print('message......k');
         print(data['message']);
-        RetrivedBearertoekn = data['data']['token'];
-        print('token generated...');
-        print(RetrivedBearertoekn);
-
-
+        // RetrivedBearertoekn = data['data']['token'];
+        // print('token generated...');
+        // print(RetrivedBearertoekn);
+        // // String datestr = '';
+        // // datestr = data['message'].toString();
+        // print('date status...');
+       // print(datestr);
 
         if (data['message'] == 'Thank you for booking request')
           {
@@ -133,28 +147,86 @@ class HomeState extends State<UserBooking> {
               content: Text(data['message']),
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            // print('calling....');
-            // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-            //   builder: (_) => newuserDashboard(),
-            // ),);
-          } else {
-          print('calling....');
+          } else if (data['message'] == 'Start date should be greater or equal to booking day'){
+          print('Start date should be greater or equal to booking day.......');
+          final snackBar = SnackBar(
+            content: Text('Start date should be greater or equal to booking day'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+        else {
           Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
             builder: (_) => newuserDashboard(),
           ),);
           print('calling token....');
           print(RetrivedBearertoekn);
+          RetrivedBearertoekn = data['data']['token'];
+          print('token generated...');
+          print(RetrivedBearertoekn);
+          newBookingUser = 'NewBookingUser';
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('tokenkey', RetrivedBearertoekn);
+          prefs.setString('newBookingUserkey', newBookingUser);
 
         }
+    }
+      if (response.statusCode == 422) {
+        print('already entered existing data1...');
+        var data = jsonDecode(response.body);
+        print('email...');
+        print(data['message']['email']);
+        //String emailstr = (data['message']['email']);
+        //print(emailstr);
+        print(data['message']['phone']);
+        print(data['message']['end_date']);
+        if ((data['message']['phone']) != null && (data['message']['email']) != null) {
+          final snackBar = SnackBar(
+                content: Text('The email and phone has already been taken.'),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);        }
+        else if ((data['message']['phone']) != null) {
+          final snackBar = SnackBar(
+            content: Text('The phone has already been taken.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-
-        //}
-        setState(() {
-          //result = 'ID: ${responseData['id']}\nName: ${responseData['name']}\nEmail: ${responseData['email']}';
-        });
-      } else {
+        } else if ((data['message']['email']) != null) {
+          final snackBar = SnackBar(
+            content: Text('The  email has already been taken.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if ((data['message']['end_date']) != null) {
+          print('date....');
+          final snackBar = SnackBar(
+            content: Text('The end date must be a date after start date.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else {
+          print('nullll.....');
+        }
+        // if ((data['message']['email']) != '[The email has already been taken.]' && (data['message']['phone']) != '[The phone has already been taken.]'){
+        //   final snackBar = SnackBar(
+        //     content: Text('The email and phone has already been taken.'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        //
+        // }  else if ((data['message']['email']) != '[The email has already been taken.]') {
+        //   final snackBar = SnackBar(
+        //     content: Text('The email  has already been taken.'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // } else if ((data['message']['phone']) != '[The phone has already been taken.]'){
+        //   final snackBar = SnackBar(
+        //     content: Text('The  phone has already been taken.'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // } else if ((data['message']['end_date']) != '[The end date must be a date after start date.]') {
+        //   final snackBar = SnackBar(
+        //     content: Text('The end date must be a date after start date.'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // }
+      }  else {
         // If the server returns an error response, throw an exception
         throw Exception('Failed to post data');
       }
@@ -172,7 +244,7 @@ class HomeState extends State<UserBooking> {
     _retrieveValues();
     listUsers = fetchUsers();
     pics = fetchpics();
-    _postData();
+    // _postData();
   }
   //String url = 'https://staging.abisiniya.com/api/v1/apartment/list';
   // String url = baseDioSingleton.AbisiniyaBaseurl+ 'apartment/list';
@@ -572,6 +644,7 @@ class HomeState extends State<UserBooking> {
                                                           height: 45,
                                                           width: 340,
                                                           child: TextField(
+                                                              keyboardType:TextInputType.number,
                                                             decoration: InputDecoration(
                                                                 border:OutlineInputBorder(),
                                                                 labelText: 'Phone',
@@ -581,14 +654,26 @@ class HomeState extends State<UserBooking> {
                                                           height: 10,
                                                         ),
                                                         Container(
-                                                          height: 45,
+                                                          height: 70,
                                                           width: 340,
                                                           child: TextField(
+                                                            maxLines: 1,
+                                                            maxLength: 35,
+                                                            //autofocus: true,
+                                                            //textInputAction: TextInputAction.done,
+                                                            keyboardType: TextInputType.text,
+
                                                             decoration: InputDecoration(
                                                                 border:OutlineInputBorder(),
                                                                 labelText: 'Email',
-                                                                hintText: 'Email'
-                                                            ),controller: emailcontroller,),),
+                                                                hintText: 'Email',
+                                                              counterStyle: TextStyle(height: double.minPositive,),
+
+                                                          ),controller: emailcontroller,)
+
+
+
+                                                          ,),
                                                         SizedBox(
                                                           height: 10,
                                                         ),
@@ -596,6 +681,7 @@ class HomeState extends State<UserBooking> {
                                                           height: 45,
                                                           width: 340,
                                                           child: TextField(
+                                                            obscureText: true,
                                                             decoration: InputDecoration(
                                                                 border:OutlineInputBorder(),
                                                                 labelText: 'Password',
@@ -609,6 +695,7 @@ class HomeState extends State<UserBooking> {
                                                           height: 45,
                                                           width: 340,
                                                           child: TextField(
+                                                            obscureText: true,
                                                             decoration: InputDecoration(
                                                                 border:OutlineInputBorder(),
                                                                 labelText: 'Confirm Password ',

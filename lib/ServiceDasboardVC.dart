@@ -17,6 +17,9 @@ void main() {
 class ServiceDashboardScreen extends StatelessWidget {
   final borderRadius = BorderRadius.circular(20); // Image border
   String Logoutstr = '';
+  String LoggedInUSerstr = '';
+  String NewBookingUserstr = '';
+  String Signoutstr = '';
 
 
   // This widget is the root of your application
@@ -96,19 +99,40 @@ class ServiceDashboardScreen extends StatelessWidget {
                       SharedPreferences prefs = await SharedPreferences.getInstance();
                       Logoutstr = prefs.getString('logoutkey') ?? "";
                       print('dashboard sts...');
-                      print(Logoutstr);
-                      if(Logoutstr == 'LogoutDashboard'){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AuthenticatedUserScreen()),
-                        );
-                      } else {
+                      NewBookingUserstr = prefs.getString('newBookingUserkey') ?? "";
+                      LoggedInUSerstr = prefs.getString('LoggedinUserkey') ?? "";
+                      print('calling from user dashboard logged in user...');
+                      print(LoggedInUSerstr);
+                      print(NewBookingUserstr);
+                      if(LoggedInUSerstr == 'LoggedUser')
+                        {
+                          print('Goto authenticated user...');
+                          Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AuthenticatedUserScreen()),
+                                );
+                        } else {
+                        print('Goto new user from logout...');
+
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => Apartmentscreen()),
-                        );                      }
+                        );
+                      }
+                      // if(Logoutstr == 'LogoutDashboard'){
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => AuthenticatedUserScreen()),
+                      //   );
+                      // } else {
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => Apartmentscreen()),
+                      //   );                      }
 
                     },
                   ),

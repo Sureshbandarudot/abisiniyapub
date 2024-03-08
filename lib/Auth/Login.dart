@@ -21,6 +21,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
+  String LoggedInUser = '';
   final baseDioSingleton = BaseSingleton();
   bool isLoading = false;
   final globalKey = GlobalKey<ScaffoldState>();
@@ -305,8 +306,11 @@ class _LoginState extends State<Login> {
                                                 SharedPreferences prefs = await SharedPreferences.getInstance();
                                                 prefs.setString('emailkey', emailController.text);
                                                 prefs.setString('passwordkey', passwordController.text);
+                                          LoggedInUser = 'LoggedUser';
+                                          prefs.setString('LoggedinUserkey', LoggedInUser);
 
-                                                print('token value....');
+
+                                          print('token value....');
                                                 print(tokenvalue);
                                                 prefs.setString('tokenkey', tokenvalue);
 

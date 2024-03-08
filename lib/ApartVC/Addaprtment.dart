@@ -29,6 +29,7 @@ class HomeState extends State<AddApartment> {
   //List listUsers= [];
   //Future? listUsers;;
   int RetrivedId = 0;
+  String newBookingUser = '';
 
   int idnum = 0;
   int aptId = 0;
@@ -222,6 +223,9 @@ class HomeState extends State<AddApartment> {
           print(RetrivedBearertoekn);
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('tokenkey', RetrivedBearertoekn);
+          newBookingUser = 'NewBookingUser';
+          prefs.setString('tokenkey', RetrivedBearertoekn);
+          prefs.setString('newBookingUserkey', newBookingUser);
 
         }
         setState(() {
