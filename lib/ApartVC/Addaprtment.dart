@@ -175,7 +175,7 @@ class HomeState extends State<AddApartment> {
       apiUrl = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/booking/authuser';
       print('url.....1');
       print(apiUrl);
-      print('bearer token');
+      print('auth bearer token');
       print(RetrivedBearertoekn);
       print(Bookable_type);
       print(Bookable_iD);
@@ -195,14 +195,24 @@ class HomeState extends State<AddApartment> {
           // Add any other data you want to send in the body
         }),
       );
-
+      print('status code...');
+      print(response.statusCode);
       if (response.statusCode == 200) {
         // Successful POST request, handle the response here
         final responseData = jsonDecode(response.body);
-        print('Apartment data successfully posted');
+        print('Apartment fresh user data successfully posted');
         print(responseData);
         var data = jsonDecode(response.body.toString());
+        print('message......k');
         print(data['message']);
+        // RetrivedBearertoekn = data['data']['token'];
+        // print('token generated...');
+        // print(RetrivedBearertoekn);
+        // // String datestr = '';
+        // // datestr = data['message'].toString();
+        // print('date status...');
+        // print(datestr);
+
         if (data['message'] == 'Thank you for booking request')
         {
           print('not calling....');
@@ -210,46 +220,93 @@ class HomeState extends State<AddApartment> {
             content: Text(data['message']),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          // print('calling....');
-          // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-          //   builder: (_) => newuserDashboard(),
-          // ),);
-        } else {
-          print('calling....');
+        } else if (data['message'] == 'Start date should be greater or equal to booking day'){
+          print('Start date should be greater or equal to booking day.......');
+          final snackBar = SnackBar(
+            content: Text('Start date should be greater or equal to booking day'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+        else {
           Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
             builder: (_) => newuserDashboard(),
           ),);
           print('calling token....');
           print(RetrivedBearertoekn);
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('tokenkey', RetrivedBearertoekn);
+          RetrivedBearertoekn = data['data']['token'];
+          print('token generated...');
+          print(RetrivedBearertoekn);
           newBookingUser = 'NewBookingUser';
+          SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('tokenkey', RetrivedBearertoekn);
           prefs.setString('newBookingUserkey', newBookingUser);
 
         }
-        setState(() {
-          //result = 'ID: ${responseData['id']}\nName: ${responseData['name']}\nEmail: ${responseData['email']}';
-        });
-      } else if(response.statusCode == 404){
-
-
-        final responseData = jsonDecode(response.body);
-        print(responseData);
-        var data = jsonDecode(response.body.toString());
-        print(data['message']);
-
+      }
+      if (response.statusCode == 404) {
         final snackBar = SnackBar(
+                content: Text('You cant book your own apartment'),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+      if (response.statusCode == 422) {
+        print('already entered existing data1...');
+        var data = jsonDecode(response.body);
+        print('email...');
+        print(data['message']['email']);
+        //String emailstr = (data['message']['email']);
+        //print(emailstr);
+        print(data['message']['phone']);
+        print(data['message']['end_date']);
+        if ((data['message']['phone']) != null && (data['message']['email']) != null) {
+          final snackBar = SnackBar(
+            content: Text('The email and phone has already been taken.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);        }
+        else if ((data['message']['phone']) != null) {
+          final snackBar = SnackBar(
+            content: Text('The phone has already been taken.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-          content: Text(data['message']),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      } else {
-
-        // final snackBar = SnackBar(
-        //   content: Text('You cant book your own apartment'),
-        // );
-        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if ((data['message']['email']) != null) {
+          final snackBar = SnackBar(
+            content: Text('The  email has already been taken.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if ((data['message']['end_date']) != null) {
+          print('date....');
+          final snackBar = SnackBar(
+            content: Text('The end date must be a date after start date.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else {
+          print('nullll.....');
+        }
+        // if ((data['message']['email']) != '[The email has already been taken.]' && (data['message']['phone']) != '[The phone has already been taken.]'){
+        //   final snackBar = SnackBar(
+        //     content: Text('The email and phone has already been taken.'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        //
+        // }  else if ((data['message']['email']) != '[The email has already been taken.]') {
+        //   final snackBar = SnackBar(
+        //     content: Text('The email  has already been taken.'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // } else if ((data['message']['phone']) != '[The phone has already been taken.]'){
+        //   final snackBar = SnackBar(
+        //     content: Text('The  phone has already been taken.'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // } else if ((data['message']['end_date']) != '[The end date must be a date after start date.]') {
+        //   final snackBar = SnackBar(
+        //     content: Text('The end date must be a date after start date.'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // }
+      }  else {
+        // If the server returns an error response, throw an exception
         throw Exception('Failed to post data');
       }
     } catch (e) {
@@ -258,6 +315,69 @@ class HomeState extends State<AddApartment> {
       });
     }
   }
+
+
+  //     if (response.statusCode == 200) {
+  //       // Successful POST request, handle the response here
+  //       final responseData = jsonDecode(response.body);
+  //       print('Apartment data successfully posted');
+  //       print(responseData);
+  //       var data = jsonDecode(response.body.toString());
+  //       print(data['message']);
+  //       if (data['message'] == 'Thank you for booking request')
+  //       {
+  //         print('not calling....');
+  //         final snackBar = SnackBar(
+  //           content: Text(data['message']),
+  //         );
+  //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  //         // print('calling....');
+  //         // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+  //         //   builder: (_) => newuserDashboard(),
+  //         // ),);
+  //       } else {
+  //         print('calling....');
+  //         Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+  //           builder: (_) => newuserDashboard(),
+  //         ),);
+  //         print('calling token....');
+  //         print(RetrivedBearertoekn);
+  //         SharedPreferences prefs = await SharedPreferences.getInstance();
+  //         prefs.setString('tokenkey', RetrivedBearertoekn);
+  //         newBookingUser = 'NewBookingUser';
+  //         prefs.setString('tokenkey', RetrivedBearertoekn);
+  //         prefs.setString('newBookingUserkey', newBookingUser);
+  //       }
+  //       setState(() {
+  //         //result = 'ID: ${responseData['id']}\nName: ${responseData['name']}\nEmail: ${responseData['email']}';
+  //       });
+  //     } else if(response.statusCode == 404){
+  //
+  //
+  //       final responseData = jsonDecode(response.body);
+  //       print(responseData);
+  //       var data = jsonDecode(response.body.toString());
+  //       print(data['message']);
+  //
+  //       final snackBar = SnackBar(
+  //
+  //         content: Text(data['message']),
+  //       );
+  //       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  //     } else {
+  //
+  //       // final snackBar = SnackBar(
+  //       //   content: Text('You cant book your own apartment'),
+  //       // );
+  //       // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  //       throw Exception('Failed to post data');
+  //     }
+  //   } catch (e) {
+  //     setState(() {
+  //       result = 'Error: $e';
+  //     });
+  //   }
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

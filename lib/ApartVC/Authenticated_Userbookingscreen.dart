@@ -35,6 +35,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   TextEditingController searchController = TextEditingController();
 
+  String Aptsstr = '';
   final baseDioSingleton = BaseSingleton();
   final borderRadius = BorderRadius.circular(20); // Image border
   int _counter = 0;
@@ -126,6 +127,32 @@ class _MyHomePageState extends State<MyHomePage> {
       print('success.....');
       final data1 = jsonDecode(response.body);
       print(data1);
+      print(data1['data']);
+      print(data1);
+      print(data1['data']);
+      //items['Items'] = [];
+      var listA = [];
+      listA.add(data1['data']);
+      print('length...');
+      //print(listA);
+      print(listA.length);
+      if (data1['data'] == null){
+        Aptsstr = 'Not available';
+        print(' empty...');
+
+
+        print(Aptsstr);
+      } else{
+        Aptsstr = 'Not available';
+      }
+
+      //print(data1[['data'].isEmpty)]);
+
+
+
+      //  print('apt empty....');
+      // print((snapshot.data?['data'].isEmpty));
+
       return json.decode(response.body);
     } else {
       // If that call was not successful, throw an error.
@@ -266,11 +293,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   )
                                                   )
                                                 ],
-
                                               ),
-
                                             ),
+                                            Container(
+                                             // child: Text((snapshot.data?['data'].isEmpty ? 'nnn')),
+                                             // Text(snapshot.data?['data'].isEmpty ? 'Empty name'
+                                                child:Text(snapshot.data?['data'].isEmpty ? 'Apartments not available' : ''),
+                                                   // : snapshot.data?["data"]?.toString() ?? 'empty',style: (TextStyle(fontWeight: FontWeight.w300,fontSize: 18,color: Colors.black)))
+                                            ),
+
                                             SizedBox(height: 20,),
+
+
 
                                             SizedBox(
                                                 height: 510, // <-- you should put some value here
@@ -282,6 +316,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   separatorBuilder: (BuildContext context, int index) => const Divider(),
                                                   itemBuilder: (BuildContext context, int index) {
                                                     var picstrr = snapshot.data['data'];
+                                                    print('apt empty....');
+                                                    print((snapshot.data?['data'].isEmpty));
                                                     for (var record in picstrr) {
                                                       var pictures = record['pictures'];
                                                       print(pictures);
@@ -302,9 +338,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     return Container(
                                                       height: 510,
                                                       width: 300,
+
                                                       //margin: EdgeInsets.all(Top:20),// add margin
                                                       //padding: EdgeInsets.all(20),
-                                                      margin: EdgeInsets.only(top: 0, left: 20),
+                                                      //margin: EdgeInsets.only(top: 0, left: 20),
 
                                                       decoration: BoxDecoration(
                                                         border: Border.all(
@@ -342,6 +379,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                               ),
                                                               child: Column(
                                                                 children: [
+                                                                 // Text('Not available'),
                                                                   SizedBox(
                                                                     height: 10,
                                                                   ),
@@ -372,7 +410,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                           width: 280,
                                                                           height: 40,
                                                                           color: Colors.white,
-                                                                          child:Text(snapshot.data['data'][index]['city'],textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w900,fontSize: 22,color: Colors.green)),),
+                                                                         // child:Text(snapshot.data['data'][index]['city'],textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w900,fontSize: 22,color: Colors.green)),),
+
+                                                                          child:Text(snapshot.data?['data'].isEmpty ? 'Empty'
+                                                                              : snapshot.data?["data"][index]?['city'].toString() ?? 'empty'),
+                                                                          //child: Text(
                                                                         ),
                                                                         SizedBox(
                                                                           width: 5,

@@ -28,6 +28,8 @@ class newuserDashboard extends StatefulWidget {
 class _userDashboardState extends State<newuserDashboard> {
   final baseDioSingleton = BaseSingleton();
   int bookingID = 0;
+  String LoggedInUser = 'LoggedUser';
+
   String LoggedInUSerstr = '';
   String NewBookingUserstr = '';
   var API = '';
@@ -242,18 +244,23 @@ class _userDashboardState extends State<newuserDashboard> {
             print("back Pressed");
             SharedPreferences prefs = await SharedPreferences.getInstance();
             // prefs.setString('logoutkey', ('LogoutDashboard'));
-            prefs.setString('Property_type', ('Apartment'));
+            //prefs.setString('Property_type', ('Apartment'));
+             prefs.setString('LoggedinUserkey', LoggedInUser);
+
 
             Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => ServiceDashboardScreen()),
             );
-            NewBookingUserstr = prefs.getString('newBookingUserkey') ?? "";
-            LoggedInUSerstr = prefs.getString('LoggedinUserkey') ?? "";
-            print(' dashboard logged in user...');
-            print(LoggedInUSerstr);
-            print(NewBookingUserstr);
+            // LoggedInUser = 'LoggedUser';
+            // prefs.setString('LoggedinUserkey', LoggedInUser);
+            //
+            // NewBookingUserstr = prefs.getString('newBookingUserkey') ?? "";
+            // LoggedInUSerstr = prefs.getString('LoggedinUserkey') ?? "";
+            // print(' dashboard logged in user...');
+            // print(LoggedInUSerstr);
+            // print(NewBookingUserstr);
 
     },
 
@@ -405,13 +412,19 @@ class _userDashboardState extends State<newuserDashboard> {
               //onTap: () async {
               onTap: ()async{
                 SharedPreferences prefs = await SharedPreferences.getInstance();
-                // prefs.setString('logoutkey', ('LogoutDashboard'));
-                prefs.setString('Property_type', ('Apartment'));
+                 prefs.setString('logoutkey', ('LogoutDashboard'));
+                //prefs.setString('Property_type', ('Apartment'));
+                //prefs.setString('newBookingUserkey', (LoggedInUser));
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => Login()),
                 );
+                // NewBookingUserstr = prefs.getString('newBookingUserkey') ?? "";
+                // LoggedInUSerstr = prefs.getString('LoggedinUserkey') ?? "";
+                // print(' dashboard logged in user...');
+                // print(LoggedInUSerstr);
+                // print(NewBookingUserstr);
               },
             ),
           ],
@@ -492,7 +505,6 @@ class _userDashboardState extends State<newuserDashboard> {
                                 width: 200,
                                 color: Colors.black12,
                                 //child:Text(snapshot.data['data'][index]['name'],textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.green)),),
-
                                 child:Text(snapshot.data?['data'].isEmpty ? 'Empty name'
                                     : snapshot.data?["data"][index]?['name']?.toString() ?? 'empty',style: (TextStyle(fontWeight: FontWeight.w300,fontSize: 18,color: Colors.black))),
                               )

@@ -11,6 +11,9 @@ import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
 
+import '../ApartVC/Apartment.dart';
+import '../ServiceDasboardVC.dart';
+
 
 
 class Login extends StatefulWidget {
@@ -21,7 +24,6 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  String LoggedInUser = '';
   final baseDioSingleton = BaseSingleton();
   bool isLoading = false;
   final globalKey = GlobalKey<ScaffoldState>();
@@ -167,6 +169,21 @@ class _LoginState extends State<Login> {
         // ),
 
         appBar: AppBar(
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ServiceDashboardScreen()
+                  ),
+                );
+
+              },
+              child: Text('New Booking',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,color: Colors.green),),
+            ),
+          ],
           centerTitle: true,
           iconTheme: IconThemeData(
               color: Colors.green
@@ -306,8 +323,7 @@ class _LoginState extends State<Login> {
                                                 SharedPreferences prefs = await SharedPreferences.getInstance();
                                                 prefs.setString('emailkey', emailController.text);
                                                 prefs.setString('passwordkey', passwordController.text);
-                                          LoggedInUser = 'LoggedUser';
-                                          prefs.setString('LoggedinUserkey', LoggedInUser);
+
 
 
                                           print('token value....');

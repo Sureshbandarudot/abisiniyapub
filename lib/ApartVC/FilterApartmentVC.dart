@@ -325,7 +325,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       width: 300,
                                                       //margin: EdgeInsets.all(Top:20),// add margin
                                                       //padding: EdgeInsets.all(20),
-                                                      margin: EdgeInsets.only(top: 0, left: 20),
+                                                      //margin: EdgeInsets.only(top: 0, left: 0),
 
                                                       decoration: BoxDecoration(
                                                         border: Border.all(

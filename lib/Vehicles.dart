@@ -154,6 +154,7 @@ class _MyStatefulWidgetState extends State<carHire> {
           () => 'Data Loaded',
     );
     super.initState();
+    getData();
   }
   @override
   Widget build(BuildContext context) {
@@ -255,9 +256,9 @@ class _MyStatefulWidgetState extends State<carHire> {
     ),
 
     ),
-    // SizedBox(
-    // height: 20,
-    // ),
+    SizedBox(
+    height: 20,
+    ),
     SizedBox(
     height: 570, // <-- you should put some value here
 
@@ -267,7 +268,7 @@ class _MyStatefulWidgetState extends State<carHire> {
               separatorBuilder: (BuildContext context, int index) => const Divider(),
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                  margin: EdgeInsets.all(35),// add margin
+                  //margin: EdgeInsets.all(35),// add margin
                   color: Colors.white,
                   child: InkWell(
                     child: Column(
@@ -422,7 +423,6 @@ class _MyStatefulWidgetState extends State<carHire> {
                                           ),
                                         ),
                                       ],
-
                                     )
                                   ],
                                 ),
