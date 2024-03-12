@@ -67,10 +67,10 @@ class _userDashboardState extends State<newuserDashboard> {
       //SharedPreferences prefs = await SharedPreferences.getInstance();
       // prefs.setString('logoutkey', ('LogoutDashboard'));
       prefs.setString('Property_type', ('Apartment'));
-      final snackBar = SnackBar(
-        content: Text('You Are Logged In Successfully'),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      // final snackBar = SnackBar(
+      //   content: Text('You Are Logged In Successfully'),
+      // );
+      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
     });
   }
 //@override
@@ -418,8 +418,10 @@ class _userDashboardState extends State<newuserDashboard> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Login()),
+                      builder: (context) => ServiceDashboardScreen()),
                 );
+                SharedPreferences prefrences = await SharedPreferences.getInstance();
+                await prefrences.remove("LoggedinUserkey");
                 // NewBookingUserstr = prefs.getString('newBookingUserkey') ?? "";
                 // LoggedInUSerstr = prefs.getString('LoggedinUserkey') ?? "";
                 // print(' dashboard logged in user...');
@@ -436,7 +438,7 @@ class _userDashboardState extends State<newuserDashboard> {
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
-                return Text('');
+                return Text('Logged In success');
               case ConnectionState.waiting:
                 return Center(child: CircularProgressIndicator());
               case ConnectionState.active:
@@ -465,7 +467,14 @@ class _userDashboardState extends State<newuserDashboard> {
             child: Column(
             children: <Widget>[
             //Text('Your Apartments'),
-              Text('Your Apartments:',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+              //('Logged In User',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),),
+
+              Text('Your Apartments',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+              Container(
+
+                child:Text(snapshot.data?['data'].isEmpty ? 'Apartments not available' : '',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600,color: Colors.red),),
+                // : snapshot.data?["data"]?.toString() ?? 'empty',style: (TextStyle(fontWeight: FontWeight.w300,fontSize: 18,color: Colors.black)))
+              ),
               ListView.separated(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -930,7 +939,7 @@ class _userDashboardState extends State<newuserDashboard> {
                                    prefs.setInt('userbookingId', snapshot.data['data'][index]['id']);
                       prefs.setString('tokenkey', RetrivedBearertoekn);
                                   Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-                                    builder: (_) => Vehicle_PivoteDashboard(),
+                                    builder: (_) => PivotDashboard(),
                                   ),);
 
                   } else {
@@ -973,7 +982,16 @@ class _userDashboardState extends State<newuserDashboard> {
       return Column(
               children: [
                 SizedBox(height: 30,),
-            Text('Your Vehicles',style: TextStyle(fontSize: 25,fontWeight:FontWeight.w900),),
+            Text('Your Vehicles',style: TextStyle(fontSize: 22,fontWeight:FontWeight.w600),),
+
+                // Text('Your Apartments',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+                Container(
+                  // color: Colors.blueGrey,
+                  // child:Text(snapshot.data?['data'].isEmpty ? 'Vehicles not available' : ''),
+                  child:Text(snapshot.data?['data'].isEmpty ? 'Vehicles not available' : '',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600,color: Colors.red),),
+
+                  // : snapshot.data?["data"]?.toString() ?? 'empty',style: (TextStyle(fontWeight: FontWeight.w300,fontSize: 18,color: Colors.black)))
+                ),
                 ListView.separated(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,

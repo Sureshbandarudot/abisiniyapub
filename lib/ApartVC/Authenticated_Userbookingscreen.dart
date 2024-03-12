@@ -34,6 +34,7 @@ class MyHomePage extends StatefulWidget {
 }
 class _MyHomePageState extends State<MyHomePage> {
   TextEditingController searchController = TextEditingController();
+  String LoggedInUser = 'LoggedUser';
 
   String Aptsstr = '';
   final baseDioSingleton = BaseSingleton();
@@ -112,8 +113,10 @@ class _MyHomePageState extends State<MyHomePage> {
     //String url = (baseDioSingleton.AbisiniyaBaseurl + 'apartment/show/$RetrivedId');
     print('token value for authenticated user....');
     print(RetrivedBearertoekn);
+//apartment/list
+//     String url = baseDioSingleton.AbisiniyaBaseurl + 'apartment/auth/list';
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'apartment/list';
 
-    String url = baseDioSingleton.AbisiniyaBaseurl + 'apartment/auth/list';
     //final response = await http.get(Uri.parse(url));
 
     var response = await http.get(
@@ -180,11 +183,14 @@ class _MyHomePageState extends State<MyHomePage> {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               //.setString('logoutkey', ('LogoutDashboard'));
               prefs.setString('Property_type', ('Apartment'));
+
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => ServiceDashboardScreen()),
               );
+              prefs.setString('LoggedinUserkey', LoggedInUser);
+
             },
           ),
           title: Text('APARTMENT',textAlign: TextAlign.center,
@@ -341,7 +347,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                                                       //margin: EdgeInsets.all(Top:20),// add margin
                                                       //padding: EdgeInsets.all(20),
-                                                      //margin: EdgeInsets.only(top: 0, left: 20),
+                                                      margin: EdgeInsets.only(top: 0, left: 20,right: 20),
 
                                                       decoration: BoxDecoration(
                                                         border: Border.all(
@@ -447,7 +453,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                                 ),
                                                                               ),
                                                                               Container(
-                                                                                height: 60,
+                                                                                height: 40,
                                                                                 width: 140,
                                                                                 color: Colors.white,
 
@@ -455,6 +461,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                                   style: TextButton.styleFrom(backgroundColor:Colors.green),
                                                                                   onPressed: () async {
 
+                                                                                    print('pressed...');
                                                                                     SharedPreferences prefs = await SharedPreferences.getInstance();
                                                                                     prefs.setString('citykey', snapshot.data['data'][index]['city']);
                                                                                     prefs.setInt('imgkeyId', snapshot.data['data'][index]['id']);
@@ -463,6 +470,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                                     prefs.setString('bedroomkey', (snapshot.data['data'][index]['bedroom'].toString()));
                                                                                     prefs.setString('pricekey', (snapshot.data['data'][index]['price'].toString()));
                                                                                     prefs.setString('Property_type', ('Apartment'));
+                                                                                    RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
+
                                                                                     prefs.setString('emailkey', (RetrivedEmail));
                                                                                     prefs.setString('passwordkey', (RetrivedPwd));
                                                                                     print('email....');
@@ -496,7 +505,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                                     //   // login(RetrivedEmail, RetrivedPwd);
                                                                                     // }
                                                                                   },
-                                                                                  child: const Text('BookNow'),
+                                                                                  child: const Text('BookNow',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,color: Colors.white),),
                                                                                 ),
                                                                               )
                                                                             ],

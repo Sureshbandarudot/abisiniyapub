@@ -325,7 +325,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       width: 300,
                                                       //margin: EdgeInsets.all(Top:20),// add margin
                                                       //padding: EdgeInsets.all(20),
-                                                      //margin: EdgeInsets.only(top: 0, left: 0),
+                                                      margin: EdgeInsets.only(top: 0, left: 20,right: 20),
 
                                                       decoration: BoxDecoration(
                                                         border: Border.all(
@@ -426,7 +426,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                                 ),
                                                                               ),
                                                                               Container(
-                                                                                height: 60,
+                                                                                height: 40,
                                                                                 width: 140,
                                                                                 color: Colors.white,
 
@@ -457,7 +457,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                                       ),
                                                                                     );
                                                                                   },
-                                                                                  child: const Text('BookNow'),
+                                                                                  //child: const Text('BookNow'),
+                                                                                  child: const Text('BookNow',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,color: Colors.white),),
+
                                                                                 ),
                                                                               )
                                                                             ],

@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
 import '../ServiceDasboardVC.dart';
+import 'Authenticated_Userbookingscreen.dart';
 import 'FilterApartmentVC.dart';
 import 'NewUserbooking.dart';
 //void main() => runApp(Apartmentscreen());
@@ -160,7 +161,7 @@ class _MyHomePageState extends State<MyHomePage> {
     print('token value for authenticated user....');
     print(RetrivedBearertoekn);
 
-    String url = baseDioSingleton.AbisiniyaBaseurl + 'apartment/auth/list';
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'apartment/list';
     //final response = await http.get(Uri.parse(url));
 
     var response = await http.get(
@@ -198,13 +199,13 @@ class _MyHomePageState extends State<MyHomePage> {
           leading: BackButton(
             onPressed: () async{
               print("back Pressed");
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              prefs.setString('logoutkey', ('LogoutDashboard'));
-              prefs.setString('Property_type', ('Apartment'));
+              // SharedPreferences prefs = await SharedPreferences.getInstance();
+              // prefs.setString('logoutkey', ('LogoutDashboard'));
+              // prefs.setString('Property_type', ('Apartment'));
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ServiceDashboardScreen()),
+                    builder: (context) => AuthenticatedUserScreen()),
               );
             },
           ),
@@ -340,7 +341,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       width: 300,
                                                       //margin: EdgeInsets.all(Top:20),// add margin
                                                       //padding: EdgeInsets.all(20),
-                                                      //margin: EdgeInsets.only(top: 0, left: 00),
+                                                      margin: EdgeInsets.only(top: 0, left: 20,right: 20),
 
                                                       decoration: BoxDecoration(
                                                         border: Border.all(
@@ -441,7 +442,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                                 ),
                                                                               ),
                                                                               Container(
-                                                                                height: 60,
+                                                                                height: 40,
                                                                                 width: 140,
                                                                                 color: Colors.white,
 
@@ -490,7 +491,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                                     //   // login(RetrivedEmail, RetrivedPwd);
                                                                                     // }
                                                                                   },
-                                                                                  child: const Text('BookNow'),
+                                                                                  //child: const Text('BookNow'),
+                                                                                  child: const Text('BookNow',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,color: Colors.white),),
+
                                                                                 ),
                                                                               )
                                                                             ],

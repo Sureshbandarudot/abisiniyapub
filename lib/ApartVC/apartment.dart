@@ -283,7 +283,7 @@ void initState() {
                                                       width: 300,
                                                       //margin: EdgeInsets.all(Top:20),// add margin
                                                       //padding: EdgeInsets.all(20),
-                                                      margin: EdgeInsets.only(top: 0, left: 0),
+                                                      margin: EdgeInsets.only(top: 0, left: 20,right: 20),
 
                                                       decoration: BoxDecoration(
                                                         border: Border.all(
@@ -384,7 +384,7 @@ void initState() {
                                                                                 ),
                                                                               ),
                                                                               Container(
-                                                                                height: 60,
+                                                                                height: 40,
                                                                                 width: 140,
                                                                                 color: Colors.white,
 
@@ -415,7 +415,9 @@ void initState() {
                                                                                       ),
                                                                                     );
                                                                                   },
-                                                                                  child: const Text('BookNow'),
+                                                                                  //child: const Text('BookNow'),
+                                                                                  child: const Text('BookNow',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,color: Colors.white),),
+
                                                                                 ),
                                                                               )
                                                                             ],

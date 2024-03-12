@@ -87,7 +87,7 @@ class HomeState extends State<AddApartment> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     RetrivedId = prefs.getInt('imgkeyId') ?? 0;
     RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
-    String url = (baseDioSingleton.AbisiniyaBaseurl + 'apartment/auth/show/$RetrivedId');
+    String url = (baseDioSingleton.AbisiniyaBaseurl + 'apartment/show/$RetrivedId');
     //final response = await http.get(Uri.parse(url));
     var response = await http.get(
       Uri.parse(
@@ -129,7 +129,7 @@ class HomeState extends State<AddApartment> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     RetrivedId = prefs.getInt('imgkeyId') ?? 0;
     RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
-    String url = (baseDioSingleton.AbisiniyaBaseurl + 'apartment/auth/show/$RetrivedId');
+    String url = (baseDioSingleton.AbisiniyaBaseurl + 'apartment/show/$RetrivedId');
    // apartment/auth/list
     //final response = await http.get(Uri.parse(url));
     var response = await http.get(
@@ -396,12 +396,12 @@ class HomeState extends State<AddApartment> {
           onPressed: () async{
             print("back Pressed");
             SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setString('logoutkey', ('LogoutDashboard'));
-            prefs.setString('Property_type', ('Apartment'));
+            // prefs.setString('logoutkey', ('LogoutDashboard'));
+            // prefs.setString('Property_type', ('Apartment'));
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => ServiceDashboardScreen()),
+                  builder: (context) => AuthenticatedUserScreen()),
 
             );
           },

@@ -170,19 +170,23 @@ class _LoginState extends State<Login> {
 
         appBar: AppBar(
           actions: <Widget>[
-            TextButton(
-              onPressed: () {
-
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ServiceDashboardScreen()
-                  ),
-                );
-
-              },
-              child: Text('New Booking',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,color: Colors.green),),
-            ),
+            // TextButton(
+            //   onPressed: () async {
+            //
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //           builder: (context) => ServiceDashboardScreen()
+            //       ),
+            //     );
+            //     SharedPreferences prefs = await SharedPreferences.getInstance();
+            //     // prefs.setString('logoutkey', ('LogoutDashboard'));
+            //     //prefs.setString('Property_type', ('Apartment'));
+            //     prefs.setString('NewuserBookingkey', 'NewuserBooking');
+            //
+            //   },
+            //   child: Text('New Booking',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w800,color: Colors.green),),
+            // ),
           ],
           centerTitle: true,
           iconTheme: IconThemeData(

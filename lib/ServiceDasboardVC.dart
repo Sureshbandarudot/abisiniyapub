@@ -21,6 +21,7 @@ class ServiceDashboardScreen extends StatefulWidget {
 }
 
 class _ServiceDashboardScreenState extends State<ServiceDashboardScreen> {
+  List<String> LoggedinUserlist = [];
   @override
   final borderRadius = BorderRadius.circular(20); // Image border
   String Logoutstr = '';
@@ -35,6 +36,11 @@ class _ServiceDashboardScreenState extends State<ServiceDashboardScreen> {
       Logoutstr = prefs.getString('logoutkey') ?? "";
       print('new dashboard sts...');
       print(Logoutstr);
+
+       if(Logoutstr == 'LogoutDashboard'){
+
+       }
+
 
     });
   }
@@ -131,7 +137,10 @@ class _ServiceDashboardScreenState extends State<ServiceDashboardScreen> {
                       LoggedInUSerstr = prefs.getString('LoggedinUserkey') ?? "";
                       print(' logged in user...');
                       print(LoggedInUSerstr);
-                      print(NewBookingUserstr);
+                      // print(NewBookingUserstr);
+
+                       // String newuserstr = prefs.getString('NewuserBookingkey') ?? "";
+                       // print(newuserstr);
                       // if(Logoutstr == 'LogoutDashboard')
                       // {
                       //   print('logout...');
@@ -143,6 +152,10 @@ class _ServiceDashboardScreenState extends State<ServiceDashboardScreen> {
                       //   print('Logged user....');
                       //
                       // }
+                       print('letters length....');
+                       LoggedinUserlist.add(LoggedInUSerstr);
+                       print(LoggedinUserlist);
+                       print(LoggedinUserlist.length);
                       if (LoggedInUSerstr == 'LoggedUser') {
                         print('login...');
                         Navigator.push(
@@ -150,8 +163,10 @@ class _ServiceDashboardScreenState extends State<ServiceDashboardScreen> {
                           MaterialPageRoute(
                               builder: (context) => AuthenticatedUserScreen()),
                         );
+                        SharedPreferences prefrences = await SharedPreferences.getInstance();
+                        await prefrences.remove("LoggedinUserkey");
 
-                      } else{
+                      }  else{
                         Navigator.push(
                           context,
                           MaterialPageRoute(
