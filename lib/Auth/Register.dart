@@ -74,10 +74,6 @@ class _RegisterState extends State<Register> {
         print(data);
         var data1 = jsonDecode(response.body.toString());
         print(data1['message']);
-        // print(data1['success']);
-        // print(data1['data']['token']);token
-        //String successMsg = (data1['success']);
-        //print(successMsg);
         bool successMsg = true;
         if (successMsg == (data1['success'])){
           String inputemailData = emailController.text.toString();
@@ -93,8 +89,88 @@ class _RegisterState extends State<Register> {
         print(data);
         print(data['token']);
         print('Register  successfully');
-      }else {
+      }else if (response.statusCode == 400) {
+        var data1 = jsonDecode(response.body);
+        print('valid response data1');
+        print(data1);
+        print(data1['message']['email']);
+        if(data1['message']['email'] != null && data1['message']['phone'] != null && data1['message']['password'] != null  ){
+          print('email valid...');
+          final snackBar = SnackBar(
+            content: Text('email,phone has already been taken and password confirmation does not match'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }   else if(data1['message']['email'] != null && data1['message']['phone'] == null && data1['message']['password'] != null  ){
+          print('email valid...');
+          final snackBar = SnackBar(
+            content: Text('email has already been taken and password confirmation does not match'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if(data1['message']['email'] == null && data1['message']['phone'] != null && data1['message']['password'] != null  ){
+          print('email valid...');
+          final snackBar = SnackBar(
+            content: Text('phone has already been taken and password confirmation does not match'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }else if(data1['message']['email'] == null && data1['message']['phone'] == null && data1['message']['password'] == null  ){
+          print('email valid...');
+          final snackBar = SnackBar(
+            content: Text('email , phone has already been taken '),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if(data1['message']['email'] != null){
+          print('email valid...');
+          final snackBar = SnackBar(
+            content: Text('email has already been taken '),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }else if(data1['message']['phone'] != null){
+          print('email valid...');
+          final snackBar = SnackBar(
+            content: Text('phone has already been taken '),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }else if(data1['message']['password'] != null){
+          print('email valid...');
+          final snackBar = SnackBar(
+            content: Text('password confirmation does not match '),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+
+
+
+        // else if(data1['message']['email'] != '[The email has already been taken.]' && data1['message']['phone'] == '[The phone has already been taken.]' && data1['message']['password'] == '[The password confirmation does not match.]'  ){
+        //   print('email valid...');
+        //   final snackBar = SnackBar(
+        //     content: Text('email has already been taken'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // } else if(data1['message']['email'] == '[The email has already been taken.]' && data1['message']['phone'] != '[The phone has already been taken.]' && data1['message']['password'] == '[The password confirmation does not match.]'  ){
+        //   print('email valid...');
+        //   final snackBar = SnackBar(
+        //     content: Text('phone has already been taken'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // } else if(data1['message']['email'] == '[The email has already been taken.]' && data1['message']['phone'] == '[The phone has already been taken.]' && data1['message']['password'] != '[The password confirmation does not match.]'  ){
+        //   print('email valid...');
+        //   final snackBar = SnackBar(
+        //     content: Text('The password confirmation does not match.'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // }
+
+
+      }
+        else {
         print('failed');
+        print('validations123....');
+        var data = jsonDecode(response.body.toString());
+        print('response data');
+        print(data);
+        var data2 = jsonDecode(response.body);
+        print('response data2');
+        print(data2);
 
         final snackBar = SnackBar(
           content: Text('Please Fill All Fields or Make sure enter new details and please try again...'),
@@ -117,14 +193,23 @@ class _RegisterState extends State<Register> {
       // ),
 
         appBar: AppBar(
+          backgroundColor: Colors.lightGreen,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[Colors.white, Colors.green]),
+            ),
+          ),
           centerTitle: true,
           iconTheme: IconThemeData(
-              color: Colors.green
+              color: Colors.white
           ),
 
           title: const Text('Registration',
               textAlign: TextAlign.center,
-              style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+              style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
 
 
 
@@ -243,7 +328,9 @@ class _RegisterState extends State<Register> {
                                         width: 300.0,
                                         height: 40.0,
                                         child: TextField(
-                                          controller: phoneController,
+                                            keyboardType: TextInputType.number,
+
+                                            controller: phoneController,
                                             textAlign: TextAlign.left,
                                             autocorrect: false,
                                             decoration:

@@ -169,6 +169,15 @@ class _LoginState extends State<Login> {
         // ),
 
         appBar: AppBar(
+          backgroundColor: Colors.lightGreen,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[Colors.white, Colors.green]),
+            ),
+          ),
           actions: <Widget>[
             // TextButton(
             //   onPressed: () async {
@@ -190,10 +199,10 @@ class _LoginState extends State<Login> {
           ],
           centerTitle: true,
           iconTheme: IconThemeData(
-              color: Colors.green
+              color: Colors.white
           ),
             title: Text('ABISINIYA',textAlign: TextAlign.center,
-                style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+                style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
 
         ),
 

@@ -6,6 +6,8 @@ import 'package:tourstravels/tabbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
+import '../ServiceDasboardVC.dart';
+
 String _email='';
 
 
@@ -61,15 +63,21 @@ class _OTPVerifiedState extends State<OTPVerified> {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => tabbar()
+              builder: (context) => ServiceDashboardScreen()
           ),
         );
 
-      }else {
+      } else if(response.statusCode == 404){
+        final snackBar = SnackBar(
+          content: Text('User Already Verified.'),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+      else {
         print('failed');
 
         final snackBar = SnackBar(
-          content: Text('The password confirmation does not match.'),
+          content: Text('The otp confirmation does not match.'),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
@@ -110,15 +118,24 @@ class _OTPVerifiedState extends State<OTPVerified> {
       // ),
 
         appBar: AppBar(
+          backgroundColor: Colors.lightGreen,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[Colors.white, Colors.green]),
+            ),
+          ),
           centerTitle: true,
           iconTheme: IconThemeData(
-              color: Colors.green
+              color: Colors.white
 
           ),
 
           title: const Text('OTP Verification',
               textAlign: TextAlign.center,
-              style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+              style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
 
           // title: const Text('OTP Verification',
           //     textAlign: TextAlign.center,
