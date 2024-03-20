@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:tourstravels/userDashboardvc.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
 
+import '../MyBookings/MybookingVC.dart';
 import 'Apartment.dart';
 
 
@@ -156,7 +157,7 @@ class HomeState extends State<UserBooking> {
         }
         else {
           Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-            builder: (_) => newuserDashboard(),
+            builder: (_) => MyBookingScreen(),
           ),);
           print('calling token....');
           print(RetrivedBearertoekn);
