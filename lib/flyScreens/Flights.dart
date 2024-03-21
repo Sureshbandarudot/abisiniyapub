@@ -14,11 +14,12 @@ import 'package:tourstravels/UserDashboard_Screens/PivoteVC.dart';
 import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/My_Apartments/My_AprtmetsVC.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
-import '../MyBookings/MybookingVC.dart';
-import '../My_Apartments/MyVehicles/MyvehicleVC.dart';
-import '../ServiceDasboardVC.dart';
+import '../../MyBookings/MybookingVC.dart';
+import '../../My_Apartments/MyVehicles/MyvehicleVC.dart';
+import '../../ServiceDasboardVC.dart';
 //import 'Vehicle_PivoteVC.dart';
-import 'ServiceDasboardVC.dart';
+import '../ServiceDasboardVC.dart';
+import 'MyflightRequest.dart';
 
 class FlightScreen extends StatefulWidget {
   const FlightScreen({super.key});
@@ -30,7 +31,48 @@ class FlightScreen extends StatefulWidget {
 class _FlightScreenState extends State<FlightScreen> {
   //String From = 'From';
 
+  String RetrivedBearertoekn = '';
+  String newBookingUser = '';
+  bool isLoading = false;
+  int Bookable_iD = 0;
+  String Bookable_type = '';
+  String result = '';
+  int idnum = 0;
+  int aptId = 0;
+  int RetrivedId = 0;
+  String Retrivedcityvalue = '';
+  String RetrivedAdress = '';
+  String RetrivedBathromm = '';
+  String RetrivedBedroom = '';
+  String RetrivedPrice = '';
+
   final baseDioSingleton = BaseSingleton();
+  _retrieveValues() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      print('url...');
+      print(baseDioSingleton.AbisiniyaBaseurl);
+      // RetrivedEmail = prefs.getString('emailkey') ?? "";
+      // RetrivedPwd = prefs.getString('passwordkey') ?? "";
+      Retrivedcityvalue = prefs.getString('citykey') ?? "";
+      RetrivedId = prefs.getInt('imgkeyId') ?? 0;
+      RetrivedAdress = prefs.getString('addresskey') ?? "";
+      RetrivedBathromm = prefs.getString('bathroomkey') ?? "";
+      RetrivedBedroom = prefs.getString('bedroomkey') ?? "";
+      RetrivedPrice = prefs.getString('pricekey') ?? "";
+      Bookable_iD = prefs.getInt('imgkeyId') ?? 0;
+      print('book...');
+      print(Bookable_iD);
+      Bookable_type = prefs.getString('Property_type') ?? "";
+      print(Bookable_type);
+
+      RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
+      print('token1');
+      print(RetrivedBearertoekn);
+
+
+    });
+  }
 
   String fromDatestr = '';
   String toDatestr = '';
@@ -63,12 +105,56 @@ class _FlightScreenState extends State<FlightScreen> {
     'Return',
     'Multi City',
   ];
-
-  void login(String name , String surname, String email, String phone, String password,String password_confirmation,
-      String from, String to, String airline, String departure_date, String return_date, String trip_option, String message) async {
+  //
+  // void login(String email , password) async {
+  //   try{
+  //     Response response = await post(
+  //       //Uri.parse('https://staging.abisiniya.com/api/v1/login'),
+  //         Uri.parse(baseDioSingleton.AbisiniyaBaseurl + 'login'),
+  //         body: {
+  //           'email' : RetrivedEmail,
+  //           'password' : RetrivedPwd
+  //         }
+  //     );
+  //     if(response.statusCode == 200){
+  //       var data = jsonDecode(response.body.toString());
+  //       print(data['token']);
+  //       print('User Login Authentication  successfully');
+  //       // Navigator.push(
+  //       //   context,
+  //       //   MaterialPageRoute(
+  //       //       builder: (context) => AddApartment()
+  //       //   ),
+  //       // );
+  //
+  //     }else {
+  //       print('failed');
+  //       // Navigator.push(
+  //       //   context,
+  //       //   MaterialPageRoute(
+  //       //       builder: (context) => UserBooking()
+  //       //   ),
+  //       // );
+  //       print('User Login not Authentication  successfully');
+  //
+  //     }
+  //   }catch(e){
+  //     print(e.toString());
+  //   }
+  // }
+  void FlightRequest(String name , String surname, String email, String phone, String password,
+      String password_confirmation, String from, String to, String airline, String departure_date,
+      String return_date, String travel_class, String trip_option, String message) async {
     print('email.');
     print(emailController.text);
+
     try{
+      print('values.');
+      print(fromdropdownvalue);
+      print(todropdownvalue);
+      print(airlinedropdownvalue);
+      print(traveldropdownvalue);
+      print(tripdropdownvalue);
       Response response = await post(
           Uri.parse(baseDioSingleton.AbisiniyaBaseurl + 'flight/userflight'),
           body: {
@@ -117,10 +203,20 @@ class _FlightScreenState extends State<FlightScreen> {
         if (data['message'] == 'Flight request successfully submitted.')
         {
           print('call...');
-          final snackBar = SnackBar(
-            content: Text(data['message']),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+            builder: (_) => FluBooking_RequestScreen(),
+          ),);
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          print('token fly');
+          RetrivedBearertoekn = data['data']['token'];
+          print('fly token generated...');
+          print(RetrivedBearertoekn);
+          prefs.setString('tokenkey', RetrivedBearertoekn);
+          prefs.setString('newBookingUserkey', newBookingUser);
+          // final snackBar = SnackBar(
+          //   content: Text(data['message']),
+          // );
+          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
         } else if (data['message'] == 'Start date should be greater or equal to booking day'){
           print('call...1');
 
@@ -134,11 +230,12 @@ class _FlightScreenState extends State<FlightScreen> {
           print('call...3');
 
           final snackBar = SnackBar(
-            content: Text('Start date should be greater or equal to booking day'),
+            content: Text('Return date should be greater or equal start date.'),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       }
+
       if (response.statusCode == 400) {
         print('already entered existing data1...');
         print('email...');
@@ -188,6 +285,7 @@ class _FlightScreenState extends State<FlightScreen> {
 
   void initState() {
     // TODO: implement initState
+    _retrieveValues();
 
     // login('', '', '', '', '', '', '', '', '', '', '', '', '');
 
@@ -592,10 +690,14 @@ class _FlightScreenState extends State<FlightScreen> {
                                             readOnly: true,
                                             onTap: () async {
                                               DateTime? pickedDate = await showDatePicker(
-                                                  context: context,
-                                                  initialDate: DateTime.now(),
-                                                  firstDate: DateTime(1950),
-                                                  lastDate: DateTime(2050));
+                                                  //context: context,
+                                                  // initialDate: DateTime.now(),
+                                                  // firstDate: DateTime(1950),
+                                                  // lastDate: DateTime(2050));
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime.now().subtract(Duration(days: 0)),
+                                              lastDate: DateTime(2100));
                                               if (pickedDate != null) {
                                                 // FromdateInputController.text =pickedDate.toString();
                                                 fromDatestr = DateFormat('yyyy-MM-dd').format(pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
@@ -624,10 +726,14 @@ class _FlightScreenState extends State<FlightScreen> {
                                             readOnly: true,
                                             onTap: () async {
                                               DateTime? pickedDate = await showDatePicker(
-                                                  context: context,
-                                                  initialDate: DateTime.now(),
-                                                  firstDate: DateTime(1950),
-                                                  lastDate: DateTime(2050));
+                                                  // context: context,
+                                                  // initialDate: DateTime.now(),
+                                                  // firstDate: DateTime(1950),
+                                                  // lastDate: DateTime(2050));
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime.now().subtract(Duration(days: 0)),
+                                              lastDate: DateTime(2100));
                                               if (pickedDate != null) {
                                                 //TodateInputController.text =pickedDate.toString();
                                                 toDatestr = DateFormat('yyyy-MM-dd').format(pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
@@ -764,7 +870,7 @@ class _FlightScreenState extends State<FlightScreen> {
                                               ),
                                               onTap: () async {
                                                 print("Tapped on container");
-                                                login('', '', '', '', '', '', '', '', '', '', '', '', '');
+                                                FlightRequest('', '', '', '', '', '', '', '', '', '', '', '', '','');
 
 
 

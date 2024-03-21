@@ -16,6 +16,7 @@ import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import '../MyBookings/MybookingVC.dart';
 import '../My_Apartments/MyVehicles/MyvehicleVC.dart';
 import '../ServiceDasboardVC.dart';
+import '../flyScreens/MyflightRequest.dart';
 import 'Vehicle_PivoteVC.dart';
 //import 'NewUserbooking.dart';
 class newuserDashboard extends StatefulWidget {
@@ -327,8 +328,22 @@ class _userDashboardState extends State<newuserDashboard> {
               title: const Text('My Flight Requests',
                   style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
 
-              onTap: () {
-                Navigator.pop(context);
+              onTap: () async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.setString('logoutkey', ('LogoutDashboard'));
+                prefs.setString('Property_type', ('Apartment'));
+                print('flight token');
+                print(RetrivedBearertoekn);
+                prefs.setString('tokenkey',RetrivedBearertoekn );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FluBooking_RequestScreen()),
+                );
+                // SharedPreferences prefs = await SharedPreferences.getInstance();
+                // prefs.setString('logoutkey', ('LogoutDashboard'));
+                // prefs.setString('Property_type', ('Apartment'));
+                // prefs.setString('tokenkey',RetrivedBearertoekn );
               },
             ),
             ListTile(

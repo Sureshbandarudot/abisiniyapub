@@ -14,21 +14,21 @@ import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/My_Apartments/My_AprtmetsVC.dart';
 import 'package:tourstravels/My_Apartments/ViewApartmentVC.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
+import '../MyBookings/MybookingVC.dart';
 import '../ServiceDasboardVC.dart';
-import '../flyScreens/MyflightRequest.dart';
-import 'ViewBookingsVC.dart';
+// import 'ViewBookingsVC.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
 
 //import 'NewUserbooking.dart';
-class MyBookingScreen extends StatefulWidget {
- // const MyApartmentScreen({super.key});
+class FluBooking_RequestScreen extends StatefulWidget {
+  // const MyApartmentScreen({super.key});
 
   @override
-  State<MyBookingScreen> createState() => _userDashboardState();
+  State<FluBooking_RequestScreen> createState() => _userDashboardState();
 }
 
-class _userDashboardState extends State<MyBookingScreen> {
+class _userDashboardState extends State<FluBooking_RequestScreen> {
   final baseDioSingleton = BaseSingleton();
   int bookingID = 0;
   String LoggedInUser = 'LoggedUser';
@@ -44,7 +44,7 @@ class _userDashboardState extends State<MyBookingScreen> {
       // ApartmentId = prefs.getInt('userbookingId') ?? 0;
       // print('Apartment id---');
       // print(ApartmentId);
-      print('My Apartment token');
+      print('My Fly token');
       print(RetrivedBearertoekn);
     });
   }
@@ -59,7 +59,7 @@ class _userDashboardState extends State<MyBookingScreen> {
 
   Future<dynamic> getData() async {
     // String url = 'https://staging.abisiniya.com/api/v1/booking/apartment/mybookings';
-    String url = baseDioSingleton.AbisiniyaBaseurl + 'booking/apartment/mybookings';
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'flight/flightreqs';
 
     var response = await http.get(
       Uri.parse(
@@ -75,6 +75,7 @@ class _userDashboardState extends State<MyBookingScreen> {
       final data1 = jsonDecode(response.body);
       var getpicsData = [];
       var jsonData = data1['data'];
+      print('fly....');
       print(jsonData);
       // for (var record in picstrr) {
       //   idnum = record['id'];
@@ -128,7 +129,7 @@ class _userDashboardState extends State<MyBookingScreen> {
         // iconTheme: IconThemeData(
         //     color: Colors.green,
         // ),
-        title: Text('My Bookings',textAlign: TextAlign.center,
+        title: Text('Flight Requests',textAlign: TextAlign.center,
             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
 
       ),
@@ -384,12 +385,12 @@ class _userDashboardState extends State<MyBookingScreen> {
 
                                         separatorBuilder: (BuildContext context, int index) => const Divider(),
                                         itemBuilder: (BuildContext context, int index) {
-                                          bookingID = snapshot.data['data'][index]['id'];
+                                         // bookingID = snapshot.data['data'][index]['id'];
 
 
 //    itemBuilder: (context,index){
                                           return Container(
-                                            height: 225,
+                                            height: 275,
                                             width: 100,
                                             alignment: Alignment.center,
                                             color: Colors.white,
@@ -398,7 +399,7 @@ class _userDashboardState extends State<MyBookingScreen> {
                                               child: Column(
                                                 children: [
                                                   Container(
-                                                    height: 225,
+                                                    height: 275,
                                                     width: 340,
                                                     color: Colors.black12,
                                                     child: Column(
@@ -417,7 +418,7 @@ class _userDashboardState extends State<MyBookingScreen> {
                                                               width: 200,
                                                               color: Colors.transparent,
                                                               //child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                                                              child:Text(snapshot.data['data'][index]['date'],textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
+                                                              child:Text(snapshot.data['data'][index]['created_at'],textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
                                                             )
                                                           ],
                                                         ),
@@ -427,34 +428,39 @@ class _userDashboardState extends State<MyBookingScreen> {
                                                               height: 30,
                                                               width: 140,
                                                               color: Colors.transparent,
-                                                              child: Text('Type:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+                                                              child: Text('ID:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
                                                             ),
                                                             Container(
                                                               height: 30,
                                                               width: 200,
                                                               color: Colors.transparent,
-                                                              child:Text(snapshot.data['data'][index]['type'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
-
-                                                              // child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+                                                              // child:Text(snapshot.data['data'][index]['created_at'],textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
+                                                              child:Text('${(snapshot.data['data'][index]['flight_request_id'].toString())}',textAlign: TextAlign.left,
+                                                                style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
                                                             )
                                                           ],
-
                                                         ),
-
                                                         Row(
                                                           children: [
                                                             Container(
                                                               height: 30,
                                                               width: 140,
                                                               color: Colors.transparent,
-                                                              child: Text('Check In:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+                                                              child: Text('FullName:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
                                                             ),
                                                             Container(
                                                               height: 30,
                                                               width: 200,
                                                               color: Colors.transparent,
-                                                              //child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                                                              child:Text(snapshot.data['data'][index]['checkIn'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
+
+                                                              //child:Text(snapshot.data['data'][index]['type'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
+
+                                                              child:Text('${(snapshot.data['data'][index]['user_id']['surname']) + " " + (snapshot.data['data'][index]['user_id']['name'])}',textAlign: TextAlign.left,
+                                                                style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
+
+                                                              // child:Text('${(snapshot.data['data'][index]['user_id'].toString())}.00/Night.',textAlign: TextAlign.left,
+                                                              //   style: (TextStyle(fontWeight: FontWeight.w400,fontSize: 20,color: Colors.green)),),
+
                                                             )
                                                           ],
                                                         ),
@@ -465,33 +471,14 @@ class _userDashboardState extends State<MyBookingScreen> {
                                                               height: 30,
                                                               width: 140,
                                                               color: Colors.transparent,
-                                                              child: Text('Check Out:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                                                            ),
-                                                            Container(
-                                                              height: 30,
-                                                              width: 200,
-                                                              color: Colors.transparent,
-                                                              //child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                                                              child:Text(snapshot.data['data'][index]['checkOut'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
-                                                            )
-                                                          ],
-                                                        ),
-
-
-                                                        Row(
-                                                          children: [
-                                                            Container(
-                                                              height: 30,
-                                                              width: 140,
-                                                              color: Colors.transparent,
-                                                              child: Text('Reference:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+                                                              child: Text('From:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
                                                             ),
                                                             Container(
                                                               height: 30,
                                                               width: 200,
                                                               color: Colors.transparent,
                                                               //child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                                                              child:Text(snapshot.data['data'][index]['reference'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
+                                                              child:Text(snapshot.data['data'][index]['from'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
                                                             )
                                                           ],
                                                         ),
@@ -502,14 +489,51 @@ class _userDashboardState extends State<MyBookingScreen> {
                                                               height: 30,
                                                               width: 140,
                                                               color: Colors.transparent,
-                                                              child: Text('Status:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+                                                              child: Text('To:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
                                                             ),
                                                             Container(
                                                               height: 30,
                                                               width: 200,
                                                               color: Colors.transparent,
                                                               //child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
-                                                              child:Text(snapshot.data['data'][index]['paymentStatus'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
+                                                              child:Text(snapshot.data['data'][index]['to'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
+                                                            )
+                                                          ],
+                                                        ),
+
+
+                                                        Row(
+                                                          children: [
+                                                            Container(
+                                                              height: 30,
+                                                              width: 140,
+                                                              color: Colors.transparent,
+                                                              child: Text('Airline:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+                                                            ),
+                                                            Container(
+                                                              height: 30,
+                                                              width: 200,
+                                                              color: Colors.transparent,
+                                                              //child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+                                                              child:Text(snapshot.data['data'][index]['airline'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
+                                                            )
+                                                          ],
+                                                        ),
+
+                                                        Row(
+                                                          children: [
+                                                            Container(
+                                                              height: 30,
+                                                              width: 140,
+                                                              color: Colors.transparent,
+                                                              child: Text('Travel Class:',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+                                                            ),
+                                                            Container(
+                                                              height: 30,
+                                                              width: 200,
+                                                              color: Colors.transparent,
+                                                              //child: Text('suresh',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+                                                              child:Text(snapshot.data['data'][index]['travel_class'].toString(),textAlign: TextAlign.left,style: (TextStyle(fontWeight: FontWeight.w500,fontSize: 18,color: Colors.black)),),
                                                             )
                                                           ],
                                                         ),
@@ -538,7 +562,7 @@ class _userDashboardState extends State<MyBookingScreen> {
                                                                   height: 40,
                                                                   color: Colors.transparent,
                                                                   //child: Text('View',textAlign: TextAlign.center,style: TextStyle(fontSize: 18,fontWeight: FontWeight.w800,color: Colors.white),),
-                                                                 child: Align(
+                                                                  child: Align(
                                                                     alignment: Alignment.center,
                                                                     child: Container(
                                                                       color: Colors.transparent,
@@ -550,14 +574,14 @@ class _userDashboardState extends State<MyBookingScreen> {
                                                                 ),                                                              ),
                                                               onTap: () async {
 
-                                                                Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-                                                                  builder: (_) => ViewBookingscreen(),
-                                                                ),);
+                                                                // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+                                                                //   builder: (_) => ViewBookingscreen(),
+                                                                // ),);
                                                                 SharedPreferences prefs = await SharedPreferences.getInstance();
                                                                 print('booking id...');
                                                                 print(snapshot.data['data'][index]['id']);
                                                                 // prefs.setString('addresskey', snapshot.data['data'][index]['address']);
-                                                                 prefs.setString('referencekey', snapshot.data['data'][index]['reference']);
+                                                                prefs.setString('referencekey', snapshot.data['data'][index]['reference']);
                                                                 prefs.setInt('userbookingId', snapshot.data['data'][index]['id']);
                                                                 prefs.setString('tokenkey', RetrivedBearertoekn);
                                                                 print("value of your text");},
@@ -615,7 +639,7 @@ class _userDashboardState extends State<MyBookingScreen> {
 
                                     Column(
                                       children:<Widget>[
-                                       // Text('second test'),
+                                        // Text('second test'),
                                         ListView.builder(
                                             physics: NeverScrollableScrollPhysics(),
                                             shrinkWrap: true,
