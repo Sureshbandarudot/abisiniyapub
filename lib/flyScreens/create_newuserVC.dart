@@ -21,14 +21,14 @@ import '../../ServiceDasboardVC.dart';
 import '../ServiceDasboardVC.dart';
 import 'MyflightRequest.dart';
 
-class AuthFlightScreen extends StatefulWidget {
-  const AuthFlightScreen({super.key});
+class Create_newUSerFlightScreen extends StatefulWidget {
+  const Create_newUSerFlightScreen({super.key});
 
   @override
-  State<AuthFlightScreen> createState() => _FlightScreenState();
+  State<Create_newUSerFlightScreen> createState() => _FlightScreenState();
 }
 
-class _FlightScreenState extends State<AuthFlightScreen> {
+class _FlightScreenState extends State<Create_newUSerFlightScreen> {
   //String From = 'From';
 
   String RetrivedBearertoekn = '';
@@ -67,7 +67,7 @@ class _FlightScreenState extends State<AuthFlightScreen> {
       print(Bookable_type);
 
       RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
-      print('fly auth token1');
+      print('token1');
       print(RetrivedBearertoekn);
 
 
@@ -142,83 +142,58 @@ class _FlightScreenState extends State<AuthFlightScreen> {
   //     print(e.toString());
   //   }
   // }
-  //void FlightRequest(String from, String to, String airline, String departure_date, String return_date,String travel_class, String trip_option, String message) async {
-    Future<void> _postData() async {
-
-      print('email.');
+  void FlightRequest(String name , String surname, String email, String phone, String password,
+      String password_confirmation, String from, String to, String airline, String departure_date,
+      String return_date, String travel_class, String trip_option, String message) async {
+    print('email.');
     print(emailController.text);
+
     try{
-      String apiUrl = '';
-      apiUrl = baseDioSingleton.AbisiniyaBaseurl + 'flight/auth/userflight';
-      final response = await http.post(
-        Uri.parse(apiUrl),
-        headers: <String, String>{
-          // 'Content-Type': 'application/json; charset=UTF-8',
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "Authorization": "Bearer $RetrivedBearertoekn",
-        },
-        body: jsonEncode(<String, dynamic>{
-          'from': fromdropdownvalue,
-                'to': todropdownvalue,
-                'airline': airlinedropdownvalue,
-                'departure_date': FromdateInputController.text,
-                'return_date': TodateInputController.text,
-                'travel_class': traveldropdownvalue,
-                'trip_option': tripdropdownvalue,
-                'message': additionainfo_Controller.text
-          // Add any other data you want to send in the body
-        }),
+      print('values.');
+      print(fromdropdownvalue);
+      print(todropdownvalue);
+      print(airlinedropdownvalue);
+      print(traveldropdownvalue);
+      print(tripdropdownvalue);
+      Response response = await post(
+          Uri.parse(baseDioSingleton.AbisiniyaBaseurl + 'flight/userflight'),
+          body: {
+            'name': firstNameController.text,
+            'surname': lastNameController.text,
+            'email': emailController.text,
+            'phone': phoneController.text,
+            'password': passwordController.text,
+            'password_confirmation': password_confirmation_Controller.text,
+            'from': fromdropdownvalue,
+            'to': todropdownvalue,
+            'airline': airlinedropdownvalue,
+            'departure_date': FromdateInputController.text,
+            'return_date': TodateInputController.text,
+            'travel_class': traveldropdownvalue,
+            'trip_option': tripdropdownvalue,
+            'message': additionainfo_Controller.text
+            // 'name': 'Shanvith',
+            // 'surname': 'Bandaru',
+            // 'email': 'shanvithtwo@gmail.com',
+            // 'phone': phoneController.toString(),
+            // 'password': 'shanvith1234',
+            // 'password_confirmation': 'shanvith1234',
+            // 'from': 'Bengaluru',
+            // 'to': 'Chennai',
+            // 'airline': 'AirAsia',
+            // 'departure_date': '2024-03-20',
+            // 'return_date': '2024-03-22',
+            // 'travel_class': 'First class',
+            // 'trip_option': 'One Way',
+            // 'message': 'Good journey'
+
+          }
+
       );
-      // Response response = await post(
-      //     Uri.parse(baseDioSingleton.AbisiniyaBaseurl + 'flight/auth/userflight'),
-      //     headers: <String, String>{
-      //       // 'Content-Type': 'application/json; charset=UTF-8',
-      //       "Content-Type": "application/json",
-      //       "Accept": "application/json",
-      //       "Authorization": "Bearer $RetrivedBearertoekn",
-      //     },
-      //     body: {
-      //       // 'name': firstNameController.text,
-      //       // 'surname': lastNameController.text,
-      //       // 'email': emailController.text,
-      //       // 'phone': phoneController.text,
-      //       // 'password': passwordController.text,
-      //       // 'password_confirmation': password_confirmation_Controller.text,
-      //       'from': fromdropdownvalue,
-      //       'to': todropdownvalue,
-      //       'airline': airlinedropdownvalue,
-      //       'departure_date': FromdateInputController.text,
-      //       'return_date': TodateInputController.text,
-      //       'travel_class': traveldropdownvalue,
-      //       'trip_option': tripdropdownvalue,
-      //       'message': additionainfo_Controller.text
-      //       // 'name': 'Shanvith',
-      //       // 'surname': 'Bandaru',
-      //       // 'email': 'shanvithtwo@gmail.com',
-      //       // 'phone': phoneController.toString(),
-      //       // 'password': 'shanvith1234',
-      //       // 'password_confirmation': 'shanvith1234',
-      //       // 'from': 'Bengaluru',
-      //       // 'to': 'Chennai',
-      //       // 'airline': 'AirAsia',
-      //       // 'departure_date': '2024-03-20',
-      //       // 'return_date': '2024-03-22',
-      //       // 'travel_class': 'First class',
-      //       // 'trip_option': 'One Way',
-      //       // 'message': 'Good journey'
-      //
-      //     }
-      //
-      // );
       print('calling....');
       print(response.statusCode);
-      print('auth status code...');
+      print('status code...');
       print(response.statusCode);
-     // RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
-      print('fly auth token1');
-      print(RetrivedBearertoekn);
-
       if (response.statusCode == 201) {
         // Successful POST request, handle the response here
         final responseData = jsonDecode(response.body);
@@ -233,14 +208,31 @@ class _FlightScreenState extends State<AuthFlightScreen> {
           ),);
           SharedPreferences prefs = await SharedPreferences.getInstance();
           print('token fly');
+          RetrivedBearertoekn = data['data']['token'];
+          print('fly token generated...');
+          print(RetrivedBearertoekn);
           prefs.setString('tokenkey', RetrivedBearertoekn);
           prefs.setString('newBookingUserkey', newBookingUser);
-          prefs.setString('logoutkey', ('LogoutDashboard'));
-          prefs.setString('flyAuthuserkey', ('Flyauthuser'));
           // final snackBar = SnackBar(
           //   content: Text(data['message']),
           // );
           // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if (data['message'] == 'Start date should be greater or equal to booking day'){
+          print('call...1');
+
+          print('Start date should be greater or equal to booking day.......');
+          final snackBar = SnackBar(
+            content: Text('Start date should be greater or equal to booking day'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+        else {
+          print('call...3');
+
+          final snackBar = SnackBar(
+            content: Text('Return date should be greater or equal start date.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
       }
 
@@ -248,34 +240,33 @@ class _FlightScreenState extends State<AuthFlightScreen> {
         print('already entered existing data1...');
         print('email...');
         var data = jsonDecode(response.body);
-        // print(data['message']['email']);
-        // print(data['message']['phone']);
-        // if ((data['message']['phone']) != null && (data['message']['email']) != null) {
-        //   final snackBar = SnackBar(
-        //     content: Text('The email and phone has already been taken.'),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);        }
-        // else if ((data['message']['phone']) != null) {
-        //   final snackBar = SnackBar(
-        //     content: Text('The phone has already been taken.'),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        //
-        // } else if ((data['message']['email']) != null) {
-        //   final snackBar = SnackBar(
-        //     content: Text('The  email has already been taken.'),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        // } else if ((data['message']['return_date']) != null) {
-        //   print('date....');
-        //   final snackBar = SnackBar(
-        //     content: Text('The end date must be a date after start date.'),
-        //   );
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        // }
-        // else {
-        //   print('nullll.....');
-        // }
+        print(data['message']['email']);
+        print(data['message']['phone']);
+        if ((data['message']['phone']) != null && (data['message']['email']) != null) {
+          final snackBar = SnackBar(
+            content: Text('The email and phone has already been taken.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);        }
+        else if ((data['message']['phone']) != null) {
+          final snackBar = SnackBar(
+            content: Text('The phone has already been taken.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+        } else if ((data['message']['email']) != null) {
+          final snackBar = SnackBar(
+            content: Text('The  email has already been taken.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else if ((data['message']['return_date']) != null) {
+          print('date....');
+          final snackBar = SnackBar(
+            content: Text('The end date must be a date after start date.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else {
+          print('nullll.....');
+        }
       }
       else {
         print('failed');
@@ -363,7 +354,7 @@ class _FlightScreenState extends State<AuthFlightScreen> {
           iconTheme: IconThemeData(
               color: Colors.white
           ),
-          title: Text('FLIGHTS',textAlign: TextAlign.center,
+          title: Text('Create Flight Request',textAlign: TextAlign.center,
               style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
 
         ),
@@ -390,7 +381,7 @@ class _FlightScreenState extends State<AuthFlightScreen> {
                           child: Column(
                             children: [
                               Container(
-                                  height: 950.0,
+                                  height: 1250.0,
                                   width: 325.0,
                                   decoration: const BoxDecoration(
                                     //color: Color(0xFFffffff),
@@ -407,10 +398,7 @@ class _FlightScreenState extends State<AuthFlightScreen> {
                                       )
                                     ],
                                   ),
-                                  child: Container(
-                                    height: 800,
-                                    color: Colors.white,
-                                    child: Column(
+                                  child: Column(
                                     children: [
                                       Container(
                                           width: 125,
@@ -433,125 +421,125 @@ class _FlightScreenState extends State<AuthFlightScreen> {
                                       SizedBox(
                                         height: 15,
                                       ),
-                                      // Container(
-                                      //   margin: const EdgeInsets.all(00.0),
-                                      //   padding: EdgeInsets.only(top: 05.0,
-                                      //       left: 15.0,
-                                      //       right: 05.0),
-                                      //   //color: Colors.white30,
-                                      //   color: Colors.white,
-                                      //   width: 300.0,
-                                      //   height: 40.0,
-                                      //   child: TextField(
-                                      //       controller: firstNameController,
-                                      //       textAlign: TextAlign.left,
-                                      //       autocorrect: false,
-                                      //       decoration:
-                                      //       //disable single line border below the text field
-                                      //       new InputDecoration.collapsed(
-                                      //           hintText: 'First Name')),
-                                      // ),
+                                      Container(
+                                        margin: const EdgeInsets.all(00.0),
+                                        padding: EdgeInsets.only(top: 05.0,
+                                            left: 15.0,
+                                            right: 05.0),
+                                        //color: Colors.white30,
+                                        color: Colors.white,
+                                        width: 300.0,
+                                        height: 40.0,
+                                        child: TextField(
+                                            controller: firstNameController,
+                                            textAlign: TextAlign.left,
+                                            autocorrect: false,
+                                            decoration:
+                                            //disable single line border below the text field
+                                            new InputDecoration.collapsed(
+                                                hintText: 'First Name')),
+                                      ),
 
-                                      // SizedBox(height: 10,),
-                                      // Container(
-                                      //   margin: const EdgeInsets.all(00.0),
-                                      //   padding: EdgeInsets.only(top: 05.0,
-                                      //       left: 15.0,
-                                      //       right: 05.0),
-                                      //   //color: Colors.white30,
-                                      //   color: Colors.white,
-                                      //   width: 300.0,
-                                      //   height: 40.0,
-                                      //   child: TextField(
-                                      //       controller: lastNameController,
-                                      //       textAlign: TextAlign.left,
-                                      //       autocorrect: false,
-                                      //       decoration:
-                                      //       //disable single line border below the text field
-                                      //       new InputDecoration.collapsed(
-                                      //           hintText: 'Last Name')),
-                                      // ),
-                                      // SizedBox(height: 10,),
-                                      // Container(
-                                      //   margin: const EdgeInsets.all(00.0),
-                                      //   padding: EdgeInsets.only(top: 05.0,
-                                      //       left: 15.0,
-                                      //       right: 05.0),
-                                      //   //color: Colors.white30,
-                                      //   color: Colors.white,
-                                      //   width: 300.0,
-                                      //   height: 40.0,
-                                      //   child: TextField(
-                                      //       controller: emailController,
-                                      //       textAlign: TextAlign.left,
-                                      //       autocorrect: false,
-                                      //       decoration:
-                                      //       //disable single line border below the text field
-                                      //       new InputDecoration.collapsed(
-                                      //           hintText: 'Email')),
-                                      // ),
+                                      SizedBox(height: 10,),
+                                      Container(
+                                        margin: const EdgeInsets.all(00.0),
+                                        padding: EdgeInsets.only(top: 05.0,
+                                            left: 15.0,
+                                            right: 05.0),
+                                        //color: Colors.white30,
+                                        color: Colors.white,
+                                        width: 300.0,
+                                        height: 40.0,
+                                        child: TextField(
+                                            controller: lastNameController,
+                                            textAlign: TextAlign.left,
+                                            autocorrect: false,
+                                            decoration:
+                                            //disable single line border below the text field
+                                            new InputDecoration.collapsed(
+                                                hintText: 'Last Name')),
+                                      ),
+                                      SizedBox(height: 10,),
+                                      Container(
+                                        margin: const EdgeInsets.all(00.0),
+                                        padding: EdgeInsets.only(top: 05.0,
+                                            left: 15.0,
+                                            right: 05.0),
+                                        //color: Colors.white30,
+                                        color: Colors.white,
+                                        width: 300.0,
+                                        height: 40.0,
+                                        child: TextField(
+                                            controller: emailController,
+                                            textAlign: TextAlign.left,
+                                            autocorrect: false,
+                                            decoration:
+                                            //disable single line border below the text field
+                                            new InputDecoration.collapsed(
+                                                hintText: 'Email')),
+                                      ),
 
-                                      // SizedBox(height: 10,),
-                                      // Container(
-                                      //   margin: const EdgeInsets.all(00.0),
-                                      //   padding: EdgeInsets.only(top: 05.0,
-                                      //       left: 15.0,
-                                      //       right: 05.0),
-                                      //   //color: Colors.white30,
-                                      //   color: Colors.white,
-                                      //   width: 300.0,
-                                      //   height: 40.0,
-                                      //   child: TextField(
-                                      //       keyboardType: TextInputType.number,
-                                      //       controller: phoneController,
-                                      //       textAlign: TextAlign.left,
-                                      //       autocorrect: false,
-                                      //       decoration:
-                                      //       //disable single line border below the text field
-                                      //       new InputDecoration.collapsed(
-                                      //           hintText: 'Phone')),
-                                      // ),
-                                      // SizedBox(height: 10,),
-                                      // Container(
-                                      //   margin: const EdgeInsets.all(00.0),
-                                      //   padding: EdgeInsets.only(top: 05.0,
-                                      //       left: 15.0,
-                                      //       right: 05.0),
-                                      //   //color: Colors.white30,
-                                      //   color: Colors.white,
-                                      //   width: 300.0,
-                                      //   height: 40.0,
-                                      //   child: TextField(
-                                      //       obscureText: true,
-                                      //       controller: passwordController,
-                                      //       textAlign: TextAlign.left,
-                                      //       autocorrect: false,
-                                      //       decoration:
-                                      //       //disable single line border below the text field
-                                      //       new InputDecoration.collapsed(
-                                      //           hintText: 'Password')
-                                      //   ),
-                                      // ),        SizedBox(height: 10,),
-                                      // Container(
-                                      //   margin: const EdgeInsets.all(00.0),
-                                      //   padding: EdgeInsets.only(top: 05.0,
-                                      //       left: 15.0,
-                                      //       right: 05.0),
-                                      //   //color: Colors.white30,
-                                      //   color: Colors.white,
-                                      //   width: 300.0,
-                                      //   height: 40.0,
-                                      //   child: TextField(
-                                      //       obscureText: true,
-                                      //       controller: password_confirmation_Controller,
-                                      //       textAlign: TextAlign.left,
-                                      //       autocorrect: false,
-                                      //       decoration:
-                                      //       //disable single line border below the text field
-                                      //       new InputDecoration.collapsed(
-                                      //           hintText: 'Password Confirmation')),
-                                      // ),
-                                      // SizedBox(height: 10,),
+                                      SizedBox(height: 10,),
+                                      Container(
+                                        margin: const EdgeInsets.all(00.0),
+                                        padding: EdgeInsets.only(top: 05.0,
+                                            left: 15.0,
+                                            right: 05.0),
+                                        //color: Colors.white30,
+                                        color: Colors.white,
+                                        width: 300.0,
+                                        height: 40.0,
+                                        child: TextField(
+                                            keyboardType: TextInputType.number,
+                                            controller: phoneController,
+                                            textAlign: TextAlign.left,
+                                            autocorrect: false,
+                                            decoration:
+                                            //disable single line border below the text field
+                                            new InputDecoration.collapsed(
+                                                hintText: 'Phone')),
+                                      ),
+                                      SizedBox(height: 10,),
+                                      Container(
+                                        margin: const EdgeInsets.all(00.0),
+                                        padding: EdgeInsets.only(top: 05.0,
+                                            left: 15.0,
+                                            right: 05.0),
+                                        //color: Colors.white30,
+                                        color: Colors.white,
+                                        width: 300.0,
+                                        height: 40.0,
+                                        child: TextField(
+                                            obscureText: true,
+                                            controller: passwordController,
+                                            textAlign: TextAlign.left,
+                                            autocorrect: false,
+                                            decoration:
+                                            //disable single line border below the text field
+                                            new InputDecoration.collapsed(
+                                                hintText: 'Password')
+                                        ),
+                                      ),        SizedBox(height: 10,),
+                                      Container(
+                                        margin: const EdgeInsets.all(00.0),
+                                        padding: EdgeInsets.only(top: 05.0,
+                                            left: 15.0,
+                                            right: 05.0),
+                                        //color: Colors.white30,
+                                        color: Colors.white,
+                                        width: 300.0,
+                                        height: 40.0,
+                                        child: TextField(
+                                            obscureText: true,
+                                            controller: password_confirmation_Controller,
+                                            textAlign: TextAlign.left,
+                                            autocorrect: false,
+                                            decoration:
+                                            //disable single line border below the text field
+                                            new InputDecoration.collapsed(
+                                                hintText: 'Password Confirmation')),
+                                      ),
+                                      SizedBox(height: 10,),
 
                                       Container(
                                         padding: const EdgeInsets.only(left: 10),
@@ -873,7 +861,7 @@ class _FlightScreenState extends State<AuthFlightScreen> {
                                                 color: Colors.black54,
                                                 child: const Align(
                                                   alignment: Alignment.center,
-                                                  child: Text('Request',
+                                                  child: Text('Submit',
                                                       style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800
                                                       ),
                                                       textAlign: TextAlign.center),
@@ -882,9 +870,8 @@ class _FlightScreenState extends State<AuthFlightScreen> {
                                               ),
                                               onTap: () async {
                                                 print("Tapped on container");
-                                                //FlightRequest('', '', '', '', '', '', '','');
+                                                FlightRequest('', '', '', '', '', '', '', '', '', '', '', '', '','');
 
-                                                _postData();
 
 
                                               },
@@ -892,9 +879,7 @@ class _FlightScreenState extends State<AuthFlightScreen> {
                                         ),
                                       ),
 
-
                                     ],
-                                    ),
                                   )
                               ),
                               // middle widget goes here

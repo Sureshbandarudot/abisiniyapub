@@ -19,6 +19,10 @@ import '../ServiceDasboardVC.dart';
 // import 'ViewBookingsVC.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
+import 'create_AuthuserVC.dart';
+import 'create_newuserVC.dart';
+import 'flightViewBookingVC.dart';
+
 
 //import 'NewUserbooking.dart';
 class FluBooking_RequestScreen extends StatefulWidget {
@@ -35,6 +39,7 @@ class _userDashboardState extends State<FluBooking_RequestScreen> {
   String RetrivedBearertoekn = '';
   String Bookingsts = 'Not booked yet!';
   int ApartmentId = 0;
+  String flyAuthuser = '';
   _retrieveValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -107,6 +112,8 @@ class _userDashboardState extends State<FluBooking_RequestScreen> {
             // prefs.setString('logoutkey', ('LogoutDashboard'));
             //prefs.setString('Property_type', ('Apartment'));
             prefs.setString('LoggedinUserkey', LoggedInUser);
+            SharedPreferences prefrences = await SharedPreferences.getInstance();
+            await prefrences.remove("flyAuthuserkey");
 
 
             Navigator.push(
@@ -318,6 +325,9 @@ class _userDashboardState extends State<FluBooking_RequestScreen> {
                 );
                 SharedPreferences prefrences = await SharedPreferences.getInstance();
                 await prefrences.remove("LoggedinUserkey");
+                await prefrences.remove("flyAuthuserkey");
+
+
                 // NewBookingUserstr = prefs.getString('newBookingUserkey') ?? "";
                 // LoggedInUSerstr = prefs.getString('LoggedinUserkey') ?? "";
                 // print(' dashboard logged in user...');
@@ -370,7 +380,80 @@ class _userDashboardState extends State<FluBooking_RequestScreen> {
                                 child: Column(
                                   children: <Widget>[
                                     //Text('Your Apartments'),
-                                    Text('Bookings',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+                                    Text('Create Flight',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+
+
+                                    Container(
+                                      height: 50,
+                                      width: 340,
+                                      color: Colors.black54,
+
+                                      child: Column(
+                                        children: [
+
+                                          InkWell(
+                                            child: Container(
+                                              height: 50,
+                                              width: 340,
+                                              color: Colors.black54,
+                                              child: const Align(
+                                                alignment: Alignment.center,
+                                                child: Text('Create',
+                                                    style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800
+                                                    ),
+                                                    textAlign: TextAlign.center),
+                                              ),
+
+                                            ),
+                                            onTap: () async {
+                                              print("Tapped on container");
+                                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                                              prefs.setString('logoutkey', ('LogoutDashboard'));
+                                              prefs.setString('Property_type', ('Apartment'));
+                                              prefs.setString('tokenkey',RetrivedBearertoekn );
+                                              flyAuthuser = prefs.getString('flyAuthuserkey') ?? "";
+                                              print('fly.......');
+                                              print(flyAuthuser);
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => Create_AuthFlightScreen()),
+                                              );
+                                              // if(flyAuthuser == 'Flyauthuser'){
+                                              //   print('fly not empty...');
+                                              //
+                                              //   Navigator.push(
+                                              //     context,
+                                              //     MaterialPageRoute(
+                                              //         builder: (context) => Create_AuthFlightScreen()),
+                                              //   );
+                                              //
+                                              // } else {
+                                              //   print('fly empty...');
+                                              //   // Navigator.push(
+                                              //   //   context,
+                                              //   //   MaterialPageRoute(
+                                              //   //       builder: (context) => Create_newUSerFlightScreen()),
+                                              //   // );
+                                              //
+                                              // }
+
+                                              // Navigator.push(
+                                              //   context,
+                                              //   MaterialPageRoute(
+                                              //       builder: (context) => CreateApartment()),
+                                              // );
+                                            },
+                                          )],
+                                      ),
+                                      // child: const Align(
+                                      // alignment: Alignment.center,
+                                      // child: Text('Create',
+                                      // style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800
+                                      // ),
+                                      // textAlign: TextAlign.center),
+                                      // ),
+                                    ),
 
                                     ListView.separated(
                                         physics: NeverScrollableScrollPhysics(),
@@ -385,7 +468,9 @@ class _userDashboardState extends State<FluBooking_RequestScreen> {
 
                                         separatorBuilder: (BuildContext context, int index) => const Divider(),
                                         itemBuilder: (BuildContext context, int index) {
-                                         // bookingID = snapshot.data['data'][index]['id'];
+                                          bookingID = snapshot.data['data'][index]['flight_request_id'];
+                                          print('fly id...');
+                                          print(bookingID);
 
 
 //    itemBuilder: (context,index){
@@ -574,15 +659,16 @@ class _userDashboardState extends State<FluBooking_RequestScreen> {
                                                                 ),                                                              ),
                                                               onTap: () async {
 
-                                                                // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-                                                                //   builder: (_) => ViewBookingscreen(),
-                                                                // ),);
+                                                                Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+                                                                  builder: (_) => flightViewBookingscreen(),
+                                                                ),);
                                                                 SharedPreferences prefs = await SharedPreferences.getInstance();
                                                                 print('booking id...');
-                                                                print(snapshot.data['data'][index]['id']);
+                                                               // print(bookingID);
+                                                                print(snapshot.data['data'][index]['flight_request_id']);
                                                                 // prefs.setString('addresskey', snapshot.data['data'][index]['address']);
-                                                                prefs.setString('referencekey', snapshot.data['data'][index]['reference']);
-                                                                prefs.setInt('userbookingId', snapshot.data['data'][index]['id']);
+                                                                //prefs.setString('referencekey', snapshot.data['data'][index]['reference']);
+                                                                prefs.setInt('userbookingId', snapshot.data['data'][index]['flight_request_id']);
                                                                 prefs.setString('tokenkey', RetrivedBearertoekn);
                                                                 print("value of your text");},
                                                             ),
