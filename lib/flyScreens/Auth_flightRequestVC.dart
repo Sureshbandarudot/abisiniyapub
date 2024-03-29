@@ -11,6 +11,7 @@ import 'package:tourstravels/ApartVC/Addaprtment.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/UserDashboard_Screens/Apartbooking_Model.dart';
 import 'package:tourstravels/UserDashboard_Screens/PivoteVC.dart';
+import 'package:tourstravels/flyScreens/Auth_AirlineVC.dart';
 import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/My_Apartments/My_AprtmetsVC.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
@@ -19,6 +20,8 @@ import '../../My_Apartments/MyVehicles/MyvehicleVC.dart';
 import '../../ServiceDasboardVC.dart';
 //import 'Vehicle_PivoteVC.dart';
 import '../ServiceDasboardVC.dart';
+import 'Auth_depAirportdrplistVC.dart';
+import 'Auth_retAirportdrplistVC.dart';
 import 'MyflightRequest.dart';
 
 class AuthFlightScreen extends StatefulWidget {
@@ -45,6 +48,9 @@ class _FlightScreenState extends State<AuthFlightScreen> {
   String RetrivedBathromm = '';
   String RetrivedBedroom = '';
   String RetrivedPrice = '';
+  String Retrived_dep_airport = '';
+  String Retrived_ret_airport = '';
+  String Retrived_airline = '';
 
   final baseDioSingleton = BaseSingleton();
   _retrieveValues() async {
@@ -70,6 +76,15 @@ class _FlightScreenState extends State<AuthFlightScreen> {
       print('fly auth token1');
       print(RetrivedBearertoekn);
 
+      Retrived_dep_airport = prefs.getString('departure_airportstrkey') ?? "";
+      print('call..');
+      print(Retrived_dep_airport);
+      Retrived_ret_airport = prefs.getString('retrun_airportstrkey') ?? "";
+      Retrived_airline = prefs.getString('airline_airportstrkey') ?? "";
+      departureAirportController.text = Retrived_dep_airport;
+      arrivalAirportController.text = Retrived_ret_airport;
+      airlinesAirportController.text = Retrived_airline;
+
 
     });
   }
@@ -85,6 +100,9 @@ class _FlightScreenState extends State<AuthFlightScreen> {
   TextEditingController additionainfo_Controller = TextEditingController();
   TextEditingController FromdateInputController = TextEditingController();
   TextEditingController TodateInputController = TextEditingController();
+  TextEditingController departureAirportController = TextEditingController();
+  TextEditingController arrivalAirportController = TextEditingController();
+  TextEditingController airlinesAirportController = TextEditingController();
   String? fromdropdownvalue;
   String? todropdownvalue;
   String? airlinedropdownvalue;
@@ -143,9 +161,9 @@ class _FlightScreenState extends State<AuthFlightScreen> {
   //   }
   // }
   //void FlightRequest(String from, String to, String airline, String departure_date, String return_date,String travel_class, String trip_option, String message) async {
-    Future<void> _postData() async {
+  Future<void> _postData() async {
 
-      print('email.');
+    print('email.');
     print(emailController.text);
     try{
       String apiUrl = '';
@@ -159,14 +177,14 @@ class _FlightScreenState extends State<AuthFlightScreen> {
           "Authorization": "Bearer $RetrivedBearertoekn",
         },
         body: jsonEncode(<String, dynamic>{
-          'from': fromdropdownvalue,
-                'to': todropdownvalue,
-                'airline': airlinedropdownvalue,
-                'departure_date': FromdateInputController.text,
-                'return_date': TodateInputController.text,
-                'travel_class': traveldropdownvalue,
-                'trip_option': tripdropdownvalue,
-                'message': additionainfo_Controller.text
+          'from': departureAirportController.text,
+          'to': arrivalAirportController.text,
+          'airline': airlinesAirportController.text,
+          'departure_date': FromdateInputController.text,
+          'return_date': TodateInputController.text,
+          'travel_class': traveldropdownvalue,
+          'trip_option': tripdropdownvalue,
+          'message': additionainfo_Controller.text
           // Add any other data you want to send in the body
         }),
       );
@@ -215,7 +233,7 @@ class _FlightScreenState extends State<AuthFlightScreen> {
       print(response.statusCode);
       print('auth status code...');
       print(response.statusCode);
-     // RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
+      // RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
       print('fly auth token1');
       print(RetrivedBearertoekn);
 
@@ -363,7 +381,7 @@ class _FlightScreenState extends State<AuthFlightScreen> {
           iconTheme: IconThemeData(
               color: Colors.white
           ),
-          title: Text('FLIGHTS',textAlign: TextAlign.center,
+          title: Text('Create Flight Request',textAlign: TextAlign.center,
               style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
 
         ),
@@ -411,489 +429,502 @@ class _FlightScreenState extends State<AuthFlightScreen> {
                                     height: 800,
                                     color: Colors.white,
                                     child: Column(
-                                    children: [
-                                      Container(
-                                          width: 125,
-                                          child: CircleAvatar(
-                                            backgroundColor: Colors.transparent,
-                                            radius: 60.0,
-                                            child: Image.asset(
-                                                "images/logo2.png",
-                                                height: 100.0,
-                                                width: 125.0,
-                                                fit: BoxFit.fill
-                                            ),
-                                          )
-                                      ),
-                                      Text(
-                                        "Fill The Details Below & We Will Do The Rest!!",
-                                        textAlign: TextAlign.center ,
-                                        style: TextStyle(
-                                            color: Colors.green,fontWeight: FontWeight.bold,fontSize: 26),),
-                                      SizedBox(
-                                        height: 15,
-                                      ),
-                                      // Container(
-                                      //   margin: const EdgeInsets.all(00.0),
-                                      //   padding: EdgeInsets.only(top: 05.0,
-                                      //       left: 15.0,
-                                      //       right: 05.0),
-                                      //   //color: Colors.white30,
-                                      //   color: Colors.white,
-                                      //   width: 300.0,
-                                      //   height: 40.0,
-                                      //   child: TextField(
-                                      //       controller: firstNameController,
-                                      //       textAlign: TextAlign.left,
-                                      //       autocorrect: false,
-                                      //       decoration:
-                                      //       //disable single line border below the text field
-                                      //       new InputDecoration.collapsed(
-                                      //           hintText: 'First Name')),
-                                      // ),
-
-                                      // SizedBox(height: 10,),
-                                      // Container(
-                                      //   margin: const EdgeInsets.all(00.0),
-                                      //   padding: EdgeInsets.only(top: 05.0,
-                                      //       left: 15.0,
-                                      //       right: 05.0),
-                                      //   //color: Colors.white30,
-                                      //   color: Colors.white,
-                                      //   width: 300.0,
-                                      //   height: 40.0,
-                                      //   child: TextField(
-                                      //       controller: lastNameController,
-                                      //       textAlign: TextAlign.left,
-                                      //       autocorrect: false,
-                                      //       decoration:
-                                      //       //disable single line border below the text field
-                                      //       new InputDecoration.collapsed(
-                                      //           hintText: 'Last Name')),
-                                      // ),
-                                      // SizedBox(height: 10,),
-                                      // Container(
-                                      //   margin: const EdgeInsets.all(00.0),
-                                      //   padding: EdgeInsets.only(top: 05.0,
-                                      //       left: 15.0,
-                                      //       right: 05.0),
-                                      //   //color: Colors.white30,
-                                      //   color: Colors.white,
-                                      //   width: 300.0,
-                                      //   height: 40.0,
-                                      //   child: TextField(
-                                      //       controller: emailController,
-                                      //       textAlign: TextAlign.left,
-                                      //       autocorrect: false,
-                                      //       decoration:
-                                      //       //disable single line border below the text field
-                                      //       new InputDecoration.collapsed(
-                                      //           hintText: 'Email')),
-                                      // ),
-
-                                      // SizedBox(height: 10,),
-                                      // Container(
-                                      //   margin: const EdgeInsets.all(00.0),
-                                      //   padding: EdgeInsets.only(top: 05.0,
-                                      //       left: 15.0,
-                                      //       right: 05.0),
-                                      //   //color: Colors.white30,
-                                      //   color: Colors.white,
-                                      //   width: 300.0,
-                                      //   height: 40.0,
-                                      //   child: TextField(
-                                      //       keyboardType: TextInputType.number,
-                                      //       controller: phoneController,
-                                      //       textAlign: TextAlign.left,
-                                      //       autocorrect: false,
-                                      //       decoration:
-                                      //       //disable single line border below the text field
-                                      //       new InputDecoration.collapsed(
-                                      //           hintText: 'Phone')),
-                                      // ),
-                                      // SizedBox(height: 10,),
-                                      // Container(
-                                      //   margin: const EdgeInsets.all(00.0),
-                                      //   padding: EdgeInsets.only(top: 05.0,
-                                      //       left: 15.0,
-                                      //       right: 05.0),
-                                      //   //color: Colors.white30,
-                                      //   color: Colors.white,
-                                      //   width: 300.0,
-                                      //   height: 40.0,
-                                      //   child: TextField(
-                                      //       obscureText: true,
-                                      //       controller: passwordController,
-                                      //       textAlign: TextAlign.left,
-                                      //       autocorrect: false,
-                                      //       decoration:
-                                      //       //disable single line border below the text field
-                                      //       new InputDecoration.collapsed(
-                                      //           hintText: 'Password')
-                                      //   ),
-                                      // ),        SizedBox(height: 10,),
-                                      // Container(
-                                      //   margin: const EdgeInsets.all(00.0),
-                                      //   padding: EdgeInsets.only(top: 05.0,
-                                      //       left: 15.0,
-                                      //       right: 05.0),
-                                      //   //color: Colors.white30,
-                                      //   color: Colors.white,
-                                      //   width: 300.0,
-                                      //   height: 40.0,
-                                      //   child: TextField(
-                                      //       obscureText: true,
-                                      //       controller: password_confirmation_Controller,
-                                      //       textAlign: TextAlign.left,
-                                      //       autocorrect: false,
-                                      //       decoration:
-                                      //       //disable single line border below the text field
-                                      //       new InputDecoration.collapsed(
-                                      //           hintText: 'Password Confirmation')),
-                                      // ),
-                                      // SizedBox(height: 10,),
-
-                                      Container(
-                                        padding: const EdgeInsets.only(left: 10),
-                                        height: 50,
-                                        width: 300,
-                                        color: Colors.white,
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            FutureBuilder<List<String>>(
-                                              future: AirporttList(),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.hasData) {
-                                                  var data = snapshot.data!;
-                                                  return DropdownButton(
-                                                    isExpanded: true,
-                                                    hint: Text('From'),
-                                                    value: fromdropdownvalue,
-                                                    icon: const Icon(Icons.keyboard_arrow_down),
-                                                    items: data.map((String items) {
-                                                      return DropdownMenuItem(
-                                                        value: items,
-                                                        child: Text(items,style: TextStyle(fontSize: 13),),
-                                                      );
-                                                    }).toList(),
-                                                    onChanged: (String? newValue) {
-                                                      setState(() {
-                                                        fromdropdownvalue = newValue!;
-                                                      });
-                                                    },
-                                                  );
-                                                } else {
-                                                  return const CircularProgressIndicator();
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Container(
-                                        padding: const EdgeInsets.only(left: 10),
-                                        height: 50,
-                                        width: 300,
-                                        color: Colors.white,
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            FutureBuilder<List<String>>(
-                                              future: AirporttList(),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.hasData) {
-                                                  var data = snapshot.data!;
-                                                  return DropdownButton(
-                                                    isExpanded: true,
-                                                    hint: Text('To'),
-                                                    value: todropdownvalue,
-                                                    icon: const Icon(Icons.keyboard_arrow_down),
-                                                    items: data.map((String items) {
-                                                      return DropdownMenuItem(
-                                                        value: items,
-                                                        child: Text(items,style: TextStyle(fontSize: 13),),
-                                                      );
-                                                    }).toList(),
-                                                    onChanged: (String? newValue) {
-                                                      setState(() {
-                                                        todropdownvalue = newValue!;
-                                                      });
-                                                    },
-                                                  );
-                                                }
-                                                else {
-                                                  return const CircularProgressIndicator();
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-
-
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Container(
-                                        padding: const EdgeInsets.only(left: 10),
-                                        height: 50,
-                                        width: 300,
-                                        color: Colors.white,
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            FutureBuilder<List<String>>(
-                                              future: AirlineList(),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.hasData) {
-                                                  var data = snapshot.data!;
-                                                  return DropdownButton(
-                                                    isExpanded: true,
-                                                    hint: Text('Airlines'),
-                                                    value: airlinedropdownvalue,
-                                                    icon: const Icon(Icons.keyboard_arrow_down),
-                                                    items: data.map((String items) {
-                                                      return DropdownMenuItem(
-                                                        value: items,
-                                                        child: Text(items,style: TextStyle(fontSize: 13),),
-                                                      );
-                                                    }).toList(),
-                                                    onChanged: (String? newValue) {
-                                                      setState(() {
-                                                        airlinedropdownvalue = newValue!;
-                                                      });
-                                                    },
-                                                  );
-                                                }
-                                                else {
-                                                  return const CircularProgressIndicator();
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-
-                                      SizedBox(height: 10,),
-                                      Container(
-                                        margin: const EdgeInsets.all(00.0),
-                                        padding: EdgeInsets.only(top: 05.0,
-                                            left: 15.0,
-                                            right: 05.0),
-                                        height: 45,
-                                        width: 300,
-                                        color: Colors.white,
-                                        child: TextField(
-                                            textAlign: TextAlign.left,
-                                            autocorrect: false,
-                                            decoration: InputDecoration(
-                                              suffixIcon: Icon(Icons.calendar_month),
-                                              hintText: 'From Date',
-                                              border: InputBorder.none,
-                                            ),
-                                            controller: FromdateInputController,
-                                            readOnly: true,
-                                            onTap: () async {
-                                              DateTime? pickedDate = await showDatePicker(
-                                                //context: context,
-                                                // initialDate: DateTime.now(),
-                                                // firstDate: DateTime(1950),
-                                                // lastDate: DateTime(2050));
-                                                  context: context,
-                                                  initialDate: DateTime.now(),
-                                                  firstDate: DateTime.now().subtract(Duration(days: 0)),
-                                                  lastDate: DateTime(2100));
-                                              if (pickedDate != null) {
-                                                // FromdateInputController.text =pickedDate.toString();
-                                                fromDatestr = DateFormat('yyyy-MM-dd').format(pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
-                                                FromdateInputController.text = fromDatestr;
-                                              }
-                                            }
-                                        ),),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Container(
-                                        height: 45,
-                                        width: 300,
-                                        color: Colors.white,
-                                        margin: const EdgeInsets.all(00.0),
-                                        padding: EdgeInsets.only(top: 10.0,
-                                            left: 15.0,
-                                            right: 05.0),
-                                        child: TextField(
-                                            decoration: InputDecoration(
-                                              suffixIcon: Icon(Icons.calendar_month),
-                                              hintText: 'To Date',
-                                              border: InputBorder.none,
-                                            ),
-                                            controller: TodateInputController,
-                                            readOnly: true,
-                                            onTap: () async {
-                                              DateTime? pickedDate = await showDatePicker(
-                                                // context: context,
-                                                // initialDate: DateTime.now(),
-                                                // firstDate: DateTime(1950),
-                                                // lastDate: DateTime(2050));
-                                                  context: context,
-                                                  initialDate: DateTime.now(),
-                                                  firstDate: DateTime.now().subtract(Duration(days: 0)),
-                                                  lastDate: DateTime(2100));
-                                              if (pickedDate != null) {
-                                                //TodateInputController.text =pickedDate.toString();
-                                                toDatestr = DateFormat('yyyy-MM-dd').format(pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
-                                                TodateInputController.text = toDatestr;
-                                              }
-                                            }
-                                        ),),
-
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Container(
-                                        height: 50,
-                                        width: 300,
-                                        color: Colors.white,
-                                        margin: const EdgeInsets.all(00.0),
-                                        padding: EdgeInsets.only(left: 10.0,),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            DropdownButton(
-                                              isExpanded: true,
-                                              // Initial Value
-                                              value: traveldropdownvalue,
-                                              // Down Arrow Icon
-                                              icon: const Icon(Icons.keyboard_arrow_down),
-                                              // Array list of items
-                                              items: travelitems.map((String items) {
-                                                return DropdownMenuItem(
-                                                  value: items,
-                                                  child: Text(items),
-                                                );
-                                              }).toList(),
-                                              // After selecting the desired option,it will
-                                              // change button value to selected value
-                                              onChanged: (String? newValue) {
-                                                setState(() {
-                                                  traveldropdownvalue = newValue!;
-                                                });
-                                              },
-                                            ),
-                                          ],
-
-                                        ),
-
-                                      ),
-
-
-
-
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Container(
-                                        height: 50,
-                                        width: 300,
-                                        color: Colors.white,
-                                        margin: const EdgeInsets.all(00.0),
-                                        padding: EdgeInsets.only(left: 10.0,),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            DropdownButton(
-                                              isExpanded: true,
-                                              // Initial Value
-                                              value: tripdropdownvalue,
-                                              // Down Arrow Icon
-                                              icon: const Icon(Icons.keyboard_arrow_down),
-                                              // Array list of items
-                                              items: tripitems.map((String tripitems) {
-                                                return DropdownMenuItem(
-                                                  value: tripitems,
-                                                  child: Text(tripitems),
-                                                );
-                                              }).toList(),
-                                              // After selecting the desired option,it will
-                                              // change button value to selected value
-                                              onChanged: (String? newValue) {
-                                                setState(() {
-                                                  tripdropdownvalue = newValue!;
-                                                });
-                                              },
-                                            ),
-                                          ],
-
-                                        ),
-
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-
-                                      Container(
-                                        margin: const EdgeInsets.all(00.0),
-                                        padding: EdgeInsets.only(top: 05.0,
-                                            left: 15.0,
-                                            right: 05.0),
-                                        //color: Colors.white30,
-                                        color: Colors.white,
-                                        width: 300.0,
-                                        height: 200.0,
-                                        child: TextField(
-                                            controller: additionainfo_Controller,
-                                            textAlign: TextAlign.left,
-                                            autocorrect: false,
-                                            decoration:
-                                            //disable single line border below the text field
-                                            new InputDecoration.collapsed(
-                                                hintText: 'Additional Information')),
-                                      ),
-
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Container(
-                                        height: 50,
-                                        width: 300,
-                                        color: Colors.black54,
-                                        child: Column(
-                                          children: [
-                                            InkWell(
-                                              child: Container(
-                                                height: 50,
-                                                width: 300,
-                                                color: Colors.black54,
-                                                child: const Align(
-                                                  alignment: Alignment.center,
-                                                  child: Text('Request',
-                                                      style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800
-                                                      ),
-                                                      textAlign: TextAlign.center),
-                                                ),
-
+                                      children: [
+                                        Container(
+                                            width: 125,
+                                            child: CircleAvatar(
+                                              backgroundColor: Colors.transparent,
+                                              radius: 60.0,
+                                              child: Image.asset(
+                                                  "images/logo2.png",
+                                                  height: 100.0,
+                                                  width: 125.0,
+                                                  fit: BoxFit.fill
                                               ),
-                                              onTap: () async {
-                                                print("Tapped on container");
-                                                //FlightRequest('', '', '', '', '', '', '','');
+                                            )
+                                        ),
+                                        Text(
+                                          "Fill The Details Below & We Will Do The Rest!!",
+                                          textAlign: TextAlign.center ,
+                                          style: TextStyle(
+                                              color: Colors.green,fontWeight: FontWeight.bold,fontSize: 26),),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        SizedBox(height: 10,),
 
-                                                _postData();
+                                        Container(
+                                          margin: const EdgeInsets.all(00.0),
+                                          padding: EdgeInsets.only(top: 05.0,
+                                              left: 15.0,
+                                              right: 05.0),
+                                          //color: Colors.white30,
+                                          color: Colors.white,
+                                          width: 300.0,
+                                          height: 40.0,
+                                          child: TextField(
+                                              readOnly: true,
+                                              onTap: () async{
+                                                print('clicked departure...');
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => Auth_DepartureAirportListScreen()
+                                                  ),
+                                                );
+                                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                prefs.setString('firstnamekey', (firstNameController.text));
+                                                prefs.setString('lastnamekey', (lastNameController.text));
+                                                prefs.setString('emailnamekey', (emailController.text));
+                                                prefs.setString('phonekey', (phoneController.text));
+                                                prefs.setString('passwordkey', (passwordController.text));
+                                                prefs.setString('confirmpassword', (passwordController.text));
+                                                prefs.setString('travelclasskey', traveldropdownvalue);
+                                                prefs.setString('tripkey', tripdropdownvalue);
+                                                prefs.setString('additionalinfokey', additionainfo_Controller.text);
+
+
+
 
 
                                               },
-                                            )],
+                                              // obscureText: true,
+                                              controller: departureAirportController,
+                                              textAlign: TextAlign.left,
+                                              autocorrect: false,
+                                              decoration:
+                                              //disable single line border below the text field
+                                              new InputDecoration(
+                                                  border: InputBorder.none,
+                                                  suffixIcon: Icon(Icons.arrow_drop_down),
+                                                  hintText: 'Departure')),
                                         ),
-                                      ),
+
+                                        // Container(
+                                        //   padding: const EdgeInsets.only(left: 10),
+                                        //   height: 50,
+                                        //   width: 300,
+                                        //   color: Colors.white,
+                                        //   child: Column(
+                                        //     mainAxisAlignment: MainAxisAlignment.center,
+                                        //     mainAxisSize: MainAxisSize.min,
+                                        //     children: [
+                                        //       FutureBuilder<List<String>>(
+                                        //         future: AirporttList(),
+                                        //         builder: (context, snapshot) {
+                                        //           if (snapshot.hasData) {
+                                        //             var data = snapshot.data!;
+                                        //             return DropdownButton(
+                                        //                  isExpanded: true,
+                                        //               hint: Text('From'),
+                                        //               value: fromdropdownvalue,
+                                        //               icon: const Icon(Icons.keyboard_arrow_down),
+                                        //               items: data.map((String items) {
+                                        //                 return DropdownMenuItem(
+                                        //                   value: items,
+                                        //                   child: Text(items,style: TextStyle(fontSize: 13),),
+                                        //                 );
+                                        //               }).toList(),
+                                        //               onChanged: (String? newValue) {
+                                        //                 setState(() {
+                                        //                   fromdropdownvalue = newValue!;
+                                        //                 });
+                                        //               },
+                                        //             );
+                                        //           } else {
+                                        //             return const CircularProgressIndicator();
+                                        //           }
+                                        //         },
+                                        //       ),
+                                        //     ],
+                                        //   ),
+                                        // ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        // Container(
+                                        //   padding: const EdgeInsets.only(left: 10),
+                                        //   height: 50,
+                                        //   width: 300,
+                                        //   color: Colors.white,
+                                        //   child: Column(
+                                        //     mainAxisAlignment: MainAxisAlignment.center,
+                                        //     mainAxisSize: MainAxisSize.min,
+                                        //     children: [
+                                        //       FutureBuilder<List<String>>(
+                                        //         future: AirporttList(),
+                                        //         builder: (context, snapshot) {
+                                        //           if (snapshot.hasData) {
+                                        //             var data = snapshot.data!;
+                                        //             return DropdownButton(
+                                        //               isExpanded: true,
+                                        //               hint: Text('To'),
+                                        //               value: todropdownvalue,
+                                        //               icon: const Icon(Icons.keyboard_arrow_down),
+                                        //               items: data.map((String items) {
+                                        //                 return DropdownMenuItem(
+                                        //                   value: items,
+                                        //                   child: Text(items,style: TextStyle(fontSize: 13),),
+                                        //                 );
+                                        //               }).toList(),
+                                        //               onChanged: (String? newValue) {
+                                        //                 setState(() {
+                                        //                   todropdownvalue = newValue!;
+                                        //                 });
+                                        //               },
+                                        //             );
+                                        //           }
+                                        //           else {
+                                        //             return const CircularProgressIndicator();
+                                        //           }
+                                        //         },
+                                        //       ),
+                                        //     ],
+                                        //   ),
+                                        // ),
+
+                                        Container(
+                                          margin: const EdgeInsets.all(00.0),
+                                          padding: EdgeInsets.only(top: 05.0,
+                                              left: 15.0,
+                                              right: 05.0),
+                                          //color: Colors.white30,
+                                          color: Colors.white,
+                                          width: 300.0,
+                                          height: 40.0,
+                                          child: TextField(
+                                              readOnly: true,
+                                              onTap: () async {
+                                                print('clicked return...');
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => Atuh_returnjourneyAirportListScreen()
+                                                  ),
+
+                                                );
+
+                                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                prefs.setString('firstnamekey', (firstNameController.text));
+                                                prefs.setString('lastnamekey', (lastNameController.text));
+                                                prefs.setString('emailnamekey', (emailController.text));
+                                                prefs.setString('phonekey', (phoneController.text));
+                                                prefs.setString('passwordkey', (passwordController.text));
+                                                prefs.setString('confirmpassword', (passwordController.text));
+
+                                              },
+                                              // obscureText: true,
+                                              controller: arrivalAirportController,
+                                              textAlign: TextAlign.left,
 
 
-                                    ],
+
+                                              autocorrect: false,
+                                              decoration:
+                                              //disable single line border below the text field
+                                              new InputDecoration(
+                                                  border: InputBorder.none,
+                                                  suffixIcon: Icon(Icons.arrow_drop_down),
+                                                  hintText: 'Return')),
+                                        ),
+
+
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          margin: const EdgeInsets.all(00.0),
+                                          padding: EdgeInsets.only(top: 05.0,
+                                              left: 15.0,
+                                              right: 05.0),
+                                          //color: Colors.white30,
+                                          color: Colors.white,
+                                          width: 300.0,
+                                          height: 40.0,
+                                          child: TextField(
+                                              readOnly: true,
+                                              onTap: () async{
+                                                print('clicked Airlines...');
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => Auth_airlinescreen()
+                                                  ),
+                                                );
+                                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                prefs.setString('firstnamekey', (firstNameController.text));
+                                                prefs.setString('lastnamekey', (lastNameController.text));
+                                                prefs.setString('emailnamekey', (emailController.text));
+                                                prefs.setString('phonekey', (phoneController.text));
+                                                prefs.setString('passwordkey', (passwordController.text));
+                                                prefs.setString('confirmpassword', (passwordController.text));
+
+                                              },
+                                              // obscureText: true,
+                                              controller: airlinesAirportController,
+                                              textAlign: TextAlign.left,
+                                              autocorrect: false,
+                                              decoration:
+                                              //disable single line border below the text field
+                                              new InputDecoration(
+                                                  border: InputBorder.none,
+                                                  suffixIcon: Icon(Icons.arrow_drop_down),
+                                                  hintText: 'Airlines')),
+                                        ),
+                                        // Container(
+                                        //   padding: const EdgeInsets.only(left: 10),
+                                        //   height: 50,
+                                        //   width: 300,
+                                        //   color: Colors.white,
+                                        //   child: Column(
+                                        //     mainAxisAlignment: MainAxisAlignment.center,
+                                        //     mainAxisSize: MainAxisSize.min,
+                                        //     children: [
+                                        //       FutureBuilder<List<String>>(
+                                        //         future: AirlineList(),
+                                        //         builder: (context, snapshot) {
+                                        //           if (snapshot.hasData) {
+                                        //             var data = snapshot.data!;
+                                        //             return DropdownButton(
+                                        //               isExpanded: true,
+                                        //               hint: Text('Airlines'),
+                                        //               value: airlinedropdownvalue,
+                                        //               icon: const Icon(Icons.keyboard_arrow_down),
+                                        //               items: data.map((String items) {
+                                        //                 return DropdownMenuItem(
+                                        //                   value: items,
+                                        //                   child: Text(items,style: TextStyle(fontSize: 13),),
+                                        //                 );
+                                        //               }).toList(),
+                                        //               onChanged: (String? newValue) {
+                                        //                 setState(() {
+                                        //                   airlinedropdownvalue = newValue!;
+                                        //                 });
+                                        //               },
+                                        //             );
+                                        //           }
+                                        //           else {
+                                        //             return const CircularProgressIndicator();
+                                        //           }
+                                        //         },
+                                        //       ),
+                                        //     ],
+                                        //   ),
+                                        // ),
+
+                                        SizedBox(height: 10,),
+                                        Container(
+                                          margin: const EdgeInsets.all(00.0),
+                                          padding: EdgeInsets.only(top: 05.0,
+                                              left: 15.0,
+                                              right: 05.0),
+                                          height: 45,
+                                          width: 300,
+                                          color: Colors.white,
+                                          child: TextField(
+                                              textAlign: TextAlign.left,
+                                              autocorrect: false,
+                                              decoration: InputDecoration(
+                                                suffixIcon: Icon(Icons.calendar_month),
+                                                hintText: 'From Date',
+                                                border: InputBorder.none,
+                                              ),
+                                              controller: FromdateInputController,
+                                              readOnly: true,
+                                              onTap: () async {
+                                                DateTime? pickedDate = await showDatePicker(
+                                                  //context: context,
+                                                  // initialDate: DateTime.now(),
+                                                  // firstDate: DateTime(1950),
+                                                  // lastDate: DateTime(2050));
+                                                    context: context,
+                                                    initialDate: DateTime.now(),
+                                                    firstDate: DateTime.now().subtract(Duration(days: 0)),
+                                                    lastDate: DateTime(2100));
+                                                if (pickedDate != null) {
+                                                  // FromdateInputController.text =pickedDate.toString();
+                                                  fromDatestr = DateFormat('yyyy-MM-dd').format(pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
+                                                  FromdateInputController.text = fromDatestr;
+                                                }
+                                              }
+                                          ),),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          height: 45,
+                                          width: 300,
+                                          color: Colors.white,
+                                          margin: const EdgeInsets.all(00.0),
+                                          padding: EdgeInsets.only(top: 10.0,
+                                              left: 15.0,
+                                              right: 05.0),
+                                          child: TextField(
+                                              decoration: InputDecoration(
+                                                suffixIcon: Icon(Icons.calendar_month),
+                                                hintText: 'To Date',
+                                                border: InputBorder.none,
+                                              ),
+                                              controller: TodateInputController,
+                                              readOnly: true,
+                                              onTap: () async {
+                                                DateTime? pickedDate = await showDatePicker(
+                                                  // context: context,
+                                                  // initialDate: DateTime.now(),
+                                                  // firstDate: DateTime(1950),
+                                                  // lastDate: DateTime(2050));
+                                                    context: context,
+                                                    initialDate: DateTime.now(),
+                                                    firstDate: DateTime.now().subtract(Duration(days: 0)),
+                                                    lastDate: DateTime(2100));
+                                                if (pickedDate != null) {
+                                                  //TodateInputController.text =pickedDate.toString();
+                                                  toDatestr = DateFormat('yyyy-MM-dd').format(pickedDate); // format date in required form here we use yyyy-MM-dd that means time is removed
+                                                  TodateInputController.text = toDatestr;
+                                                }
+                                              }
+                                          ),),
+
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          height: 50,
+                                          width: 300,
+                                          color: Colors.white,
+                                          margin: const EdgeInsets.all(00.0),
+                                          padding: EdgeInsets.only(left: 10.0,),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              DropdownButton(
+                                                isExpanded: true,
+                                                // Initial Value
+                                                value: traveldropdownvalue,
+                                                // Down Arrow Icon
+                                                icon: const Icon(Icons.keyboard_arrow_down),
+                                                // Array list of items
+                                                items: travelitems.map((String items) {
+                                                  return DropdownMenuItem(
+                                                    value: items,
+                                                    child: Text(items),
+                                                  );
+                                                }).toList(),
+                                                // After selecting the desired option,it will
+                                                // change button value to selected value
+                                                onChanged: (String? newValue) {
+                                                  setState(() {
+                                                    traveldropdownvalue = newValue!;
+                                                  });
+                                                },
+                                              ),
+                                            ],
+
+                                          ),
+
+                                        ),
+
+
+
+
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          height: 50,
+                                          width: 300,
+                                          color: Colors.white,
+                                          margin: const EdgeInsets.all(00.0),
+                                          padding: EdgeInsets.only(left: 10.0,),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              DropdownButton(
+                                                isExpanded: true,
+                                                // Initial Value
+                                                value: tripdropdownvalue,
+                                                // Down Arrow Icon
+                                                icon: const Icon(Icons.keyboard_arrow_down),
+                                                // Array list of items
+                                                items: tripitems.map((String tripitems) {
+                                                  return DropdownMenuItem(
+                                                    value: tripitems,
+                                                    child: Text(tripitems),
+                                                  );
+                                                }).toList(),
+                                                // After selecting the desired option,it will
+                                                // change button value to selected value
+                                                onChanged: (String? newValue) {
+                                                  setState(() {
+                                                    tripdropdownvalue = newValue!;
+                                                  });
+                                                },
+                                              ),
+                                            ],
+
+                                          ),
+
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+
+                                        Container(
+                                          margin: const EdgeInsets.all(00.0),
+                                          padding: EdgeInsets.only(top: 05.0,
+                                              left: 15.0,
+                                              right: 05.0),
+                                          //color: Colors.white30,
+                                          color: Colors.white,
+                                          width: 300.0,
+                                          height: 200.0,
+                                          child: TextField(
+                                              controller: additionainfo_Controller,
+                                              textAlign: TextAlign.left,
+                                              autocorrect: false,
+                                              decoration:
+                                              //disable single line border below the text field
+                                              new InputDecoration.collapsed(
+                                                  hintText: 'Additional Information')),
+                                        ),
+
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Container(
+                                          height: 50,
+                                          width: 300,
+                                          color: Colors.black54,
+                                          child: Column(
+                                            children: [
+                                              InkWell(
+                                                child: Container(
+                                                  height: 50,
+                                                  width: 300,
+                                                  color: Colors.black54,
+                                                  child: const Align(
+                                                    alignment: Alignment.center,
+                                                    child: Text('Submit',
+                                                        style: TextStyle(color: Colors.white, fontSize: 20,fontWeight: FontWeight.w800
+                                                        ),
+                                                        textAlign: TextAlign.center),
+                                                  ),
+
+                                                ),
+                                                onTap: () async {
+                                                  print("Tapped on container");
+                                                  //FlightRequest('', '', '', '', '', '', '','');
+
+                                                  _postData();
+
+
+                                                },
+                                              )],
+                                          ),
+                                        ),
+
+
+                                      ],
                                     ),
                                   )
                               ),

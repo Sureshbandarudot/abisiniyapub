@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tourstravels/settingsVC.dart';
+import 'package:tourstravels/supportVC.dart';
 
 import 'ApartVC/Apartment.dart';
 import 'ApartVC/Authenticated_Userbookingscreen.dart';
@@ -368,7 +370,7 @@ class _ServiceDashboardScreenState extends State<ServiceDashboardScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => FlightScreen()),
+                            builder: (context) => settingsScreen()),
                       );
                     },
                   ),
@@ -402,7 +404,7 @@ class _ServiceDashboardScreenState extends State<ServiceDashboardScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => FlightScreen()),
+                            builder: (context) => supportScreen()),
                       );
                     },
                   ),

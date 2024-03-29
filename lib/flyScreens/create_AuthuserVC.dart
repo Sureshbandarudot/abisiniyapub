@@ -11,6 +11,8 @@ import 'package:tourstravels/ApartVC/Addaprtment.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/UserDashboard_Screens/Apartbooking_Model.dart';
 import 'package:tourstravels/UserDashboard_Screens/PivoteVC.dart';
+import 'package:tourstravels/flyScreens/Auth_AirlineVC.dart';
+import 'package:tourstravels/flyScreens/Create_Auth_depAirposrlistVC.dart';
 import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/My_Apartments/My_AprtmetsVC.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
@@ -19,6 +21,9 @@ import '../../My_Apartments/MyVehicles/MyvehicleVC.dart';
 import '../../ServiceDasboardVC.dart';
 //import 'Vehicle_PivoteVC.dart';
 import '../ServiceDasboardVC.dart';
+import 'Auth_depAirportdrplistVC.dart';
+import 'Create_Auth_AirlinesVC.dart';
+import 'Create_Auth_retAirportlistVC.dart';
 import 'MyflightRequest.dart';
 
 class Create_AuthFlightScreen extends StatefulWidget {
@@ -45,6 +50,9 @@ class _FlightScreenState extends State<Create_AuthFlightScreen> {
   String RetrivedBathromm = '';
   String RetrivedBedroom = '';
   String RetrivedPrice = '';
+  String Retrived_dep_airport = '';
+  String Retrived_ret_airport = '';
+  String Retrived_airline = '';
 
   final baseDioSingleton = BaseSingleton();
   _retrieveValues() async {
@@ -70,6 +78,15 @@ class _FlightScreenState extends State<Create_AuthFlightScreen> {
       print('fly auth token1');
       print(RetrivedBearertoekn);
 
+      Retrived_dep_airport = prefs.getString('departure_airportstrkey') ?? "";
+      print('call..');
+      print(Retrived_dep_airport);
+      Retrived_ret_airport = prefs.getString('retrun_airportstrkey') ?? "";
+      Retrived_airline = prefs.getString('airline_airportstrkey') ?? "";
+      departureAirportController.text = Retrived_dep_airport;
+      arrivalAirportController.text = Retrived_ret_airport;
+      airlinesAirportController.text = Retrived_airline;
+
 
     });
   }
@@ -85,6 +102,9 @@ class _FlightScreenState extends State<Create_AuthFlightScreen> {
   TextEditingController additionainfo_Controller = TextEditingController();
   TextEditingController FromdateInputController = TextEditingController();
   TextEditingController TodateInputController = TextEditingController();
+  TextEditingController departureAirportController = TextEditingController();
+  TextEditingController arrivalAirportController = TextEditingController();
+  TextEditingController airlinesAirportController = TextEditingController();
   String? fromdropdownvalue;
   String? todropdownvalue;
   String? airlinedropdownvalue;
@@ -159,9 +179,9 @@ class _FlightScreenState extends State<Create_AuthFlightScreen> {
           "Authorization": "Bearer $RetrivedBearertoekn",
         },
         body: jsonEncode(<String, dynamic>{
-          'from': fromdropdownvalue,
-          'to': todropdownvalue,
-          'airline': airlinedropdownvalue,
+          'from': departureAirportController.text,
+          'to': arrivalAirportController.text,
+          'airline': airlinesAirportController.text,
           'departure_date': FromdateInputController.text,
           'return_date': TodateInputController.text,
           'travel_class': traveldropdownvalue,
@@ -433,253 +453,273 @@ class _FlightScreenState extends State<Create_AuthFlightScreen> {
                                         SizedBox(
                                           height: 15,
                                         ),
-                                        // Container(
-                                        //   margin: const EdgeInsets.all(00.0),
-                                        //   padding: EdgeInsets.only(top: 05.0,
-                                        //       left: 15.0,
-                                        //       right: 05.0),
-                                        //   //color: Colors.white30,
-                                        //   color: Colors.white,
-                                        //   width: 300.0,
-                                        //   height: 40.0,
-                                        //   child: TextField(
-                                        //       controller: firstNameController,
-                                        //       textAlign: TextAlign.left,
-                                        //       autocorrect: false,
-                                        //       decoration:
-                                        //       //disable single line border below the text field
-                                        //       new InputDecoration.collapsed(
-                                        //           hintText: 'First Name')),
-                                        // ),
+                                        SizedBox(height: 10,),
 
-                                        // SizedBox(height: 10,),
-                                        // Container(
-                                        //   margin: const EdgeInsets.all(00.0),
-                                        //   padding: EdgeInsets.only(top: 05.0,
-                                        //       left: 15.0,
-                                        //       right: 05.0),
-                                        //   //color: Colors.white30,
-                                        //   color: Colors.white,
-                                        //   width: 300.0,
-                                        //   height: 40.0,
-                                        //   child: TextField(
-                                        //       controller: lastNameController,
-                                        //       textAlign: TextAlign.left,
-                                        //       autocorrect: false,
-                                        //       decoration:
-                                        //       //disable single line border below the text field
-                                        //       new InputDecoration.collapsed(
-                                        //           hintText: 'Last Name')),
-                                        // ),
-                                        // SizedBox(height: 10,),
-                                        // Container(
-                                        //   margin: const EdgeInsets.all(00.0),
-                                        //   padding: EdgeInsets.only(top: 05.0,
-                                        //       left: 15.0,
-                                        //       right: 05.0),
-                                        //   //color: Colors.white30,
-                                        //   color: Colors.white,
-                                        //   width: 300.0,
-                                        //   height: 40.0,
-                                        //   child: TextField(
-                                        //       controller: emailController,
-                                        //       textAlign: TextAlign.left,
-                                        //       autocorrect: false,
-                                        //       decoration:
-                                        //       //disable single line border below the text field
-                                        //       new InputDecoration.collapsed(
-                                        //           hintText: 'Email')),
-                                        // ),
+                                        Container(
+                                          margin: const EdgeInsets.all(00.0),
+                                          padding: EdgeInsets.only(top: 05.0,
+                                              left: 15.0,
+                                              right: 05.0),
+                                          //color: Colors.white30,
+                                          color: Colors.white,
+                                          width: 300.0,
+                                          height: 40.0,
+                                          child: TextField(
+                                              readOnly: true,
+                                              onTap: () async{
+                                                print('clicked departure...');
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => Create_Auth_DepartureAirportListScreen()
+                                                  ),
+                                                );
+                                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                prefs.setString('firstnamekey', (firstNameController.text));
+                                                prefs.setString('lastnamekey', (lastNameController.text));
+                                                prefs.setString('emailnamekey', (emailController.text));
+                                                prefs.setString('phonekey', (phoneController.text));
+                                                prefs.setString('passwordkey', (passwordController.text));
+                                                prefs.setString('confirmpassword', (password_confirmation_Controller.text));
+                                                prefs.setString('travelclasskey', traveldropdownvalue);
+                                                prefs.setString('tripkey', tripdropdownvalue);
+                                                prefs.setString('additionalinfokey', additionainfo_Controller.text);
 
-                                        // SizedBox(height: 10,),
+
+
+
+
+                                              },
+                                              // obscureText: true,
+                                              controller: departureAirportController,
+                                              textAlign: TextAlign.left,
+                                              autocorrect: false,
+                                              decoration:
+                                              //disable single line border below the text field
+                                              new InputDecoration(
+                                                  border: InputBorder.none,
+                                                  suffixIcon: Icon(Icons.arrow_drop_down),
+                                                  hintText: 'Departure')),
+                                        ),
+
                                         // Container(
-                                        //   margin: const EdgeInsets.all(00.0),
-                                        //   padding: EdgeInsets.only(top: 05.0,
-                                        //       left: 15.0,
-                                        //       right: 05.0),
-                                        //   //color: Colors.white30,
+                                        //   padding: const EdgeInsets.only(left: 10),
+                                        //   height: 50,
+                                        //   width: 300,
                                         //   color: Colors.white,
-                                        //   width: 300.0,
-                                        //   height: 40.0,
-                                        //   child: TextField(
-                                        //       keyboardType: TextInputType.number,
-                                        //       controller: phoneController,
-                                        //       textAlign: TextAlign.left,
-                                        //       autocorrect: false,
-                                        //       decoration:
-                                        //       //disable single line border below the text field
-                                        //       new InputDecoration.collapsed(
-                                        //           hintText: 'Phone')),
-                                        // ),
-                                        // SizedBox(height: 10,),
-                                        // Container(
-                                        //   margin: const EdgeInsets.all(00.0),
-                                        //   padding: EdgeInsets.only(top: 05.0,
-                                        //       left: 15.0,
-                                        //       right: 05.0),
-                                        //   //color: Colors.white30,
-                                        //   color: Colors.white,
-                                        //   width: 300.0,
-                                        //   height: 40.0,
-                                        //   child: TextField(
-                                        //       obscureText: true,
-                                        //       controller: passwordController,
-                                        //       textAlign: TextAlign.left,
-                                        //       autocorrect: false,
-                                        //       decoration:
-                                        //       //disable single line border below the text field
-                                        //       new InputDecoration.collapsed(
-                                        //           hintText: 'Password')
+                                        //   child: Column(
+                                        //     mainAxisAlignment: MainAxisAlignment.center,
+                                        //     mainAxisSize: MainAxisSize.min,
+                                        //     children: [
+                                        //       FutureBuilder<List<String>>(
+                                        //         future: AirporttList(),
+                                        //         builder: (context, snapshot) {
+                                        //           if (snapshot.hasData) {
+                                        //             var data = snapshot.data!;
+                                        //             return DropdownButton(
+                                        //                  isExpanded: true,
+                                        //               hint: Text('From'),
+                                        //               value: fromdropdownvalue,
+                                        //               icon: const Icon(Icons.keyboard_arrow_down),
+                                        //               items: data.map((String items) {
+                                        //                 return DropdownMenuItem(
+                                        //                   value: items,
+                                        //                   child: Text(items,style: TextStyle(fontSize: 13),),
+                                        //                 );
+                                        //               }).toList(),
+                                        //               onChanged: (String? newValue) {
+                                        //                 setState(() {
+                                        //                   fromdropdownvalue = newValue!;
+                                        //                 });
+                                        //               },
+                                        //             );
+                                        //           } else {
+                                        //             return const CircularProgressIndicator();
+                                        //           }
+                                        //         },
+                                        //       ),
+                                        //     ],
                                         //   ),
-                                        // ),        SizedBox(height: 10,),
-                                        // Container(
-                                        //   margin: const EdgeInsets.all(00.0),
-                                        //   padding: EdgeInsets.only(top: 05.0,
-                                        //       left: 15.0,
-                                        //       right: 05.0),
-                                        //   //color: Colors.white30,
-                                        //   color: Colors.white,
-                                        //   width: 300.0,
-                                        //   height: 40.0,
-                                        //   child: TextField(
-                                        //       obscureText: true,
-                                        //       controller: password_confirmation_Controller,
-                                        //       textAlign: TextAlign.left,
-                                        //       autocorrect: false,
-                                        //       decoration:
-                                        //       //disable single line border below the text field
-                                        //       new InputDecoration.collapsed(
-                                        //           hintText: 'Password Confirmation')),
                                         // ),
-                                        // SizedBox(height: 10,),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        // Container(
+                                        //   padding: const EdgeInsets.only(left: 10),
+                                        //   height: 50,
+                                        //   width: 300,
+                                        //   color: Colors.white,
+                                        //   child: Column(
+                                        //     mainAxisAlignment: MainAxisAlignment.center,
+                                        //     mainAxisSize: MainAxisSize.min,
+                                        //     children: [
+                                        //       FutureBuilder<List<String>>(
+                                        //         future: AirporttList(),
+                                        //         builder: (context, snapshot) {
+                                        //           if (snapshot.hasData) {
+                                        //             var data = snapshot.data!;
+                                        //             return DropdownButton(
+                                        //               isExpanded: true,
+                                        //               hint: Text('To'),
+                                        //               value: todropdownvalue,
+                                        //               icon: const Icon(Icons.keyboard_arrow_down),
+                                        //               items: data.map((String items) {
+                                        //                 return DropdownMenuItem(
+                                        //                   value: items,
+                                        //                   child: Text(items,style: TextStyle(fontSize: 13),),
+                                        //                 );
+                                        //               }).toList(),
+                                        //               onChanged: (String? newValue) {
+                                        //                 setState(() {
+                                        //                   todropdownvalue = newValue!;
+                                        //                 });
+                                        //               },
+                                        //             );
+                                        //           }
+                                        //           else {
+                                        //             return const CircularProgressIndicator();
+                                        //           }
+                                        //         },
+                                        //       ),
+                                        //     ],
+                                        //   ),
+                                        // ),
 
                                         Container(
-                                          padding: const EdgeInsets.only(left: 10),
-                                          height: 50,
-                                          width: 300,
+                                          margin: const EdgeInsets.all(00.0),
+                                          padding: EdgeInsets.only(top: 05.0,
+                                              left: 15.0,
+                                              right: 05.0),
+                                          //color: Colors.white30,
                                           color: Colors.white,
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              FutureBuilder<List<String>>(
-                                                future: AirporttList(),
-                                                builder: (context, snapshot) {
-                                                  if (snapshot.hasData) {
-                                                    var data = snapshot.data!;
-                                                    return DropdownButton(
-                                                      isExpanded: true,
-                                                      hint: Text('From'),
-                                                      value: fromdropdownvalue,
-                                                      icon: const Icon(Icons.keyboard_arrow_down),
-                                                      items: data.map((String items) {
-                                                        return DropdownMenuItem(
-                                                          value: items,
-                                                          child: Text(items,style: TextStyle(fontSize: 13),),
-                                                        );
-                                                      }).toList(),
-                                                      onChanged: (String? newValue) {
-                                                        setState(() {
-                                                          fromdropdownvalue = newValue!;
-                                                        });
-                                                      },
-                                                    );
-                                                  } else {
-                                                    return const CircularProgressIndicator();
-                                                  }
-                                                },
-                                              ),
-                                            ],
-                                          ),
+                                          width: 300.0,
+                                          height: 40.0,
+                                          child: TextField(
+                                              readOnly: true,
+                                              onTap: () async {
+                                                print('clicked return...');
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => Create_Atuh_returnjourneyAirportListScreen()
+                                                  ),
+
+                                                );
+
+                                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                prefs.setString('firstnamekey', (firstNameController.text));
+                                                prefs.setString('lastnamekey', (lastNameController.text));
+                                                prefs.setString('emailnamekey', (emailController.text));
+                                                prefs.setString('phonekey', (phoneController.text));
+                                                prefs.setString('passwordkey', (passwordController.text));
+                                                prefs.setString('confirmpassword', (password_confirmation_Controller.text));
+                                                prefs.setString('travelclasskey', traveldropdownvalue);
+                                                prefs.setString('tripkey', tripdropdownvalue);
+                                                prefs.setString('additionalinfokey', additionainfo_Controller.text);
+
+                                              },
+                                              // obscureText: true,
+                                              controller: arrivalAirportController,
+                                              textAlign: TextAlign.left,
+
+
+
+                                              autocorrect: false,
+                                              decoration:
+                                              //disable single line border below the text field
+                                              new InputDecoration(
+                                                  border: InputBorder.none,
+                                                  suffixIcon: Icon(Icons.arrow_drop_down),
+                                                  hintText: 'Return')),
                                         ),
+
+
                                         SizedBox(
                                           height: 10,
                                         ),
                                         Container(
-                                          padding: const EdgeInsets.only(left: 10),
-                                          height: 50,
-                                          width: 300,
+                                          margin: const EdgeInsets.all(00.0),
+                                          padding: EdgeInsets.only(top: 05.0,
+                                              left: 15.0,
+                                              right: 05.0),
+                                          //color: Colors.white30,
                                           color: Colors.white,
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              FutureBuilder<List<String>>(
-                                                future: AirporttList(),
-                                                builder: (context, snapshot) {
-                                                  if (snapshot.hasData) {
-                                                    var data = snapshot.data!;
-                                                    return DropdownButton(
-                                                      isExpanded: true,
-                                                      hint: Text('To'),
-                                                      value: todropdownvalue,
-                                                      icon: const Icon(Icons.keyboard_arrow_down),
-                                                      items: data.map((String items) {
-                                                        return DropdownMenuItem(
-                                                          value: items,
-                                                          child: Text(items,style: TextStyle(fontSize: 13),),
-                                                        );
-                                                      }).toList(),
-                                                      onChanged: (String? newValue) {
-                                                        setState(() {
-                                                          todropdownvalue = newValue!;
-                                                        });
-                                                      },
-                                                    );
-                                                  }
-                                                  else {
-                                                    return const CircularProgressIndicator();
-                                                  }
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                          width: 300.0,
+                                          height: 40.0,
+                                          child: TextField(
+                                              readOnly: true,
+                                              onTap: () async{
+                                                print('clicked Airlines...');
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => Create_Auth_airlinescreen()
+                                                  ),
+                                                );
+                                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                prefs.setString('firstnamekey', (firstNameController.text));
+                                                prefs.setString('lastnamekey', (lastNameController.text));
+                                                prefs.setString('emailnamekey', (emailController.text));
+                                                prefs.setString('phonekey', (phoneController.text));
+                                                prefs.setString('passwordkey', (passwordController.text));
+                                                prefs.setString('confirmpassword', (password_confirmation_Controller.text));
+                                                prefs.setString('travelclasskey', traveldropdownvalue);
+                                                prefs.setString('tripkey', tripdropdownvalue);
+                                                prefs.setString('additionalinfokey', additionainfo_Controller.text);
 
 
-                                        SizedBox(
-                                          height: 10,
+                                              },
+                                              // obscureText: true,
+                                              controller: airlinesAirportController,
+                                              textAlign: TextAlign.left,
+                                              autocorrect: false,
+                                              decoration:
+                                              //disable single line border below the text field
+                                              new InputDecoration(
+                                                  border: InputBorder.none,
+                                                  suffixIcon: Icon(Icons.arrow_drop_down),
+                                                  hintText: 'Airlines')),
                                         ),
-                                        Container(
-                                          padding: const EdgeInsets.only(left: 10),
-                                          height: 50,
-                                          width: 300,
-                                          color: Colors.white,
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              FutureBuilder<List<String>>(
-                                                future: AirlineList(),
-                                                builder: (context, snapshot) {
-                                                  if (snapshot.hasData) {
-                                                    var data = snapshot.data!;
-                                                    return DropdownButton(
-                                                      isExpanded: true,
-                                                      hint: Text('Airlines'),
-                                                      value: airlinedropdownvalue,
-                                                      icon: const Icon(Icons.keyboard_arrow_down),
-                                                      items: data.map((String items) {
-                                                        return DropdownMenuItem(
-                                                          value: items,
-                                                          child: Text(items,style: TextStyle(fontSize: 13),),
-                                                        );
-                                                      }).toList(),
-                                                      onChanged: (String? newValue) {
-                                                        setState(() {
-                                                          airlinedropdownvalue = newValue!;
-                                                        });
-                                                      },
-                                                    );
-                                                  }
-                                                  else {
-                                                    return const CircularProgressIndicator();
-                                                  }
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                        // Container(
+                                        //   padding: const EdgeInsets.only(left: 10),
+                                        //   height: 50,
+                                        //   width: 300,
+                                        //   color: Colors.white,
+                                        //   child: Column(
+                                        //     mainAxisAlignment: MainAxisAlignment.center,
+                                        //     mainAxisSize: MainAxisSize.min,
+                                        //     children: [
+                                        //       FutureBuilder<List<String>>(
+                                        //         future: AirlineList(),
+                                        //         builder: (context, snapshot) {
+                                        //           if (snapshot.hasData) {
+                                        //             var data = snapshot.data!;
+                                        //             return DropdownButton(
+                                        //               isExpanded: true,
+                                        //               hint: Text('Airlines'),
+                                        //               value: airlinedropdownvalue,
+                                        //               icon: const Icon(Icons.keyboard_arrow_down),
+                                        //               items: data.map((String items) {
+                                        //                 return DropdownMenuItem(
+                                        //                   value: items,
+                                        //                   child: Text(items,style: TextStyle(fontSize: 13),),
+                                        //                 );
+                                        //               }).toList(),
+                                        //               onChanged: (String? newValue) {
+                                        //                 setState(() {
+                                        //                   airlinedropdownvalue = newValue!;
+                                        //                 });
+                                        //               },
+                                        //             );
+                                        //           }
+                                        //           else {
+                                        //             return const CircularProgressIndicator();
+                                        //           }
+                                        //         },
+                                        //       ),
+                                        //     ],
+                                        //   ),
+                                        // ),
 
                                         SizedBox(height: 10,),
                                         Container(

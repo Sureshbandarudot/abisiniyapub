@@ -11,6 +11,7 @@ import 'package:tourstravels/ApartVC/Addaprtment.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourstravels/UserDashboard_Screens/Apartbooking_Model.dart';
 import 'package:tourstravels/UserDashboard_Screens/PivoteVC.dart';
+import 'package:tourstravels/flyScreens/returnjourneyAirportlistVC.dart';
 import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/My_Apartments/My_AprtmetsVC.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
@@ -19,7 +20,9 @@ import '../../My_Apartments/MyVehicles/MyvehicleVC.dart';
 import '../../ServiceDasboardVC.dart';
 //import 'Vehicle_PivoteVC.dart';
 import '../ServiceDasboardVC.dart';
+import 'DepartureAirportlistVC.dart';
 import 'MyflightRequest.dart';
+import 'airlineVC.dart';
 
 class FlightScreen extends StatefulWidget {
   const FlightScreen({super.key});
@@ -46,9 +49,31 @@ class _FlightScreenState extends State<FlightScreen> {
   String RetrivedBedroom = '';
   String RetrivedPrice = '';
 
+  String Retrived_dep_airport = '';
+  String Retrived_ret_airport = '';
+  String Retrived_airline = '';
+  String firstNamesstr = '';
+  String FreshUserstr = '';
+  String LastNamesstr = '';
+  String emailstr = '';
+  String phonesstr = '';
+  String passwordstr = '';
+  String confirmpasswordstr = '';
+  String travelstr = '';
+  String tripstr = '';
+  String additional_infostr = '';
+
+
+
+
+
+
+
+
+
   final baseDioSingleton = BaseSingleton();
-  _retrieveValues() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  _retrieveValues() async {    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     setState(() {
       print('url...');
       print(baseDioSingleton.AbisiniyaBaseurl);
@@ -70,6 +95,53 @@ class _FlightScreenState extends State<FlightScreen> {
       print('token1');
       print(RetrivedBearertoekn);
 
+      Retrived_dep_airport = prefs.getString('departure_airportstrkey') ?? "";
+      print('call..');
+      print(Retrived_dep_airport);
+      Retrived_ret_airport = prefs.getString('retrun_airportstrkey') ?? "";
+      Retrived_airline = prefs.getString('airline_airportstrkey') ?? "";
+      firstNamesstr = prefs.getString('firstnamekey') ?? "";
+      LastNamesstr = prefs.getString('lastnamekey') ?? "";
+      emailstr = prefs.getString('emailnamekey') ?? "";
+      phonesstr = prefs.getString('phonekey') ?? "";
+      passwordstr = prefs.getString('passwordkey') ?? "";
+      confirmpasswordstr = prefs.getString('confirmpassword') ?? "";
+      additional_infostr = prefs.getString('additionalinfokey') ?? "";
+      travelstr = prefs.getString('travelclasskey') ?? "";
+      tripstr = prefs.getString('tripkey') ?? "";
+      // prefs.setString('freshuserkey', ('Newuser'));
+      FreshUserstr = prefs.getString('freshuserkey') ?? "";
+
+
+      print('FreshUserstr ....');
+      print(FreshUserstr);
+
+
+      departureAirportController.text = Retrived_dep_airport;
+      arrivalAirportController.text = Retrived_ret_airport;
+      airlinesAirportController.text = Retrived_airline;
+      firstNameController.text = firstNamesstr;
+      lastNameController.text = LastNamesstr;
+      emailController.text = emailstr;
+      phoneController.text = phonesstr;
+      passwordController.text = passwordstr;
+      password_confirmation_Controller.text = confirmpasswordstr;
+
+      // if (FreshUserstr == '') {
+      //   print('fresh user empty....');
+      //   departureAirportController.text = Retrived_dep_airport;
+      //   arrivalAirportController.text = Retrived_ret_airport;
+      //   airlinesAirportController.text = Retrived_airline;
+      //   firstNameController.text = firstNamesstr;
+      //
+      //   //departureAirportController.clear();
+      // } else {
+      //   print('fresh user not  empty....');
+      //   firstNameController.clear();
+      //   departureAirportController.clear();
+      //
+      // }
+
 
     });
   }
@@ -82,6 +154,9 @@ class _FlightScreenState extends State<FlightScreen> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController password_confirmation_Controller = TextEditingController();
+  TextEditingController departureAirportController = TextEditingController();
+  TextEditingController arrivalAirportController = TextEditingController();
+  TextEditingController airlinesAirportController = TextEditingController();
   TextEditingController additionainfo_Controller = TextEditingController();
   TextEditingController FromdateInputController = TextEditingController();
   TextEditingController TodateInputController = TextEditingController();
@@ -164,9 +239,9 @@ class _FlightScreenState extends State<FlightScreen> {
             'phone': phoneController.text,
             'password': passwordController.text,
             'password_confirmation': password_confirmation_Controller.text,
-            'from': fromdropdownvalue,
-            'to': todropdownvalue,
-            'airline': airlinedropdownvalue,
+            'from': departureAirportController.text,
+            'to': arrivalAirportController.text,
+            'airline': arrivalAirportController.text,
             'departure_date': FromdateInputController.text,
             'return_date': TodateInputController.text,
             'travel_class': traveldropdownvalue,
@@ -213,6 +288,11 @@ class _FlightScreenState extends State<FlightScreen> {
           print(RetrivedBearertoekn);
           prefs.setString('tokenkey', RetrivedBearertoekn);
           prefs.setString('newBookingUserkey', newBookingUser);
+          SharedPreferences prefrences = await SharedPreferences.getInstance();
+          // await prefrences.remove("departure_airportstrkey");
+          // await prefrences.remove("retrun_airportstrkey");
+          // await prefrences.remove("airline_airportstrkey");
+
           // final snackBar = SnackBar(
           //   content: Text(data['message']),
           // );
@@ -283,9 +363,14 @@ class _FlightScreenState extends State<FlightScreen> {
 
 
 
-  void initState() {
+  void initState()  {
     // TODO: implement initState
     _retrieveValues();
+    //SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Retrived_dep_airport = prefs.getString('departure_airportstrkey') ?? "";
+
+
+
 
     // login('', '', '', '', '', '', '', '', '', '', '', '', '');
 
@@ -542,86 +627,182 @@ class _FlightScreenState extends State<FlightScreen> {
                                       SizedBox(height: 10,),
 
                                       Container(
-                                        padding: const EdgeInsets.only(left: 10),
-                                        height: 50,
-                                        width: 300,
+                                        margin: const EdgeInsets.all(00.0),
+                                        padding: EdgeInsets.only(top: 05.0,
+                                            left: 15.0,
+                                            right: 05.0),
+                                        //color: Colors.white30,
                                         color: Colors.white,
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            FutureBuilder<List<String>>(
-                                              future: AirporttList(),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.hasData) {
-                                                  var data = snapshot.data!;
-                                                  return DropdownButton(
-                                                       isExpanded: true,
-                                                    hint: Text('From'),
-                                                    value: fromdropdownvalue,
-                                                    icon: const Icon(Icons.keyboard_arrow_down),
-                                                    items: data.map((String items) {
-                                                      return DropdownMenuItem(
-                                                        value: items,
-                                                        child: Text(items,style: TextStyle(fontSize: 13),),
-                                                      );
-                                                    }).toList(),
-                                                    onChanged: (String? newValue) {
-                                                      setState(() {
-                                                        fromdropdownvalue = newValue!;
-                                                      });
-                                                    },
-                                                  );
-                                                } else {
-                                                  return const CircularProgressIndicator();
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
+                                        width: 300.0,
+                                        height: 40.0,
+                                        child: TextField(
+                                            readOnly: true,
+                                            onTap: () async{
+                                              print('clicked departure...');
+                                              Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) => DepartureAirportListScreen()
+                                                      ),
+                                                    );
+                                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                                              prefs.setString('firstnamekey', (firstNameController.text));
+                                              prefs.setString('lastnamekey', (lastNameController.text));
+                                              prefs.setString('emailnamekey', (emailController.text));
+                                              prefs.setString('phonekey', (phoneController.text));
+                                              prefs.setString('passwordkey', (passwordController.text));
+                                              prefs.setString('confirmpassword', (password_confirmation_Controller.text));
+                                              prefs.setString('travelclasskey', traveldropdownvalue);
+                                              prefs.setString('tripkey', tripdropdownvalue);
+                                              prefs.setString('additionalinfokey', additionainfo_Controller.text);
+
+
+
+
+
+                                            },
+                                           // obscureText: true,
+                                            controller: departureAirportController,
+                                            textAlign: TextAlign.left,
+                                            autocorrect: false,
+                                            decoration:
+                                            //disable single line border below the text field
+                                            new InputDecoration(
+                                                border: InputBorder.none,
+                                                suffixIcon: Icon(Icons.arrow_drop_down),
+                                                hintText: 'Departure')),
                                       ),
+
+                                      // Container(
+                                      //   padding: const EdgeInsets.only(left: 10),
+                                      //   height: 50,
+                                      //   width: 300,
+                                      //   color: Colors.white,
+                                      //   child: Column(
+                                      //     mainAxisAlignment: MainAxisAlignment.center,
+                                      //     mainAxisSize: MainAxisSize.min,
+                                      //     children: [
+                                      //       FutureBuilder<List<String>>(
+                                      //         future: AirporttList(),
+                                      //         builder: (context, snapshot) {
+                                      //           if (snapshot.hasData) {
+                                      //             var data = snapshot.data!;
+                                      //             return DropdownButton(
+                                      //                  isExpanded: true,
+                                      //               hint: Text('From'),
+                                      //               value: fromdropdownvalue,
+                                      //               icon: const Icon(Icons.keyboard_arrow_down),
+                                      //               items: data.map((String items) {
+                                      //                 return DropdownMenuItem(
+                                      //                   value: items,
+                                      //                   child: Text(items,style: TextStyle(fontSize: 13),),
+                                      //                 );
+                                      //               }).toList(),
+                                      //               onChanged: (String? newValue) {
+                                      //                 setState(() {
+                                      //                   fromdropdownvalue = newValue!;
+                                      //                 });
+                                      //               },
+                                      //             );
+                                      //           } else {
+                                      //             return const CircularProgressIndicator();
+                                      //           }
+                                      //         },
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // ),
                                       SizedBox(
                                         height: 10,
                                       ),
+                                      // Container(
+                                      //   padding: const EdgeInsets.only(left: 10),
+                                      //   height: 50,
+                                      //   width: 300,
+                                      //   color: Colors.white,
+                                      //   child: Column(
+                                      //     mainAxisAlignment: MainAxisAlignment.center,
+                                      //     mainAxisSize: MainAxisSize.min,
+                                      //     children: [
+                                      //       FutureBuilder<List<String>>(
+                                      //         future: AirporttList(),
+                                      //         builder: (context, snapshot) {
+                                      //           if (snapshot.hasData) {
+                                      //             var data = snapshot.data!;
+                                      //             return DropdownButton(
+                                      //               isExpanded: true,
+                                      //               hint: Text('To'),
+                                      //               value: todropdownvalue,
+                                      //               icon: const Icon(Icons.keyboard_arrow_down),
+                                      //               items: data.map((String items) {
+                                      //                 return DropdownMenuItem(
+                                      //                   value: items,
+                                      //                   child: Text(items,style: TextStyle(fontSize: 13),),
+                                      //                 );
+                                      //               }).toList(),
+                                      //               onChanged: (String? newValue) {
+                                      //                 setState(() {
+                                      //                   todropdownvalue = newValue!;
+                                      //                 });
+                                      //               },
+                                      //             );
+                                      //           }
+                                      //           else {
+                                      //             return const CircularProgressIndicator();
+                                      //           }
+                                      //         },
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // ),
+
                                       Container(
-                                        padding: const EdgeInsets.only(left: 10),
-                                        height: 50,
-                                        width: 300,
+                                        margin: const EdgeInsets.all(00.0),
+                                        padding: EdgeInsets.only(top: 05.0,
+                                            left: 15.0,
+                                            right: 05.0),
+                                        //color: Colors.white30,
                                         color: Colors.white,
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            FutureBuilder<List<String>>(
-                                              future: AirporttList(),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.hasData) {
-                                                  var data = snapshot.data!;
-                                                  return DropdownButton(
-                                                    isExpanded: true,
-                                                    hint: Text('To'),
-                                                    value: todropdownvalue,
-                                                    icon: const Icon(Icons.keyboard_arrow_down),
-                                                    items: data.map((String items) {
-                                                      return DropdownMenuItem(
-                                                        value: items,
-                                                        child: Text(items,style: TextStyle(fontSize: 13),),
-                                                      );
-                                                    }).toList(),
-                                                    onChanged: (String? newValue) {
-                                                      setState(() {
-                                                        todropdownvalue = newValue!;
-                                                      });
-                                                    },
-                                                  );
-                                                }
-                                                else {
-                                                  return const CircularProgressIndicator();
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
+                                        width: 300.0,
+                                        height: 40.0,
+                                        child: TextField(
+                                            readOnly: true,
+                                            onTap: () async {
+                                              print('clicked return...');
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => returnjourneyAirportListScreen()
+                                                ),
+
+                                              );
+
+                                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                                              prefs.setString('firstnamekey', (firstNameController.text));
+                                              prefs.setString('lastnamekey', (lastNameController.text));
+                                              prefs.setString('emailnamekey', (emailController.text));
+                                              prefs.setString('phonekey', (phoneController.text));
+                                              prefs.setString('passwordkey', (passwordController.text));
+                                              prefs.setString('confirmpassword', (password_confirmation_Controller.text));
+                                              prefs.setString('travelclasskey', traveldropdownvalue);
+                                              prefs.setString('tripkey', tripdropdownvalue);
+                                              prefs.setString('additionalinfokey', additionainfo_Controller.text);
+
+
+                                            },
+                                            // obscureText: true,
+                                            controller: arrivalAirportController,
+                                            textAlign: TextAlign.left,
+
+
+
+                                            autocorrect: false,
+                                            decoration:
+                                            //disable single line border below the text field
+                                            new InputDecoration(
+                                                border: InputBorder.none,
+                                                suffixIcon: Icon(Icons.arrow_drop_down),
+                                                hintText: 'Return')),
                                       ),
 
 
@@ -629,45 +810,88 @@ class _FlightScreenState extends State<FlightScreen> {
                                         height: 10,
                                       ),
                                       Container(
-                                        padding: const EdgeInsets.only(left: 10),
-                                        height: 50,
-                                        width: 300,
+                                        margin: const EdgeInsets.all(00.0),
+                                        padding: EdgeInsets.only(top: 05.0,
+                                            left: 15.0,
+                                            right: 05.0),
+                                        //color: Colors.white30,
                                         color: Colors.white,
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            FutureBuilder<List<String>>(
-                                              future: AirlineList(),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.hasData) {
-                                                  var data = snapshot.data!;
-                                                  return DropdownButton(
-                                                    isExpanded: true,
-                                                    hint: Text('Airlines'),
-                                                    value: airlinedropdownvalue,
-                                                    icon: const Icon(Icons.keyboard_arrow_down),
-                                                    items: data.map((String items) {
-                                                      return DropdownMenuItem(
-                                                        value: items,
-                                                        child: Text(items,style: TextStyle(fontSize: 13),),
-                                                      );
-                                                    }).toList(),
-                                                    onChanged: (String? newValue) {
-                                                      setState(() {
-                                                        airlinedropdownvalue = newValue!;
-                                                      });
-                                                    },
-                                                  );
-                                                }
-                                                else {
-                                                  return const CircularProgressIndicator();
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
+                                        width: 300.0,
+                                        height: 40.0,
+                                        child: TextField(
+                                            readOnly: true,
+                                            onTap: () async{
+                                              print('clicked Airlines...');
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => airlinescreen()
+                                                ),
+                                              );
+                                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                                              prefs.setString('firstnamekey', (firstNameController.text));
+                                              prefs.setString('lastnamekey', (lastNameController.text));
+                                              prefs.setString('emailnamekey', (emailController.text));
+                                              prefs.setString('phonekey', (phoneController.text));
+                                              prefs.setString('passwordkey', (passwordController.text));
+                                              prefs.setString('confirmpassword', (password_confirmation_Controller.text));
+                                              prefs.setString('travelclasskey', traveldropdownvalue);
+                                              prefs.setString('tripkey', tripdropdownvalue);
+                                              prefs.setString('additionalinfokey', additionainfo_Controller.text);
+
+
+                                            },
+                                            // obscureText: true,
+                                            controller: airlinesAirportController,
+                                            textAlign: TextAlign.left,
+                                            autocorrect: false,
+                                            decoration:
+                                            //disable single line border below the text field
+                                            new InputDecoration(
+                                                border: InputBorder.none,
+                                                suffixIcon: Icon(Icons.arrow_drop_down),
+                                                hintText: 'Airlines')),
                                       ),
+                                      // Container(
+                                      //   padding: const EdgeInsets.only(left: 10),
+                                      //   height: 50,
+                                      //   width: 300,
+                                      //   color: Colors.white,
+                                      //   child: Column(
+                                      //     mainAxisAlignment: MainAxisAlignment.center,
+                                      //     mainAxisSize: MainAxisSize.min,
+                                      //     children: [
+                                      //       FutureBuilder<List<String>>(
+                                      //         future: AirlineList(),
+                                      //         builder: (context, snapshot) {
+                                      //           if (snapshot.hasData) {
+                                      //             var data = snapshot.data!;
+                                      //             return DropdownButton(
+                                      //               isExpanded: true,
+                                      //               hint: Text('Airlines'),
+                                      //               value: airlinedropdownvalue,
+                                      //               icon: const Icon(Icons.keyboard_arrow_down),
+                                      //               items: data.map((String items) {
+                                      //                 return DropdownMenuItem(
+                                      //                   value: items,
+                                      //                   child: Text(items,style: TextStyle(fontSize: 13),),
+                                      //                 );
+                                      //               }).toList(),
+                                      //               onChanged: (String? newValue) {
+                                      //                 setState(() {
+                                      //                   airlinedropdownvalue = newValue!;
+                                      //                 });
+                                      //               },
+                                      //             );
+                                      //           }
+                                      //           else {
+                                      //             return const CircularProgressIndicator();
+                                      //           }
+                                      //         },
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // ),
 
                                       SizedBox(height: 10,),
                                       Container(
