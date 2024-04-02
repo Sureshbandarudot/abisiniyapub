@@ -10,6 +10,7 @@ import 'package:tourstravels/userDashboardvc.dart';
 import 'package:tourstravels/UserDashboard_Screens/newDashboard.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 
+import '../MyBookings/MybookingVC.dart';
 import '../Vehicles.dart';
 //import 'models/user.dart';
 class CarHire_NewUserBooking extends StatefulWidget {
@@ -43,6 +44,7 @@ class HomeState extends State<CarHire_NewUserBooking> {
   String fromDatestr = '';
   String toDatestr = '';
   String bookable_type = '';
+  String newBookingUser = '';
 
 
   int idnum = 0;
@@ -147,7 +149,7 @@ class HomeState extends State<CarHire_NewUserBooking> {
       if (response.statusCode == 200) {
         // Successful POST request, handle the response here
         final responseData = jsonDecode(response.body);
-        print('Apartment fresh user data successfully posted');
+        print('car fresh user data successfully posted');
         print(responseData);
         var data = jsonDecode(response.body.toString());
         print('message...');
@@ -166,56 +168,97 @@ class HomeState extends State<CarHire_NewUserBooking> {
           // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
           //   builder: (_) => newuserDashboard(),
           // ),);
-        } else if (data['message'] != 'Start date should be greater or equal to booking day') {
-          final snackBar = SnackBar(
-            content: Text('Start date should be greater or equal to booking day'),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
         }
+
+        // else if (data['message'] != 'Start date should be greater or equal to booking day') {
+        //   final snackBar = SnackBar(
+        //     content: Text('Start date should be greater or equal to booking day'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        //
+        // }
         else {
           print('calling....');
           Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-            builder: (_) => newuserDashboard(),
+            builder: (_) => MyBookingScreen(),
           ),);
           print('calling token....');
           print(RetrivedBearertoekn);
+          RetrivedBearertoekn = data['data']['token'];
+          print('token generated...');
+          print(RetrivedBearertoekn);
+          newBookingUser = 'NewBookingUser';
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('tokenkey', RetrivedBearertoekn);
+          prefs.setString('newBookingUserkey', newBookingUser);
+          // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+          //   builder: (_) => newuserDashboard(),
+          // ),);
+          // print('calling token....');
+          // print(RetrivedBearertoekn);
+          // SharedPreferences prefs = await SharedPreferences.getInstance();
+          // prefs.setString('tokenkey', RetrivedBearertoekn);
 
         }
-      }       else if (response.statusCode == 422) {
+      }
+      if (response.statusCode == 422) {
         print('already entered existing data1...');
         var data = jsonDecode(response.body);
         print('email...');
-        print(data['message']['email'].toString());
+        print(data['message']['email']);
         //String emailstr = (data['message']['email']);
         //print(emailstr);
-        //print(data['message']['phone'].toString());
-
-        if ((data['message']['email']) == '[The email has already been taken.]' && (data['message']['phone']) == '[The phone has already been taken.]'){
+        print(data['message']['phone']);
+        print(data['message']['end_date']);
+        if ((data['message']['phone']) != null && (data['message']['email']) != null) {
           final snackBar = SnackBar(
             content: Text('The email and phone has already been taken.'),
           );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);        }
+        else if ((data['message']['phone']) != null) {
+          final snackBar = SnackBar(
+            content: Text('The phone has already been taken.'),
+          );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-        }  else if ((data['message']['email']) != '[The email has already been taken.]') {
+        } else if ((data['message']['email']) != null) {
           final snackBar = SnackBar(
-            content: Text('The email  has already been taken.'),
+            content: Text('The  email has already been taken.'),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        } else if ((data['message']['phone']) != '[The phone has already been taken.]'){
-          final snackBar = SnackBar(
-            content: Text('The  phone has already been taken.'),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        } else if ((data['message']['end_date']) != '[The end date must be a date after start date.]') {
+        } else if ((data['message']['end_date']) != null) {
+          print('date....');
           final snackBar = SnackBar(
             content: Text('The end date must be a date after start date.'),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        } else {
+          print('nullll.....');
         }
-      } else {
+        // if ((data['message']['email']) != '[The email has already been taken.]' && (data['message']['phone']) != '[The phone has already been taken.]'){
+        //   final snackBar = SnackBar(
+        //     content: Text('The email and phone has already been taken.'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        //
+        // }  else if ((data['message']['email']) != '[The email has already been taken.]') {
+        //   final snackBar = SnackBar(
+        //     content: Text('The email  has already been taken.'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // } else if ((data['message']['phone']) != '[The phone has already been taken.]'){
+        //   final snackBar = SnackBar(
+        //     content: Text('The  phone has already been taken.'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // } else if ((data['message']['end_date']) != '[The end date must be a date after start date.]') {
+        //   final snackBar = SnackBar(
+        //     content: Text('The end date must be a date after start date.'),
+        //   );
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // }
+      }
+      else {
         // If the server returns an error response, throw an exception
         throw Exception('Failed to post data');
       }

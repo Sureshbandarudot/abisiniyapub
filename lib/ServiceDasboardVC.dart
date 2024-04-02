@@ -129,29 +129,11 @@ class _ServiceDashboardScreenState extends State<ServiceDashboardScreen> {
                     onTap: () async{
 
                        SharedPreferences prefs = await SharedPreferences.getInstance();
-                      // prefs.clear();
-                       // Logoutstr = prefs.getString('logoutkey') ?? "";
-                      print('dashboard sts...');
+                       print('dashboard sts...');
                       print(Logoutstr);
-                      // NewBookingUserstr = prefs.getString('newBookingUserkey') ?? "";
                       LoggedInUSerstr = prefs.getString('LoggedinUserkey') ?? "";
                       print(' logged in user...');
                       print(LoggedInUSerstr);
-                      // print(NewBookingUserstr);
-
-                       // String newuserstr = prefs.getString('NewuserBookingkey') ?? "";
-                       // print(newuserstr);
-                      // if(Logoutstr == 'LogoutDashboard')
-                      // {
-                      //   print('logout...');
-                      //   Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => Apartmentscreen()),
-                      //   );
-                      //   print('Logged user....');
-                      //
-                      // }
                        print('letters length....');
                        LoggedinUserlist.add(LoggedInUSerstr);
                        print(LoggedinUserlist);
@@ -286,22 +268,45 @@ class _ServiceDashboardScreenState extends State<ServiceDashboardScreen> {
                     onTap: () async{
                       SharedPreferences prefs = await SharedPreferences.getInstance();
                       Logoutstr = prefs.getString('logoutkey') ?? "";
-                      print('dashboard sts...');
+                      print('vehicle dashboard sts...');
                       print(Logoutstr);
-                      if(Logoutstr == 'LogoutDashboard'){
-                        print('loged in user....');
+                      LoggedinUserlist.add(LoggedInUSerstr);
+                     // SharedPreferences prefs = await SharedPreferences.getInstance();
+                      LoggedInUSerstr = prefs.getString('LoggedinUserkey') ?? "";
+                      LoggedinUserlist.add(LoggedInUSerstr);
+                      print('vehcle LoggedInUSerstr.....');
+                      print(LoggedInUSerstr);
+                      if (LoggedInUSerstr == 'LoggedUser') {
+                        print('vehicle login...');
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => AuthenticatedVehiclescreen()),
                         );
-                      } else {
-                        print('fresh vehicle use...');
+                        SharedPreferences prefrences = await SharedPreferences.getInstance();
+                        await prefrences.remove("LoggedinUserkey");
+
+                      }  else{
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => Vehiclescreen()),
-                        );                      }
+                        );
+                      }
+                      // if(Logoutstr == 'LogoutDashboard'){
+                      //   print('loged in user....');
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => AuthenticatedVehiclescreen()),
+                      //   );
+                      // } else {
+                      //   print('fresh vehicle use...');
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => Vehiclescreen()),
+                      //   );                      }
                     },
                   ),
                 ),
