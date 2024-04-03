@@ -453,15 +453,27 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                                     print(RetrivedPwd);
                                                                                     print('logout......');
                                                                                     print(Logoutstr);
+                                                                                    // Navigator.push(
+                                                                                    //   context,
+                                                                                    //   MaterialPageRoute(
+                                                                                    //       builder: (context) => CarHire_NewUserBooking()
+                                                                                    //   ),
+                                                                                    // );
                                                                                     Navigator.push(
                                                                                       context,
                                                                                       MaterialPageRoute(
                                                                                           builder: (context) => CarHire_NewUserBooking()
                                                                                       ),
                                                                                     );
+                                                                                    // SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                                                    prefs.setString('namekey', snapshot.data['data'][index]['name']);
+                                                                                    prefs.setString('citykey', snapshot.data['data'][index]['city']);
+                                                                                    prefs.setInt('imgkeyId', snapshot.data['data'][index]['id']);
+                                                                                    prefs.setString('addresskey', snapshot.data['data'][index]['address']);
+                                                                                    prefs.setString('bookable_type', ('Vehicle'));
                                                                                   },
                                                                                   //child: const Text('BookNow'),
-                                                                                  child: const Text('BookNow',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,color: Colors.white),),
+                                                                                  child: const Text('Drive Now',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,color: Colors.white),),
 
                                                                                 ),
                                                                               )

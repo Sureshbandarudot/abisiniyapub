@@ -220,13 +220,14 @@ class _MyStatefulWidgetState extends State<carHire> {
     width: 220.0,
     height: 50,
     child: TextField(
+      cursorColor: Colors.white,
     decoration: InputDecoration(
     //border: OutlineInputBorder(),
     border: InputBorder.none,
     hintText: 'Search',
     ),
     controller: searchController,
-    style: TextStyle(fontSize: 18.0, height: 0.0, color: Colors.black),
+    style: TextStyle(fontSize: 18.0, height: 0.0, color: Colors.white),
     ),
     )
     ),

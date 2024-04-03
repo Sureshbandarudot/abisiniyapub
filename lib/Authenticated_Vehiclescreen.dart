@@ -9,6 +9,7 @@ import 'package:tourstravels/ApartVC/Addaprtment.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'ServiceDasboardVC.dart';
+import 'VehicleScreens/Auth_VehicleFilterVC.dart';
 import 'VehicleScreens/BusHire_ExistingBookingVC.dart';
 import 'VehicleScreens/BusHire_NewuserBookingVC.dart';
 import 'VehicleScreens/CarHire_ExistingBookingVC.dart';
@@ -220,13 +221,14 @@ class _MyStatefulWidgetState extends State<carHire> {
                                                     width: 220.0,
                                                     height: 50,
                                                     child: TextField(
+                                                      cursorColor: Colors.white,
                                                       decoration: InputDecoration(
                                                         //border: OutlineInputBorder(),
                                                         border: InputBorder.none,
                                                         hintText: 'Search',
                                                       ),
                                                       controller: searchController,
-                                                      style: TextStyle(fontSize: 18.0, height: 0.0, color: Colors.black),
+                                                      style: TextStyle(fontSize: 18.0, height: 0.0, color: Colors.white),
                                                     ),
                                                   )
                                               ),
@@ -245,7 +247,7 @@ class _MyStatefulWidgetState extends State<carHire> {
                                                     Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                          builder: (context) => VehiclefilterSearchResultscreen()
+                                                          builder: (context) => Auth_VehiclefilterSearchResultscreen()
                                                       ),
                                                     );
                                                     final prefs = await SharedPreferences.getInstance();
