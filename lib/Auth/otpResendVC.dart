@@ -2,52 +2,38 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:tourstravels/Auth/Login.dart';
-import 'package:tourstravels/tabbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
-import '../ServiceDasboardVC.dart';
-import 'dart:async';
 
-import 'Register.dart';
-import 'otpResendVC.dart';
-
-String _email='';
+import 'OtpEmailverified.dart';
 
 
-class OTPVerified extends StatefulWidget {
+class ResendOTPScreen extends StatefulWidget {
   @override
-
-  _OTPVerifiedState createState() => _OTPVerifiedState();
+  _ForgotState createState() => _ForgotState();
 }
 
-class _OTPVerifiedState extends State<OTPVerified> {
-
+class _ForgotState extends State<ResendOTPScreen> {
   final baseDioSingleton = BaseSingleton();
   bool isLoading = false;
-  String? emaildata;
   final globalKey = GlobalKey<ScaffoldState>();
-  int secondsRemaining = 60;
-  bool enableResend = false;
-  late Timer timer;
-
-
   TextEditingController emailController = TextEditingController();
   TextEditingController otpController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmpasswordController = TextEditingController();
 
-  void OTPVerified(String email , String otp ) async {
+
+  void forgot(String email) async {
 
     try{
 
       Response response = await post(
-          //Uri.parse('https://staging.abisiniya.com/api/v1/otpverify'),
-          Uri.parse(baseDioSingleton.AbisiniyaBaseurl + 'otpverify'),
+        //Uri.parse('https://staging.abisiniya.com/api/v1/forgotpass/resetpassword'),
 
+          Uri.parse(baseDioSingleton.AbisiniyaBaseurl + 'otpresend'),
           body: {
             'email' : emailController.text.toString(),
-            'otp' : otpController.text.toString(),
           }
-
       );
 
       if(response.statusCode == 200){
@@ -70,21 +56,15 @@ class _OTPVerifiedState extends State<OTPVerified> {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ServiceDashboardScreen()
+              builder: (context) => OTPVerified()
           ),
         );
 
-      } else if(response.statusCode == 404){
-        final snackBar = SnackBar(
-          content: Text('User Already Verified.'),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
-      else {
+      }else {
         print('failed');
 
         final snackBar = SnackBar(
-          content: Text('The otp confirmation does not match.'),
+          content: Text('The password confirmation does not match.'),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
@@ -94,8 +74,6 @@ class _OTPVerifiedState extends State<OTPVerified> {
   }
 
   @override
-
-
   _retrieveValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -109,29 +87,8 @@ class _OTPVerifiedState extends State<OTPVerified> {
   void initState() {
     super.initState();
     _retrieveValues();
-    timer = Timer.periodic(Duration(seconds: 1), (_) {
-      if (secondsRemaining != 0) {
-        setState(() {
-          secondsRemaining--;
-        });
-      } else {
-        setState(() {
-          enableResend = true;
-          //print('clicked resend otp btn....');
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //       builder: (context) => ResendOTPScreen()
-          //   ),
-          // );
-        });
-      }
-    });
   }
   Widget build(BuildContext context) {
-    //emaildata = ModalRoute.of(context)?.settings.arguments as String?;
-    print('inside widget....');
-    print(emailController.text);
     return Scaffold(
       //appBar: AppBar(
       //   backgroundColor: PrimaryColor,
@@ -154,18 +111,18 @@ class _OTPVerifiedState extends State<OTPVerified> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Register()),
+                    builder: (context) => OTPVerified()),
               );
 
             },
           ),
-          title: Text('OTP Email Verification',textAlign: TextAlign.center,
+          title: Text('Resent OTP',textAlign: TextAlign.center,
               style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
 
         ),
         body: Column(
           children: <Widget>[
-            Container(color: Colors.white, height: 100),
+            Container(color: Colors.white, height: 50),
             Expanded(
               child: Container(
                 color: Colors.white,
@@ -179,7 +136,7 @@ class _OTPVerifiedState extends State<OTPVerified> {
                           child: Column(
                             children: [
                               Container(
-                                  height: 375.0,
+                                  height: 350.0,
                                   width: 325.0,
                                   decoration: const BoxDecoration(
                                     //color: Color(0xFFffffff),
@@ -217,7 +174,7 @@ class _OTPVerifiedState extends State<OTPVerified> {
                                         width: 325,
                                         color: Colors.transparent,
                                         child: Text(
-                                          "Email or OTP Verification",
+                                          "Resent OTP",
 
                                           textAlign: TextAlign.left ,
                                           style: TextStyle(
@@ -226,32 +183,31 @@ class _OTPVerifiedState extends State<OTPVerified> {
 
                                       ),
                                       SizedBox(
-                                        height: 5,
+                                        height: 15,
                                       ),
 
                                       Container(
                                         padding: EdgeInsets.all(20),
                                         width: 325,
-                                        height: 315,
+                                        height: 250,
                                         color: Colors.white,
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
 
-                                            // SizedBox(
-                                            //   height: 5,
-                                            // ),
-                                            // Container(
-                                            //   height: 40,
-                                            //   width: 325,
-                                            //   color: Colors.transparent,
-                                            //   child: Text(
-                                            //     "E-mail Address",
-                                            //     textAlign: TextAlign.left ,
-                                            //     style: TextStyle(
-                                            //         color: Colors.black87,fontWeight: FontWeight.normal,fontSize: 18),),
-                                            // ),
-
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Container(
+                                              height: 40,
+                                              width: 325,
+                                              color: Colors.transparent,
+                                              child: Text(
+                                                "E-mail Address",
+                                                textAlign: TextAlign.left ,
+                                                style: TextStyle(
+                                                    color: Colors.black87,fontWeight: FontWeight.normal,fontSize: 18),),
+                                            ),
                                             TextField (
                                               readOnly: true,
                                               controller: emailController,
@@ -261,24 +217,47 @@ class _OTPVerifiedState extends State<OTPVerified> {
                                                   hintText: 'Email'
                                               ),
                                             ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            TextField (
-                                              obscureText: true,
-                                              controller: otpController,
-                                              keyboardType: TextInputType.number,
+                                            // SizedBox(
+                                            //   height: 10,
+                                            // ),
+                                            // TextField (
+                                            //   controller: otpController,
+                                            //   obscureText: true,
+                                            //   decoration: InputDecoration(
+                                            //       border:OutlineInputBorder(),
+                                            //       labelText: 'otp',
+                                            //       hintText: 'otp'
+                                            //   ),
+                                            // ),
+                                            //
+                                            // SizedBox(
+                                            //   height: 10,
+                                            // ),
+                                            // TextField (
+                                            //   obscureText: true,
+                                            //   controller: passwordController,
+                                            //   decoration: InputDecoration(
+                                            //       border:OutlineInputBorder(),
+                                            //       labelText: 'Password',
+                                            //       hintText: 'Password'
+                                            //   ),
+                                            // ),
+                                            // SizedBox(
+                                            //   height: 10,
+                                            // ),
+                                            // TextField (
+                                            //   obscureText: true,
+                                            //   controller: confirmpasswordController,
+                                            //   decoration: InputDecoration(
+                                            //       border:OutlineInputBorder(),
+                                            //       labelText: 'Confirm Password',
+                                            //       hintText: 'Confirm Password'
+                                            //   ),
+                                            // ),
 
-                                              decoration: InputDecoration(
-                                                  border:OutlineInputBorder(),
-                                                  labelText: 'otp',
-                                                  hintText: 'otp'
-                                              ),
-                                            ),
                                             SizedBox(
-                                              height: 10,
+                                              height: 15,
                                             ),
-
                                             TextButton(
                                               style: TextButton.styleFrom(
                                                   fixedSize: const Size(300, 45),
@@ -288,63 +267,101 @@ class _OTPVerifiedState extends State<OTPVerified> {
                                                     borderRadius: BorderRadius.circular(00),
                                                   ),
                                                   textStyle: const TextStyle(fontSize: 20)),
-                                             // onPressed: () {
-                                                onPressed: () async {
+                                              onPressed: () async {
 
-                                                  setState(() => isLoading = true);
-                                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                setState(() => isLoading = true);
+
+                                                SharedPreferences prefs = await SharedPreferences.getInstance();
                                                 prefs.setString('emailkey', emailController.text);
+                                                print('forgot password...');
                                                 print(emailController.text);
 
-                                                OTPVerified(emailController.text.toString(), otpController.text.toString());
-                                                  await Future.delayed(Duration(seconds: 2), () => () {});
-                                                  setState(() => isLoading = false);
-                                                },
-                                              //child: const Text('Verified'),
-                                              child: const Text('Verify',style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+                                                forgot(emailController.text.toString());
+
+                                                await Future.delayed(Duration(seconds: 2), () => () {});
+                                                setState(() => isLoading = false);
+                                              },
+                                              //child: const Text('Reset Password'),
+                                              child: const Text('Resent',style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
                                             ),
-                                            SizedBox(
-                                              height: 25,
-                                            ),
-                                            Column(
-                                              children: [
-                                                Row(
-                                                 children: [
-                                                   Text(
-                                                     ' $secondsRemaining ',
-                                                     style: TextStyle(color: Colors.red, fontSize: 18),
-                                                   ),
-                                                   SizedBox(
-                                                     width: 100,
-                                                   ),
-
-                                                   TextButton(
-                                                     style: TextButton.styleFrom(
-                                                         fixedSize: const Size(150, 18),
-                                                         foregroundColor: Colors.green,
-                                                         backgroundColor: Colors.white,
-                                                         shape: RoundedRectangleBorder(
-                                                           borderRadius: BorderRadius.circular(00),
-                                                         ),
-                                                         textStyle: const TextStyle(fontSize: 18)),
-                                                     child: Text('Resend OTP'),
-                                                     onPressed: enableResend ? _resendCode : null,
-
-                                                     // child: const Text('Resend',style: TextStyle(color:Colors.white,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
-                                                   ),
-                                                 ],
-
-                                                )
-                                              ],
-                                            )
                                           ],
                                         ),
-
                                       ),
+
+
+
+
+
+                                      // Container(
+                                      //   margin: const EdgeInsets.all(00.0),
+                                      //   padding: EdgeInsets.only(top: 05.0,
+                                      //       left: 15.0,
+                                      //       right: 05.0),
+                                      //   //color: Colors.white30,
+                                      //   color: Colors.white,
+                                      //   width: 300.0,
+                                      //   height: 40.0,
+                                      //   child: TextField(
+                                      //       textAlign: TextAlign.left,
+                                      //       autocorrect: false,
+                                      //       decoration:
+                                      //       //disable single line border below the text field
+                                      //       new InputDecoration.collapsed(
+                                      //           hintText: 'Email/Phone number')),
+                                      // ),
+                                      //
+                                      // SizedBox(height: 10,),
+                                      // Container(
+                                      //   margin: const EdgeInsets.all(00.0),
+                                      //   padding: EdgeInsets.only(top: 05.0,
+                                      //       left: 15.0,
+                                      //       right: 05.0),
+                                      //   //color: Colors.white30,
+                                      //   color: Colors.white,
+                                      //   width: 300.0,
+                                      //   height: 40.0,
+                                      //   child: TextField(
+                                      //       textAlign: TextAlign.left,
+                                      //       autocorrect: false,
+                                      //       decoration:
+                                      //       //disable single line border below the text field
+                                      //       new InputDecoration.collapsed(
+                                      //           hintText: 'Password')),
+                                      // ),
+                                      //
+
+
+
+
+
 
                                     ],
                                   )
                               ),
+                              // Container(
+                              //   width: 320,
+                              //   height: 400,
+                              //   color: Colors.white,
+                              //
+                              //   child: Column(
+                              //     children: [
+                              //       Container(
+                              //           width: 125,
+                              //           child: CircleAvatar(
+                              //             backgroundColor: Colors.transparent,
+                              //             radius: 70.0,
+                              //             child: Image.asset(
+                              //                 "images/logo.jpg",
+                              //                 height: 100.0,
+                              //                 width: 125.0,
+                              //                 fit: BoxFit.fill
+                              //             ),
+                              //           )
+                              //       )
+                              //     ],
+                              //   ),
+                              // ),
+
 
                               // middle widget goes here
                               Expanded(
@@ -372,26 +389,5 @@ class _OTPVerifiedState extends State<OTPVerified> {
           ],
         )
     );
-  }
-
-  void _resendCode() {
-    //other code here
-    setState((){
-      secondsRemaining = 60;
-      enableResend = false;
-      print('click.....');
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => ResendOTPScreen()
-        ),
-      );
-    });
-  }
-
-  @override
-  dispose(){
-    timer.cancel();
-    super.dispose();
   }
 }
