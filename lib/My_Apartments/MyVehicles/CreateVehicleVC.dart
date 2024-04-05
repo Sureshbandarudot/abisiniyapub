@@ -99,7 +99,7 @@ class _LoginState extends State<CreateVehice> {
     request.fields['make'] = makeController.text.toString();
     request.fields['model'] = modelController.text.toString();
     request.fields['year'] = yearController.text.toString();
-    request.fields['engine_size'] = enginesizeController.text.toString();
+    request.fields['engine_size'] = enginesizeController.text;
     request.fields['fuel_type'] = fuelsizeController.text.toString();
     request.fields['weight'] = weightController.text;
     request.fields['color'] = colorController.text.toString();
@@ -346,6 +346,8 @@ class _LoginState extends State<CreateVehice> {
                                         height: 40.0,
                                         child: TextField(
                                             controller: yearController,
+                                            keyboardType: TextInputType.number,
+
                                             textAlign: TextAlign.left,
                                             autocorrect: false,
                                             decoration:
@@ -365,6 +367,7 @@ class _LoginState extends State<CreateVehice> {
                                         height: 40.0,
                                         child: TextField(
                                             controller: enginesizeController,
+                                            keyboardType: TextInputType.number,
                                             textAlign: TextAlign.left,
                                             autocorrect: false,
                                             decoration:
@@ -404,6 +407,8 @@ class _LoginState extends State<CreateVehice> {
                                         height: 40.0,
                                         child: TextField(
                                             controller: weightController,
+                                            keyboardType: TextInputType.number,
+
                                             textAlign: TextAlign.left,
                                             autocorrect: false,
                                             decoration:
@@ -463,6 +468,8 @@ class _LoginState extends State<CreateVehice> {
                                         height: 40.0,
                                         child: TextField(
                                             controller: priceController,
+                                            keyboardType: TextInputType.number,
+
                                             textAlign: TextAlign.left,
                                             autocorrect: false,
                                             decoration:

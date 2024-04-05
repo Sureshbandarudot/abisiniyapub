@@ -226,7 +226,14 @@ class HomeState extends State<CarHire_NewUserBooking> {
             content: Text('The  email has already been taken.'),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        } else if ((data['message']['end_date']) != null) {
+        }else if ((data['message']['password']) != null) {
+          final snackBar = SnackBar(
+            content: Text('The password confirmation does not match.'),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+
+        else if ((data['message']['end_date']) != null) {
           print('date....');
           final snackBar = SnackBar(
             content: Text('The end date must be a date after start date.'),

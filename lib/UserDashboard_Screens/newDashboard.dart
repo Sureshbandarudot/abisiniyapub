@@ -999,15 +999,15 @@ class _userDashboardState extends State<newuserDashboard> {
       return Column(
               children: [
                 SizedBox(height: 30,),
-            // Text('Your Vehicles',style: TextStyle(fontSize: 22,fontWeight:FontWeight.w600),),
-            //
-            //     Container(
-            //       // color: Colors.blueGrey,
-            //       // child:Text(snapshot.data?['data'].isEmpty ? 'Vehicles not available' : ''),
-            //       child:Text(snapshot.data?['data'].isEmpty ? 'Vehicles not available' : '',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600,color: Colors.red),),
-            //
-            //       // : snapshot.data?["data"]?.toString() ?? 'empty',style: (TextStyle(fontWeight: FontWeight.w300,fontSize: 18,color: Colors.black)))
-            //     ),
+            Text('Your Vehicles',style: TextStyle(fontSize: 22,fontWeight:FontWeight.w600),),
+
+                Container(
+                  // color: Colors.blueGrey,
+                  // child:Text(snapshot.data?['data'].isEmpty ? 'Vehicles not available' : ''),
+                  child:Text(snapshot.data?['data'].isEmpty ? 'Vehicles not available' : '',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600,color: Colors.red),),
+
+                  // : snapshot.data?["data"]?.toString() ?? 'empty',style: (TextStyle(fontWeight: FontWeight.w300,fontSize: 18,color: Colors.black)))
+                ),
                 ListView.separated(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
