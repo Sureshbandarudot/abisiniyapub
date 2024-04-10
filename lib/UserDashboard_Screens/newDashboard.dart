@@ -13,6 +13,7 @@ import 'package:tourstravels/UserDashboard_Screens/PivoteVC.dart';
 import 'package:tourstravels/tabbar.dart';
 import 'package:tourstravels/My_Apartments/My_AprtmetsVC.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
+import '../Auth/profileUpdateVC.dart';
 import '../MyBookings/MybookingVC.dart';
 import '../My_Apartments/MyVehicles/MyvehicleVC.dart';
 import '../ServiceDasboardVC.dart';
@@ -33,6 +34,16 @@ class _userDashboardState extends State<newuserDashboard> {
 
   String LoggedInUSerstr = '';
   String NewBookingUserstr = '';
+  String profileNamestr = '';
+  String Retrivedprofilestr = '';
+  String profileEmailstr = '';
+  String RetrivedEmailstr = '';
+  String profilephonestr = '';
+  String profilefirstnamestr = '';
+  String profilesurnamestr = '';
+  String profileaddresstr = '';
+  String profilecountrystr = '';
+
   var API = '';
   String status = '';
   int _counter = 0;
@@ -54,34 +65,33 @@ class _userDashboardState extends State<newuserDashboard> {
   _retrieveValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      //
-      // NewBookingUserstr = prefs.getString('newBookingUserkey') ?? "";
-      // LoggedInUSerstr = prefs.getString('LoggedinUserkey') ?? "";
-      // print('logged in user...');
-      // print(LoggedInUSerstr);
-      // print(NewBookingUserstr);
       RetrivedEmail = prefs.getString('emailkey') ?? "";
       RetrivedPwd = prefs.getString('passwordkey') ?? "";
       RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
       print('booking token...');
       print(RetrivedBearertoekn);
-      //SharedPreferences prefs = await SharedPreferences.getInstance();
-      // prefs.setString('logoutkey', ('LogoutDashboard'));
+      Retrivedprofilestr = prefs.getString('profileuserKey') ?? "";
+      RetrivedEmailstr = prefs.getString('profileemailKey') ?? "";
+      print('retrived profile...');
+      print(Retrivedprofilestr);
       prefs.setString('Property_type', ('Apartment'));
-      // final snackBar = SnackBar(
-      //   content: Text('You Are Logged In Successfully'),
-      // );
-      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
     });
   }
 //@override
-  void initState() {
+  void initState()  {
     // TODO: implement initState
     super.initState();
-    _retrieveValues();
     getData();
     VehiclegetData();
 
+    Profile();
+    _retrieveValues();
+    print('calling profile values...');
+    // SharedPreferences prefs = SharedPreferences.getInstance();
+    // Retrivedprofilestr = prefs.getString('profileuserKey') ?? "";
+    // RetrivedEmailstr = prefs.getString('profileemailKey') ?? "";
+
+    print(Retrivedprofilestr);
     BookingDashboardUsers = DashboardBooking_fetchUsers();
     //pics = fetchpics();
   }
@@ -130,6 +140,43 @@ class _userDashboardState extends State<newuserDashboard> {
     }
   }
 
+  //Future<dynamic> Profile() async {
+    //Profile() async {
+      Future<dynamic> Profile() async {
+
+
+        // String url = 'https://staging.abisiniya.com/api/v1/booking/vehicle/withbooking';
+    String url = baseDioSingleton.AbisiniyaBaseurl + 'profile';
+    print('profile url..');
+    print(url);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
+    print('profile token...');
+
+    print(RetrivedBearertoekn);
+    var response = await http.get(
+      Uri.parse(
+          url),
+      headers: {
+        "Authorization": "Bearer $RetrivedBearertoekn",
+      },
+    );
+    if (response.statusCode == 200) {
+      print('profile name .......');
+      final data1 = jsonDecode(response.body);
+      var getpicsData = [];
+      print('profile data....');
+      print(data1);
+      profileNamestr = data1['data'][0]['name'] +'\n ' + data1['data'][0]['surname'] ;
+      profileEmailstr = data1['data'][0]['email'];
+
+
+      return json.decode(response.body);
+    } else {
+      // If that call was not successful, throw an error.
+      throw Exception('Failed to load post');
+    }
+  }
 
   Future<dynamic> VehiclegetData() async {
     // String url = 'https://staging.abisiniya.com/api/v1/booking/vehicle/withbooking';
@@ -274,178 +321,283 @@ class _userDashboardState extends State<newuserDashboard> {
 
       ),
       endDrawer: Drawer(
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              //child: Text('Categories', style: TextStyle(color: Colors.white)),
-              decoration: BoxDecoration(color: Color(0xffffff
-              ),),
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-              child: Image.asset(
-                'images/logo2.png',
-                width: 50,height: 50,
-              ),
-            ),
-            ListTile(
-              trailing: Icon(
-                Icons.login,
-                color: Colors.green,
-              ),
-              title: const Text('My Bookings',
-                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+          child:FutureBuilder<dynamic> (
+            future: Profile(),
+            builder: (context, snapshot) {
+    //builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
 
-              onTap: () async{
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setString('logoutkey', ('LogoutDashboard'));
-                prefs.setString('Property_type', ('Apartment'));
-                prefs.setString('tokenkey',RetrivedBearertoekn );
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => MyBookingScreen()),
-                );
-              },
-            ),
-            ListTile(
-              trailing: Icon(
-                Icons.money,
-                color: Colors.green,
-              ),
-              title: const Text('Booking Commision',
-                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              trailing: Icon(
-                Icons.flight,
-                color: Colors.green,
-              ),
+      profileNamestr = snapshot.data['data'][0]['name'] +' ' + snapshot.data['data'][0]['surname'] ;
+      print(profileNamestr);
 
-              title: const Text('My Flight Requests',
-                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+      profileEmailstr = snapshot.data['data'][0]['email'];
 
-              onTap: () async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setString('logoutkey', ('LogoutDashboard'));
-                prefs.setString('Property_type', ('Apartment'));
-                print('flight token');
-                print(RetrivedBearertoekn);
-                prefs.setString('tokenkey',RetrivedBearertoekn );
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => FluBooking_RequestScreen()),
-                );
-                // SharedPreferences prefs = await SharedPreferences.getInstance();
-                // prefs.setString('logoutkey', ('LogoutDashboard'));
-                // prefs.setString('Property_type', ('Apartment'));
-                // prefs.setString('tokenkey',RetrivedBearertoekn );
-              },
-            ),
-            ListTile(
-              trailing: Icon(
-                Icons.apartment,
-                color: Colors.green,
-              ),
+              return ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  DrawerHeader(
+                    //child: Text('Categories', style: TextStyle(color: Colors.white)),
+                    decoration: BoxDecoration(color: Color(0xffffff
+                    ),),
+                    padding: EdgeInsets.fromLTRB(10,30,10,10),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 50,),
+                        Column(
+                          children: [
+                            Column(
+                              children: [
+                                InkWell(
+                                  child: Container(
+                                    width: 300,
+                                    height: 30,
+                                    color: Colors.transparent,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text(profileNamestr,style: TextStyle(fontSize: 24,fontWeight: FontWeight.w900,color: Colors.black54),),
+                                        SizedBox(width: 50,),
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child: Icon(
+                                            Icons.edit,
+
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    // child: Icon(
+                                    //   Icons.edit,
+                                    //   color: Colors.white,
+                                    //   size: 20,),
+                                  ),
+                                  onTap: () async{
+                                    print("click on user profile");
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => profileUpdatescreen()),
+                                    );
+                                    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                                    print('first name...');
+                                    print(profileEmailstr);
+                                    profilefirstnamestr = snapshot.data['data'][0]['name'];
+                                    profilesurnamestr = snapshot.data['data'][0]['surname'];
+                                     profilephonestr = snapshot.data['data'][0]['phone'];
+                                     profileEmailstr = snapshot.data['data'][0]['email'];
+                                     profileaddresstr = snapshot.data['data'][0]['address'];
+                                    profilecountrystr = snapshot.data['data'][0]['country'];
+                                    // print('first name...');
+                                    // print(profileEmailstr);
+                                     prefs.setString('profilenamekey', profilefirstnamestr);
+                                    prefs.setString('profilesurnamekey', profilesurnamestr);
+                                     prefs.setString('profilephonekey', profilephonestr);
+                                     prefs.setString('profile_emailkey', profileEmailstr);
+                                     prefs.setString('profile_addresskey', profileaddresstr);
+                                     prefs.setString('profile_countrykey', profilecountrystr);
+                                    //
+
+                                  },
+                                ),
+
+                                InkWell(
+                                  child: Container(
+                                    width: 300,
+                                    height: 40,
+                                    color: Colors.transparent,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text(profileEmailstr,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600,color: Colors.black54),),
+                                        SizedBox(width: 20,),
+                                        Align(
+                                          alignment: Alignment.center,
+                                          // child: Icon(
+                                          //   Icons.edit,
+                                          //
+                                          // ),
+                                        )
+                                      ],
+                                    ),
+                                    // child: Icon(
+                                    //   Icons.edit,
+                                    //   color: Colors.white,
+                                    //   size: 20,),
+                                  ),
+                                  onTap: () {print("click on user profile");},
+                                ),
+                              ],
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  //  DrawerHeader(
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.blue,
+                  //   ),
+                  //   child: Text(profileNamestr),
+                  // ),
+                    ListTile(
+                    trailing: Icon(
+                      Icons.login,
+                      color: Colors.green,
+                    ),
+                    title: const Text('My Bookings',
+                        style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+                    onTap: () async{
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      prefs.setString('logoutkey', ('LogoutDashboard'));
+                      prefs.setString('Property_type', ('Apartment'));
+                      prefs.setString('tokenkey',RetrivedBearertoekn );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyBookingScreen()),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    trailing: Icon(
+                      Icons.money,
+                      color: Colors.green,
+                    ),
+                    title: const Text('Booking Commision',
+                        style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  ListTile(
+                    trailing: Icon(
+                      Icons.flight,
+                      color: Colors.green,
+                    ),
+
+                    title: const Text('My Flight Requests',
+                        style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+
+                    onTap: () async {
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      prefs.setString('logoutkey', ('LogoutDashboard'));
+                      prefs.setString('Property_type', ('Apartment'));
+                      print('flight token');
+                      print(RetrivedBearertoekn);
+                      prefs.setString('tokenkey',RetrivedBearertoekn );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => FluBooking_RequestScreen()),
+                      );
+                      // SharedPreferences prefs = await SharedPreferences.getInstance();
+                      // prefs.setString('logoutkey', ('LogoutDashboard'));
+                      // prefs.setString('Property_type', ('Apartment'));
+                      // prefs.setString('tokenkey',RetrivedBearertoekn );
+                    },
+                  ),
+                  ListTile(
+                    trailing: Icon(
+                      Icons.apartment,
+                      color: Colors.green,
+                    ),
 
 
-              title: const Text('My Apartments',
-                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+                    title: const Text('My Apartments',
+                        style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
 
-              onTap: ()async{
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setString('logoutkey', ('LogoutDashboard'));
-                prefs.setString('Property_type', ('Apartment'));
-                prefs.setString('tokenkey',RetrivedBearertoekn );
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => MyApartmentScreen()),
-                );
-              },
-            ),
-            ListTile(
-              trailing: Icon(
-                Icons.bus_alert,
-                color: Colors.green,
-              ),
-              title: const Text('My Vehicles',
-                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-              //title: const Text('Airport Shuttle',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
-              onTap: () {
-                //Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => MyVehicleScreen()),
-                );
+                    onTap: ()async{
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      prefs.setString('logoutkey', ('LogoutDashboard'));
+                      prefs.setString('Property_type', ('Apartment'));
+                      prefs.setString('tokenkey',RetrivedBearertoekn );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyApartmentScreen()),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    trailing: Icon(
+                      Icons.bus_alert,
+                      color: Colors.green,
+                    ),
+                    title: const Text('My Vehicles',
+                        style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+                    //title: const Text('Airport Shuttle',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
+                    onTap: () {
+                      //Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyVehicleScreen()),
+                      );
 
-                // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-                //   builder: (_) => MyVehicleScreen(),
-                // ),);
-              },
-            ),
-            ListTile(
-              trailing: Icon(
-                Icons.bus_alert_sharp,
-                color: Colors.green,
-              ),
-              //title: const Text('List Property and Car',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
-              title: const Text('My Buses',
-                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+                      // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
+                      //   builder: (_) => MyVehicleScreen(),
+                      // ),);
+                    },
+                  ),
+                  ListTile(
+                    trailing: Icon(
+                      Icons.bus_alert_sharp,
+                      color: Colors.green,
+                    ),
+                    //title: const Text('List Property and Car',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
+                    title: const Text('My Buses',
+                        style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
 
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              trailing: Icon(
-                Icons.airport_shuttle,
-                color: Colors.green,
-              ),
-              //title: const Text('Contact Us',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
-              title: const Text('My Shuttle',
-                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  ListTile(
+                    trailing: Icon(
+                      Icons.airport_shuttle,
+                      color: Colors.green,
+                    ),
+                    //title: const Text('Contact Us',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w400,fontSize: 18)),
+                    title: const Text('My Shuttle',
+                        style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
 
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              trailing: Icon(
-                Icons.logout,
-                color: Colors.green,
-              ),
-              //title: const Text('Sign Out',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w900,fontSize: 20)),
-              title: const Text('Logout',
-                  style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  ListTile(
+                    trailing: Icon(
+                      Icons.logout,
+                      color: Colors.green,
+                    ),
+                    //title: const Text('Sign Out',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w900,fontSize: 20)),
+                    title: const Text('Logout',
+                        style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
 
-              //onTap: () async {
-              onTap: ()async{
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                 prefs.setString('logoutkey', ('LogoutDashboard'));
-                //prefs.setString('Property_type', ('Apartment'));
-                //prefs.setString('newBookingUserkey', (LoggedInUser));
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ServiceDashboardScreen()),
-                );
-                SharedPreferences prefrences = await SharedPreferences.getInstance();
-                await prefrences.remove("LoggedinUserkey");
-                // NewBookingUserstr = prefs.getString('newBookingUserkey') ?? "";
-                // LoggedInUSerstr = prefs.getString('LoggedinUserkey') ?? "";
-                // print(' dashboard logged in user...');
-                // print(LoggedInUSerstr);
-                // print(NewBookingUserstr);
-              },
-            ),
-          ],
-        ),
+                    //onTap: () async {
+                    onTap: ()async{
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                       prefs.setString('logoutkey', ('LogoutDashboard'));
+                      //prefs.setString('Property_type', ('Apartment'));
+                      //prefs.setString('newBookingUserkey', (LoggedInUser));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ServiceDashboardScreen()),
+                      );
+                      SharedPreferences prefrences = await SharedPreferences.getInstance();
+                      await prefrences.remove("LoggedinUserkey");
+                      // NewBookingUserstr = prefs.getString('newBookingUserkey') ?? "";
+                      // LoggedInUSerstr = prefs.getString('LoggedinUserkey') ?? "";
+                      // print(' dashboard logged in user...');
+                      // print(LoggedInUSerstr);
+                      // print(NewBookingUserstr);
+                    },
+                  ),
+                ],
+              );
+            },
+          )
       ),
     body: FutureBuilder<dynamic>(
     //future: BookingDashboardUsers,

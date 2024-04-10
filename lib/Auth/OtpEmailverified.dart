@@ -265,6 +265,7 @@ class _OTPVerifiedState extends State<OTPVerified> {
                                               height: 10,
                                             ),
                                             TextField (
+                                              
                                               obscureText: true,
                                               controller: otpController,
                                               keyboardType: TextInputType.number,

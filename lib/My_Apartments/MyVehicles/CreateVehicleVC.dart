@@ -79,7 +79,6 @@ class _LoginState extends State<CreateVehice> {
   @override
   Future addProduct() async{
     print('entered.....');
-    //var token = '238|ykUFIyUUUX0xsykL24ckNe5XfYJGganQogKCf3ic';
     var header = {
       "Authorization":"Bearer $RetrivedBearertoekn",
     "Accept": "application/json",
