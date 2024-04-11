@@ -35,34 +35,27 @@ class _LoginState extends State<Login> {
 
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: Text("Cancel"),
+      child: Text("Cancel",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 20,color: Colors.green),),
       onPressed:  () {
         Navigator.of(context, rootNavigator: true).pop();
-
-        print('alert1...');
-
       },
     );
     Widget continueButton = TextButton(
-      child: Text("Continue"),
+      child: Text("Continue",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 20,color: Colors.green),),
       onPressed:  () async{
-        print('alert...');
-        //Navigator.of(context).pop(false);
-
         Navigator.of(context, rootNavigator: true).pop();
         await Navigator.of(context)
         .push(new MaterialPageRoute(builder: (context) => newuserDashboard()));
     setState((){
       //Navigator.pop(context);
     });
-
       },
     );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Abisiniya"),
-      content: Text("Do you want Login?"),
+      title: Text("Abisiniya",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 24,color: Colors.green),),
+      content: Text("Do you want Login?",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 20,color: Colors.black54),),
       actions: [
         cancelButton,
         continueButton,

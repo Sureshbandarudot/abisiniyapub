@@ -30,6 +30,8 @@ class newuserDashboard extends StatefulWidget {
 class _userDashboardState extends State<newuserDashboard> {
   final baseDioSingleton = BaseSingleton();
   int bookingID = 0;
+  int visitorCnt = 0;
+
   String LoggedInUser = 'LoggedUser';
 
   String LoggedInUSerstr = '';
@@ -301,36 +303,19 @@ class _userDashboardState extends State<newuserDashboard> {
               MaterialPageRoute(
                   builder: (context) => ServiceDashboardScreen()),
             );
-            // LoggedInUser = 'LoggedUser';
-            // prefs.setString('LoggedinUserkey', LoggedInUser);
-            //
-            // NewBookingUserstr = prefs.getString('newBookingUserkey') ?? "";
-            // LoggedInUSerstr = prefs.getString('LoggedinUserkey') ?? "";
-            // print(' dashboard logged in user...');
-            // print(LoggedInUSerstr);
-            // print(NewBookingUserstr);
-
-    },
-
-        ),
-        // iconTheme: IconThemeData(
-        //     color: Colors.green,
-        // ),
+    },),
         title: Text('Dashboard',textAlign: TextAlign.center,
             style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w900,fontSize: 20)),
-
       ),
       endDrawer: Drawer(
           child:FutureBuilder<dynamic> (
             future: Profile(),
             builder: (context, snapshot) {
     //builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-
       profileNamestr = snapshot.data['data'][0]['name'] +' ' + snapshot.data['data'][0]['surname'] ;
       print(profileNamestr);
-
       profileEmailstr = snapshot.data['data'][0]['email'];
-
+      visitorCnt = snapshot.data['visitorCount'];
               return ListView(
                 padding: EdgeInsets.zero,
                 children: [
@@ -341,7 +326,7 @@ class _userDashboardState extends State<newuserDashboard> {
                     padding: EdgeInsets.fromLTRB(10,30,10,10),
                     child: Column(
                       children: [
-                        SizedBox(height: 50,),
+                        SizedBox(height: 10,),
                         Column(
                           children: [
                             Column(
@@ -365,10 +350,6 @@ class _userDashboardState extends State<newuserDashboard> {
                                         )
                                       ],
                                     ),
-                                    // child: Icon(
-                                    //   Icons.edit,
-                                    //   color: Colors.white,
-                                    //   size: 20,),
                                   ),
                                   onTap: () async{
                                     print("click on user profile");
@@ -387,16 +368,12 @@ class _userDashboardState extends State<newuserDashboard> {
                                      profileEmailstr = snapshot.data['data'][0]['email'];
                                      profileaddresstr = snapshot.data['data'][0]['address'];
                                     profilecountrystr = snapshot.data['data'][0]['country'];
-                                    // print('first name...');
-                                    // print(profileEmailstr);
                                      prefs.setString('profilenamekey', profilefirstnamestr);
                                     prefs.setString('profilesurnamekey', profilesurnamestr);
                                      prefs.setString('profilephonekey', profilephonestr);
                                      prefs.setString('profile_emailkey', profileEmailstr);
                                      prefs.setString('profile_addresskey', profileaddresstr);
                                      prefs.setString('profile_countrykey', profilecountrystr);
-                                    //
-
                                   },
                                 ),
 
@@ -412,17 +389,33 @@ class _userDashboardState extends State<newuserDashboard> {
                                         SizedBox(width: 20,),
                                         Align(
                                           alignment: Alignment.center,
-                                          // child: Icon(
-                                          //   Icons.edit,
-                                          //
-                                          // ),
                                         )
                                       ],
                                     ),
-                                    // child: Icon(
-                                    //   Icons.edit,
-                                    //   color: Colors.white,
-                                    //   size: 20,),
+                                  ),
+                                  onTap: () {print("click on user profile");},
+                                ),
+                                InkWell(
+                                  child: Container(
+                                    width: 300,
+                                    height: 40,
+                                    color: Colors.transparent,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text('Total Visitors :',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,color: Colors.black54),),
+                                          ],
+                                        ),
+                                         SizedBox(width: 20,),
+                                        Row(
+                                          children: [
+                                            Text(visitorCnt.toString(),style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600,color: Colors.black54),),
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                   onTap: () {print("click on user profile");},
                                 ),
@@ -433,12 +426,6 @@ class _userDashboardState extends State<newuserDashboard> {
                       ],
                     ),
                   ),
-                  //  DrawerHeader(
-                  //   decoration: BoxDecoration(
-                  //     color: Colors.blue,
-                  //   ),
-                  //   child: Text(profileNamestr),
-                  // ),
                     ListTile(
                     trailing: Icon(
                       Icons.login,
@@ -501,11 +488,8 @@ class _userDashboardState extends State<newuserDashboard> {
                       Icons.apartment,
                       color: Colors.green,
                     ),
-
-
                     title: const Text('My Apartments',
                         style: TextStyle(color:Colors.green,fontFamily: 'Baloo', fontWeight: FontWeight.w500,fontSize: 18)),
-
                     onTap: ()async{
                       SharedPreferences prefs = await SharedPreferences.getInstance();
                       prefs.setString('logoutkey', ('LogoutDashboard'));
@@ -533,10 +517,6 @@ class _userDashboardState extends State<newuserDashboard> {
                         MaterialPageRoute(
                             builder: (context) => MyVehicleScreen()),
                       );
-
-                      // Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-                      //   builder: (_) => MyVehicleScreen(),
-                      // ),);
                     },
                   ),
                   ListTile(
@@ -587,10 +567,6 @@ class _userDashboardState extends State<newuserDashboard> {
                       );
                       SharedPreferences prefrences = await SharedPreferences.getInstance();
                       await prefrences.remove("LoggedinUserkey");
-                      // NewBookingUserstr = prefs.getString('newBookingUserkey') ?? "";
-                      // LoggedInUSerstr = prefs.getString('LoggedinUserkey') ?? "";
-                      // print(' dashboard logged in user...');
-                      // print(LoggedInUSerstr);
                       // print(NewBookingUserstr);
                     },
                   ),

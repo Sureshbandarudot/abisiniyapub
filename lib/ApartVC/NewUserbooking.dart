@@ -4,6 +4,7 @@ import 'package:tourstravels/ApartVC/ApartmentAddmodel/Apartmentdata.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tourstravels/Auth/Login.dart';
 import 'package:tourstravels/Singleton/SingletonAbisiniya.dart';
 import 'package:intl/intl.dart';
 import 'package:tourstravels/userDashboardvc.dart';
@@ -88,6 +89,117 @@ class HomeState extends State<UserBooking> {
 
     });
   }
+
+  showAlertDialog(BuildContext context) {
+    Widget cancelButton = TextButton(
+      child: Text("Cancel",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 20,color: Colors.green),),
+      onPressed:  () {
+        Navigator.of(context, rootNavigator: true).pop();
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Login",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 20,color: Colors.green),),
+      onPressed:  () async{
+        Navigator.of(context, rootNavigator: true).pop();
+        await Navigator.of(context)
+            .push(new MaterialPageRoute(builder: (context) => Login()));
+        setState((){
+          //Navigator.pop(context);
+        });
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Abisiniya",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 24,color: Colors.green),),
+      content: Text("If Already registered Phone and Email,Please Login and try again else Please enter different Email and Phone numbers and try again..... ",
+        style:TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: Colors.black54) ,),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  Phonenumber_showAlertDialog(BuildContext context) {
+    Widget cancelButton = TextButton(
+      child: Text("Cancel",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 20,color: Colors.green),),
+      onPressed:  () {
+        Navigator.of(context, rootNavigator: true).pop();
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Login",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 20,color: Colors.green),),
+      onPressed:  () async{
+        Navigator.of(context, rootNavigator: true).pop();
+        await Navigator.of(context)
+            .push(new MaterialPageRoute(builder: (context) => Login()));
+        setState((){
+          //Navigator.pop(context);
+        });
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Abisiniya",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 24,color: Colors.green),),
+      content: Text("If Already registered Phone number,Please Login and try again else Please enter different Phone number and try again. ",
+        style:TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: Colors.black54) ,),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+  Email_showAlertDialog(BuildContext context) {
+    Widget cancelButton = TextButton(
+      child: Text("Cancel",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 20,color: Colors.green),),
+      onPressed:  () {
+        Navigator.of(context, rootNavigator: true).pop();
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Login",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 20,color: Colors.green),),
+      onPressed:  () async{
+        Navigator.of(context, rootNavigator: true).pop();
+        await Navigator.of(context)
+            .push(new MaterialPageRoute(builder: (context) => Login()));
+        setState((){
+          //Navigator.pop(context);
+        });
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Abisiniya",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 24,color: Colors.green),),
+      content: Text("If Already registered Email ,Please Login and try again else Please enter different Email and try again. ",
+        style:TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: Colors.black54) ,),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   Future<void> _postData() async {
     try {
       String apiUrl = '';
@@ -183,21 +295,25 @@ class HomeState extends State<UserBooking> {
         print(data['message']['password']);
         print(data['message']['end_date']);
         if ((data['message']['phone']) != null && (data['message']['email']) != null) {
-          final snackBar = SnackBar(
-                content: Text('The email and phone has already been taken.'),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);        }
+          showAlertDialog(context);
+          // final snackBar = SnackBar(
+          //       content: Text('The email and phone has already been taken.'),
+          //     );
+          //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
         else if ((data['message']['phone']) != null) {
-          final snackBar = SnackBar(
-            content: Text('The phone has already been taken.'),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          Phonenumber_showAlertDialog(context);
+          // final snackBar = SnackBar(
+          //   content: Text('The phone has already been taken.'),
+          // );
+          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
         } else if ((data['message']['email']) != null) {
-          final snackBar = SnackBar(
-            content: Text('The  email has already been taken.'),
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          Email_showAlertDialog(context);
+          // final snackBar = SnackBar(
+          //   content: Text('The  email has already been taken.'),
+          // );
+          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
         }
         else if ((data['message']['password']) != null) {
           final snackBar = SnackBar(
