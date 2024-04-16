@@ -331,7 +331,7 @@ class _ServiceDashboardScreenState extends State<ServiceDashboardScreen> {
                               ),
                             ),
                           ),
-                          Text('Profile',style: (TextStyle(fontSize: 18,fontWeight: FontWeight.w600)),)
+                          Text('My Profile',style: (TextStyle(fontSize: 18,fontWeight: FontWeight.w600)),)
                         ],
                       ),
                     ),
@@ -367,7 +367,7 @@ class _ServiceDashboardScreenState extends State<ServiceDashboardScreen> {
                               ),
                             ),
                           ),
-                          Text('Settings',style: (TextStyle(fontSize: 18,fontWeight: FontWeight.w600)),)
+                          Text('More',style: (TextStyle(fontSize: 18,fontWeight: FontWeight.w600)),)
                         ],
                       ),
                     ),
