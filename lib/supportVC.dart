@@ -4,6 +4,8 @@ import 'ServiceDasboardVC.dart';
 
 import 'package:flutter/material.dart';
 
+import 'SupportFiles/EmailVC.dart';
+import 'SupportFiles/SupportCallVC.dart';
 import 'SupportFiles/WhatsAppMsgVC.dart';
 class supportScreen extends StatefulWidget {
   @override
@@ -103,22 +105,35 @@ class _ModalBottomSheetState extends State<supportScreen> {
                             title: new Text('Call'),
                             onTap: () {
                               Navigator.pop(context);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CallToAbisiniya()
+                                ),
+                              );
                             },
                           ),
                           ListTile(
-                            leading: new Icon(Icons.settings_suggest_outlined),
-                            title: new Text('Suggestions'),
+                            leading: new Icon(Icons.email_rounded),
+                            title: new Text('Email'),
                             onTap: () {
-                              Navigator.pop(context);
+                              print('email...');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EmailComposer()
+                                ),
+                              );
+                             // Navigator.pop(context);
                             },
                           ),
-                          ListTile(
-                            leading: new Icon(Icons.help_center),
-                            title: new Text('help'),
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                          ),
+                          // ListTile(
+                          //   leading: new Icon(Icons.help_center),
+                          //   title: new Text('help'),
+                          //   onTap: () {
+                          //     Navigator.pop(context);
+                          //   },
+                          // ),
                         ],
                       );
                     });

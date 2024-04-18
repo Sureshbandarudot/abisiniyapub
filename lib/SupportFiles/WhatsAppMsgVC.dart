@@ -123,13 +123,6 @@ class _LoginState extends State<WhatsAppScreen> {
                                             ),
                                           ),
                                         )
-                                      // child: TextField(
-                                      //   controller: _phoneController,
-                                      //   maxLines: null,
-                                      //   expands: true,
-                                      //   keyboardType: TextInputType.phone,
-                                      //   decoration: InputDecoration(fillColor: Colors.white,filled: true, hintText: 'Mobile Number'),
-                                      // ),
                                     ),
                                     SizedBox(
                                       height: 10,
