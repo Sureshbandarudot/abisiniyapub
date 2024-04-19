@@ -6,6 +6,7 @@ import 'ServiceDasboardVC.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'SupportFiles/AboutUsVC.dart';
+import 'SupportFiles/ContactusVC.dart';
 
 
 
@@ -85,9 +86,14 @@ class ListViewBuilderExample extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (context) => AboutUsScreen()),
                     );
-
                   } else if (itemList[index] == 'Contact Us'){
                     print('cnt...');
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ContactUsScreen()),
+                    );
                   }
                   // else if (itemList[index] == 'Other Services'){
                   //   print('cnt...');

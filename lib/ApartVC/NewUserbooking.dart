@@ -111,7 +111,7 @@ class HomeState extends State<UserBooking> {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Abisiniya",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 24,color: Colors.green),),
-      content: Text("If Already registered Phone and Email,Please Login and try again else Please enter different Email and Phone numbers and try again..... ",
+      content: Text("If Already registered Phone and Email,Please Login and try again or Please enter different Email and Phone numbers and try again..... ",
         style:TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: Colors.black54) ,),
       actions: [
         cancelButton,
