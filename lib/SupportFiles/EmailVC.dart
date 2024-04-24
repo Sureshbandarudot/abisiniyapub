@@ -13,8 +13,18 @@ class _EmailComposerState extends State<EmailComposer> {
   final TextEditingController _toController = TextEditingController();
   final TextEditingController _subjectController = TextEditingController();
   final TextEditingController _bodyController = TextEditingController();
+  //_toController.text == '';
+
+
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _toController.text = 'info@abisiniya.com';
+  }
 
   Future<void> sendEmail() async {
+
+    _toController.text = 'info@abisiniya.com';
     final Uri emailUri = Uri(
       scheme: 'mailto',
       path: _toController.text,

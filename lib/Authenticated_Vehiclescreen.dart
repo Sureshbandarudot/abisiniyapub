@@ -446,7 +446,7 @@ class _MyStatefulWidgetState extends State<carHire> {
                                                                                       ),
                                                                                     );
                                                                                     //SharedPreferences prefs = await SharedPreferences.getInstance();
-                                                                                    prefs.setString('namekey', snapshot.data['data'][index]['name']);
+                                                                                    prefs.setString('namekey', snapshot.data['data'][index]['name'] ?? '');
                                                                                     prefs.setString('citykey', snapshot.data['data'][index]['city']);
                                                                                     prefs.setInt('imgkeyId', snapshot.data['data'][index]['id']);
                                                                                     prefs.setString('addresskey', snapshot.data['data'][index]['address']);

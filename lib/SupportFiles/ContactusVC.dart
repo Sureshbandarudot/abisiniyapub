@@ -107,10 +107,10 @@ class _LoginState extends State<ContactUsScreen> {
 
                                         children: [
                                           Text(
-                                            "   Phone:-",
+                                            "  Phone:-",
                                             textAlign: TextAlign.center ,
                                             style: TextStyle(
-                                                color: Colors.black54,fontWeight: FontWeight.bold,fontSize: 20),),
+                                                color: Colors.black54,fontWeight: FontWeight.bold,fontSize: 18),),
                                           SizedBox(
                                             width: 20,
                                           ),
@@ -121,33 +121,33 @@ class _LoginState extends State<ContactUsScreen> {
 
 
                                       SizedBox(
-                                        height: 20,
+                                        height: 10,
                                       ),
                                       Row(
                                         children: [
                                           Text(
-                                            "  New Office \n Address:-",
+                                            "  Address:-",
                                             textAlign: TextAlign.center ,
                                             style: TextStyle(
-                                                color: Colors.black54,fontWeight: FontWeight.bold,fontSize: 20),),
+                                                color: Colors.black54,fontWeight: FontWeight.bold,fontSize: 18),),
                                           SizedBox(
                                             width: 0,
                                           ),
-                                          Text('Cnr Prince,' '\n''Edward and Lezard,,' '\n' 'Milton park',  style: TextStyle(
+                                          Text('Cnr Prince,' '\n''Edward and Lezard,' '\n' 'Milton park',  style: TextStyle(
                                               color: Colors.black54,fontWeight: FontWeight.normal,fontSize: 16),),
                                         ],
                                       ),
 
                                       SizedBox(
-                                        height: 20,
+                                        height: 10,
                                       ),
                                       Row(
                                         children: [
                                           Text(
-                                            "   Location:-",
+                                            "  Location:-",
                                             textAlign: TextAlign.center ,
                                             style: TextStyle(
-                                                color: Colors.black54,fontWeight: FontWeight.bold,fontSize: 20),),
+                                                color: Colors.black54,fontWeight: FontWeight.bold,fontSize: 18),),
                                           SizedBox(
                                             width: 0,
                                           ),
@@ -156,34 +156,34 @@ class _LoginState extends State<ContactUsScreen> {
                                         ],
                                       ),
                                       SizedBox(
-                                        height: 20,
+                                        height: 10,
                                       ),
                                       Row(
                                         children: [
                                           Text(
-                                            "   Email:-",
+                                            "  Email:-",
                                             textAlign: TextAlign.center ,
                                             style: TextStyle(
-                                                color: Colors.black54,fontWeight: FontWeight.bold,fontSize: 20),),
+                                                color: Colors.black54,fontWeight: FontWeight.bold,fontSize: 18),),
                                           SizedBox(
-                                            width: 30,
+                                            width: 20,
                                           ),
                                           Text('info@abisiniya.com',  style: TextStyle(
                                               color: Colors.black54,fontWeight: FontWeight.normal,fontSize: 16),),
                                         ],
                                       ),
                                       SizedBox(
-                                        height: 20,
+                                        height: 10,
                                       ),
                                       Row(
                                         children: [
                                           Text(
-                                            "   Website:-",
+                                            "  Web:-",
                                             textAlign: TextAlign.center ,
                                             style: TextStyle(
                                                 color: Colors.black54,fontWeight: FontWeight.bold,fontSize: 20),),
                                           SizedBox(
-                                            width: 10,
+                                            width: 20,
                                           ),
                                           Text('www.abisiniya.com',  style: TextStyle(
                                               color: Colors.black54,fontWeight: FontWeight.normal,fontSize: 16),),
@@ -240,12 +240,12 @@ class _LoginState extends State<ContactUsScreen> {
 
                                                 children: [
                                                   Text(
-                                                    "   Phone:-",
+                                                    "  Phone:-",
                                                     textAlign: TextAlign.center ,
                                                     style: TextStyle(
-                                                        color: Colors.black54,fontWeight: FontWeight.bold,fontSize: 20),),
+                                                        color: Colors.black54,fontWeight: FontWeight.bold,fontSize: 18),),
                                                   SizedBox(
-                                                    width: 20,
+                                                    width: 10,
                                                   ),
                                                   Text('+27 65 532 6408',  style: TextStyle(
                                                       color: Colors.black54,fontWeight: FontWeight.normal,fontSize: 16),),
@@ -254,51 +254,51 @@ class _LoginState extends State<ContactUsScreen> {
 
 
                                           SizedBox(
-                                            height: 20,
+                                            height: 10,
                                           ),
                                           Row(
                                             children: [
                                               Text(
-                                                "   Location:-",
+                                                "  Loc:-",
                                                 textAlign: TextAlign.center ,
                                                 style: TextStyle(
-                                                    color: Colors.black54,fontWeight: FontWeight.bold,fontSize: 20),),
+                                                    color: Colors.black54,fontWeight: FontWeight.bold,fontSize: 18),),
                                               SizedBox(
-                                                width: 0,
+                                                width: 30,
                                               ),
-                                              Text('Add 28 Mint Road,' '\n''3rd Floor, Fordsburg,' '\n' 'Johannesburg, South Africa',  style: TextStyle(
+                                              Text('Add 28 Mint Road,' '\n''3rd Floor, Fordsburg,' '\n' 'Johannesburg,' '\n''South Africa',  style: TextStyle(
                                                   color: Colors.black54,fontWeight: FontWeight.normal,fontSize: 16),),
                                             ],
                                           ),
                                           SizedBox(
-                                            height: 20,
+                                            height: 10,
                                           ),
                                           Row(
                                             children: [
                                               Text(
-                                                "   Email:-",
+                                                "  Email:-",
                                                 textAlign: TextAlign.center ,
                                                 style: TextStyle(
-                                                    color: Colors.black54,fontWeight: FontWeight.bold,fontSize: 20),),
+                                                    color: Colors.black54,fontWeight: FontWeight.bold,fontSize: 18),),
                                               SizedBox(
-                                                width: 30,
+                                                width: 15,
                                               ),
                                               Text('info@abisiniya.com',  style: TextStyle(
                                                   color: Colors.black54,fontWeight: FontWeight.normal,fontSize: 16),),
                                             ],
                                           ),
                                           SizedBox(
-                                            height: 20,
+                                            height: 10,
                                           ),
                                           Row(
                                             children: [
                                               Text(
-                                                "   Website:-",
+                                                "  Web:-",
                                                 textAlign: TextAlign.center ,
                                                 style: TextStyle(
-                                                    color: Colors.black54,fontWeight: FontWeight.bold,fontSize: 20),),
+                                                    color: Colors.black54,fontWeight: FontWeight.bold,fontSize: 18),),
                                               SizedBox(
-                                                width: 10,
+                                                width: 20,
                                               ),
                                               Text('www.abisiniya.com',  style: TextStyle(
                                                   color: Colors.black54,fontWeight: FontWeight.normal,fontSize: 16),),

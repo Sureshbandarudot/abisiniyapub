@@ -36,6 +36,8 @@ class _LoginState extends State<WhatsAppScreen> {
     // TODO: implement initState
     super.initState();
     _retrieveValues();
+    _phoneController.text = '27 65 532 6408';
+
   }
 
   @override

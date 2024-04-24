@@ -433,8 +433,6 @@ class HomeState extends State<UserBooking> {
     String url = (baseDioSingleton.AbisiniyaBaseurl + 'apartment/show/$RetrivedId');
     print('api url...1');
     print(url);
-
-
     //String url = 'https://staging.abisiniya.com/api/v1/apartment/show/57';
 
     print('tokenva..');
@@ -458,11 +456,16 @@ class HomeState extends State<UserBooking> {
         for (var picid in pictures) {
           aptId = picid['apartmentId'];
         }
+        print('RetrivedId.. id.....');
         print(RetrivedId);
+        print('aptId.. id.....');
+        print(aptId);
+
         if (aptId == RetrivedId) {
           for (var pics in pictures) {
             print(pics);
             getpicsData.add(pics);
+            print('imgs.....');
             print(getpicsData);
           }
         }

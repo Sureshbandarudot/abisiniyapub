@@ -17,28 +17,34 @@ import '../supportVC.dart';
 //     throw 'Could not launch $url';
 //   }
 // }
+class CallToAbisiniya extends StatefulWidget {
+  @override
+  _LoginState createState() => _LoginState();
+}
+class _LoginState extends State<CallToAbisiniya> {
 
-class CallToAbisiniya extends StatelessWidget {
+//class CallToAbisiniya extends StatelessWidget {
 
-  CallToAbisiniya({Key? key}) : super(key: key);
+
+  //CallToAbisiniya({Key? key}) : super(key: key);
   late TextEditingController _phoneController = TextEditingController();
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _phoneController.text = '27 65 532 6408';
+  }
   _makingPhoneCall() async {
     //var url = Uri.parse();
     var url = Uri.parse("tel:${_phoneController.text.toString()}");
    // var url = Uri.parse("tel:9776765434");
     print('url...');
     print(url);
-
-    // return "https://wa.me/$phone/?text=${Uri.parse(message)}"; // new line
-
-
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
     } else {
       throw 'Could not launch $url';
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -98,7 +104,6 @@ class CallToAbisiniya extends StatelessWidget {
                       // maxLines: null,
                       // expands: true,
                       keyboardType: TextInputType.phone,
-
                       decoration: InputDecoration(
                         hintText: 'Mobile number',
                         enabledBorder: OutlineInputBorder(

@@ -76,8 +76,6 @@ class HomeState extends State<CarHire_ExistingBookingScreen> {
       RetrivedBearertoekn = prefs.getString('tokenkey') ?? "";
       print('veh token...');
       print(RetrivedBearertoekn);
-
-
     });
   }
 

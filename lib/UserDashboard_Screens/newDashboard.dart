@@ -362,12 +362,12 @@ class _userDashboardState extends State<newuserDashboard> {
 
                                     print('first name...');
                                     print(profileEmailstr);
-                                    profilefirstnamestr = snapshot.data['data'][0]['name'];
-                                    profilesurnamestr = snapshot.data['data'][0]['surname'];
-                                     profilephonestr = snapshot.data['data'][0]['phone'];
-                                     profileEmailstr = snapshot.data['data'][0]['email'];
-                                     profileaddresstr = snapshot.data['data'][0]['address'];
-                                    profilecountrystr = snapshot.data['data'][0]['country'];
+                                    profilefirstnamestr = snapshot.data['data'][0]['name'] ?? '';
+                                    profilesurnamestr = snapshot.data['data'][0]['surname'] ?? '';
+                                     profilephonestr = snapshot.data['data'][0]['phone'] ?? '';
+                                     profileEmailstr = snapshot.data['data'][0]['email'] ?? '';
+                                     profileaddresstr = snapshot.data['data'][0]['address'] ?? '';
+                                    profilecountrystr = snapshot.data['data'][0]['country'] ?? '';
                                      prefs.setString('profilenamekey', profilefirstnamestr);
                                     prefs.setString('profilesurnamekey', profilesurnamestr);
                                      prefs.setString('profilephonekey', profilephonestr);
